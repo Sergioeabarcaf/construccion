@@ -5,6 +5,7 @@ import { NewComponent } from './pages/new/new.component';
 import { LiveComponent } from './pages/live/live.component';
 import { InitComponent } from './pages/init/init.component';
 import { SessionComponent } from './pages/session/session.component';
+import { SessionsComponent } from './pages/sessions/sessions.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'live', component: LiveComponent },
   { path: 'init', component: InitComponent },
   { path: 'session/:id', component: SessionComponent },
+  { path: 'sessions', component: SessionsComponent },
   { path: '**', pathMatch: 'full', redirectTo: 'home' }
 ];
 

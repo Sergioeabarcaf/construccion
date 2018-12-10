@@ -10,6 +10,7 @@ import { LiveComponent } from './pages/live/live.component';
 import { SessionComponent } from './pages/session/session.component';
 import { NavbarComponent } from './pages/shared/navbar/navbar.component';
 import { FooterComponent } from './pages/shared/footer/footer.component';
+import { SessionsComponent } from './pages/sessions/sessions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FooterComponent } from './pages/shared/footer/footer.component';
     LiveComponent,
     SessionComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    SessionsComponent
   ],
   imports: [
     BrowserModule,
