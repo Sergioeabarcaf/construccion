@@ -8,6 +8,10 @@ default_app = firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://construccion-30739.firebaseio.com/'
 })
 
+lala = ["S00001","S00100","S00002","S00100"]
+lala.sort()
+print lala
+
 def getSession():
     dir = 'sessiones/'
     ref = db.reference(dir)
@@ -15,7 +19,7 @@ def getSession():
     i = 0
     for sesion in data:
         if sesion['estado'] == 1:
-            print i
+            print data[i]
             return 0
         i+=1
     return 1
