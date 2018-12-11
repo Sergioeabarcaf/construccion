@@ -10,8 +10,6 @@ export class AuthGuardService implements CanActivate {
   constructor(public _auth0: Auth0Service) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log(next);
-    console.log(state);
     if (this._auth0.isAuthenticated()) {
       return true;
     } else {
