@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth0Service } from '../../providers/auth0.service';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +7,9 @@ import { Auth0Service } from '../../providers/auth0.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private _auth0: Auth0Service) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  login() {
-    this._auth0.login();
   }
 
 }
