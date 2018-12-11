@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Auth0Service } from './providers/auth0.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'web';
+
+  constructor(public _auth0: Auth0Service) {}
 }

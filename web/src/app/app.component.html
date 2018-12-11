@@ -1,3 +1,6 @@
 <app-navbar></app-navbar>
+<div class="alert alert-info text-center" role="alert" *ngIf="!_auth0.isAuthenticated()">
+    No estas logeado en el sistema
+</div>
 <router-outlet></router-outlet>
 <app-footer></app-footer>

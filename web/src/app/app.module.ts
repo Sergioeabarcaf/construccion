@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { Auth0Service } from './providers/auth0.service';
+import { AuthGuardService } from './providers/auth-guard.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +31,10 @@ import { SessionsComponent } from './pages/sessions/sessions.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [Auth0Service],
+  providers: [
+    Auth0Service,
+    AuthGuardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
