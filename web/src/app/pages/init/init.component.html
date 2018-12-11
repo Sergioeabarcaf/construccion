@@ -1,3 +1,11 @@
-<pre>
-  {{ profile | json}}
-</pre>
+<div class="container">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-12 col-md-4 text-center">
+            <h2 class="mb-1 mt-4">Iniciar nueva sesion de medición</h2>
+            <a [routerLink]="['/new']"><button class="btn btn-success btn-lg">Comenzar</button></a>
+        </div>
+        <div class="col-12 col-md-8 text-center">
+            <app-sessions></app-sessions>
+        </div>
+    </div>
+</div>
