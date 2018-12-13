@@ -12,8 +12,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   {
     path: 'new',
-    component: NewComponent
-    // canActivate: [ AuthGuardService ]
+    component: NewComponent,
+    canActivate: [ AuthGuardService ]
   },
   {
     path: 'live',

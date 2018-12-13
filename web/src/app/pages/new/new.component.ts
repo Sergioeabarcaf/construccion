@@ -12,6 +12,7 @@ export class NewComponent implements OnInit {
   formulario: FormGroup;
 
   constructor(public _auth0: Auth0Service) {
+
     if (this._auth0.userProfile) {
       this.profile = this._auth0.userProfile;
     } else {
@@ -21,14 +22,18 @@ export class NewComponent implements OnInit {
     }
 
     this.formulario = new FormGroup({
-      'responsable': new FormControl(this.profile.name),
-      'material': new FormControl(),
-      'intervalTime': new FormControl('00:01:00'),
-      'tipoFinalizado': new FormControl('manual'),
-      'tiempoFinalizado': new FormControl()
+      'responsable': new FormControl(this.profile.name, Validators.required),
+      'material': new FormControl('', Validators.required),
+      'intervalTime': new FormControl('00:01:00', Validators.required),
+      'tipoFinalizado': new FormControl('manual', Validators.required),
+      'horaFinalizado': new FormControl(),
+      'fechaFinalizado': new FormControl()
     });
   }
 
   ngOnInit() { }
 
+  guardarCambios() {
+    console.log(this.formulario.value);
+  }
 }
