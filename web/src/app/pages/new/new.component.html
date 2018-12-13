@@ -4,9 +4,9 @@
             <h3>Ingrese los parametros para esta medición.</h3>
         </div>
     </div>
-    <div class="row justify-content-center justify-item-center">
+    <div class="row justify-content-center align-item-center">
         <form [formGroup]="formulario" (ngSubmit)="guardarCambios()" novalidate="novalidate">
-            <div class="form-group row justify-content-center justify-item-center">
+            <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Responsable</label>
                 <div class="col-7">
                     <input class="form-control" type="text" placeholder="Nombre" formControlName="responsable" readonly>
@@ -16,14 +16,14 @@
                 </div>
             </div>
 
-            <div class="form-group row justify-content-center justify-item-center">
+            <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Material</label>
                 <div class="col-7">
                     <input class="form-control" type="text" placeholder="Material a observar" formControlName="material">
                 </div>
             </div>
 
-            <div class="form-group row justify-content-center justify-item-center">
+            <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Intervalo de medición</label>
                 <div class="col-7">
                     <input class="form-control" type="time" min="00:00:01" max="23:59:59" placeholder="Correo electrónico" formControlName="intervalTime">
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div class="form-group row justify-content-center justify-item-center">
+            <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Tipo de finalizado</label>
                 <div class="col-7">
                     <select class="custom-select" formControlName="tipoFinalizado">
@@ -43,8 +43,8 @@
                 </div>
             </div>
 
-            <div class="form-row row justify-content-center justify-item-center" *ngIf="formulario.controls['tipoFinalizado'].value == 'programado'">
-                <div class="form-group col-5">
+            <div class="form-row row justify-content-center align-item-center my-4" *ngIf="formulario.controls['tipoFinalizado'].value == 'programado'">
+                <div class="form-group col-4">
                     <label>Fecha</label>
                     <input type="date" class="form-control" formControlName="fechaFinalizado" required>
                 </div>
@@ -54,11 +54,12 @@
                 </div>
             </div>
 
-            <div class="form-group row justify-content-center justify-item-center">
-                <div class="input-group col-10">
-                    <button *ngIf="formulario.valid" type="submit" class="btn btn-success"> Comenzar prueba </button>
-                    <button *ngIf="!formulario.valid" type="submit" class="btn btn-outline-danger" disabled> Completar todo el formulario </button>
+            <div class="form-group my-4">
+                <div class="input-group">
+                    <button *ngIf="formulario.valid" type="submit" class="btn btn-success mx-auto"> Comenzar prueba </button>
+                    <button *ngIf="!formulario.valid" type="submit" class="btn btn-outline-danger mx-auto" disabled> Completar todo el formulario </button>
                 </div>
+
             </div>
         </form>
     </div>
