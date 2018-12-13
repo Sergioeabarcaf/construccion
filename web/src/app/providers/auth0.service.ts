@@ -79,7 +79,7 @@ export class Auth0Service {
     // Remove isLoggedIn flag from localStorage
     localStorage.removeItem('isLoggedIn');
     // Go back to the home route
-    this.router.navigate(['/']);
+    this.router.navigate(['home']);
   }
 
   public isAuthenticated(): boolean {

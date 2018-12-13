@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { Auth0Service } from './providers/auth0.service';
 import { AuthGuardService } from './providers/auth-guard.service';
@@ -29,7 +30,9 @@ import { SessionsComponent } from './pages/sessions/sessions.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     Auth0Service,

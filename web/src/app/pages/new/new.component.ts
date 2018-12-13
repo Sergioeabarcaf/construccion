@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth0Service } from '../../providers/auth0.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-new',
@@ -8,10 +9,9 @@ import { Auth0Service } from '../../providers/auth0.service';
 })
 export class NewComponent implements OnInit {
   public profile: any;
+  formulario: FormGroup;
 
-  constructor(public _auth0: Auth0Service) { }
-
-  ngOnInit() {
+  constructor(public _auth0: Auth0Service) {
     if (this._auth0.userProfile) {
       this.profile = this._auth0.userProfile;
     } else {
@@ -19,7 +19,16 @@ export class NewComponent implements OnInit {
         this.profile = profile;
       });
     }
-    console.log(this.profile);
+
+    this.formulario = new FormGroup({
+      'responsable': new FormControl(this.profile.name),
+      'material': new FormControl(),
+      'intervalTime': new FormControl('00:01:00'),
+      'tipoFinalizado': new FormControl('manual'),
+      'tiempoFinalizado': new FormControl()
+    });
   }
+
+  ngOnInit() { }
 
 }
