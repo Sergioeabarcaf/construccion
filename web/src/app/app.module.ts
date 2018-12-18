@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { AngularFireModule} from '@angular/fire';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { environment } from '../environments/environment';
 
 import { Auth0Service } from './providers/auth0.service';
 import { AuthGuardService } from './providers/auth-guard.service';
@@ -15,6 +18,7 @@ import { SessionComponent } from './pages/session/session.component';
 import { NavbarComponent } from './pages/shared/navbar/navbar.component';
 import { FooterComponent } from './pages/shared/footer/footer.component';
 import { SessionsComponent } from './pages/sessions/sessions.component';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +36,9 @@ import { SessionsComponent } from './pages/sessions/sessions.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabase
   ],
   providers: [
     Auth0Service,
