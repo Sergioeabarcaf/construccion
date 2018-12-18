@@ -1,9 +1,13 @@
 <div class="container">
     <div class="row align-items-center justify-content-center">
-        <div class="col-12 col-md-4 text-center">
+        <div class="col-12 col-md-4 text-center" *ngIf="!_firebase.start">
             <h2 class="mb-1 mt-4">Iniciar nueva sesion de medición</h2>
             <a *ngIf="ready" [routerLink]="['/new']"><button class="btn btn-success btn-lg">Comenzar</button></a>
             <button *ngIf="!ready" type="button" class="btn btn-outline-success" disabled>Espere un momento...</button>
+        </div>
+        <div class="col-12 col-md-4 text-center" *ngIf="_firebase.start">
+            <h2 class="mb-1 mt-4">Ver la session actual</h2>
+            <a [routerLink]="['/live']"><button class="btn btn-success btn-lg">Ver</button></a>
         </div>
         <div class="col-12 col-md-8 text-center">
             <app-sessions></app-sessions>

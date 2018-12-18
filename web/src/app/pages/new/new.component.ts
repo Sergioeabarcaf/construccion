@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth0Service } from '../../providers/auth0.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FirebaseService } from '../../providers/firebase.service';
 
 @Component({
   selector: 'app-new',
@@ -11,7 +12,7 @@ export class NewComponent implements OnInit {
   public profile: any;
   formulario: FormGroup;
 
-  constructor(public _auth0: Auth0Service) {
+  constructor(public _auth0: Auth0Service, public _firebase: FirebaseService) {
 
     if (this._auth0.userProfile) {
       this.profile = this._auth0.userProfile;
@@ -34,6 +35,6 @@ export class NewComponent implements OnInit {
   ngOnInit() { }
 
   guardarCambios() {
-    console.log(this.formulario.value);
+    this._firebase.setInit(this.formulario.value);
   }
 }

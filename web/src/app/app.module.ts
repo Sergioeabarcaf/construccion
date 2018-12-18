@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AngularFireModule} from '@angular/fire';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 
 import { Auth0Service } from './providers/auth0.service';
@@ -38,7 +38,7 @@ import { SessionsComponent } from './pages/sessions/sessions.component';
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabase
+    AngularFireDatabaseModule
   ],
   providers: [
     Auth0Service,
