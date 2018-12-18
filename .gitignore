@@ -1,2 +1,4 @@
 BACK/names.json
 BACK/*.pyc
+
+web/src/environments/environment.ts
