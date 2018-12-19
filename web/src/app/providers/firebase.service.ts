@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class FirebaseService {
 
-  start: any;
+  start = null;
+  python = null;
 
   constructor(public _firebase: AngularFireDatabase, public router: Router) {
   }
@@ -21,8 +22,9 @@ export class FirebaseService {
   }
 
   getInit() {
-    this._firebase.object('system/start').valueChanges().subscribe( data => {
-      this.start = data;
+    this._firebase.object('system').valueChanges().subscribe( (data: any) => {
+      this.start = data.start;
+      this.python = data.python;
     });
   }
 
