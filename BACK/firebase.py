@@ -32,8 +32,9 @@ def numberSession():
         return 0
 
 #Almacenar los datos del formulario en sesion.
-def setInfoSession(dir,info):
+def setInfoSession(dir, info, startTime):
     dir = str(dir) + '/info'
+    info.update({'timeStart':startTime})
     db.reference(dir).set(info)
 
 

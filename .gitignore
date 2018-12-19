@@ -1,5 +1,6 @@
 BACK/names.json
 BACK/*.pyc
+BACK/*.csv
 
 web/src/environments/environment.ts
 
