@@ -1,7 +1,12 @@
 def intervalToSeconds(interval):
     interval = interval.encode('ascii','ignore')
     temp = interval.split(":")
-    seconds = (int(temp[0]) * 3600 ) + (int(temp[1]) * 60 ) + (int(temp[2]) * 1 )
+    i = 2
+    seconds = 0
+    for x in range (0,len(temp)):
+        seconds += ( int(temp[x]) * pow(60, i))
+        i -= 1
+    print seconds
     return seconds
 
     
