@@ -43,7 +43,7 @@ def setInfoSession(dir, info, startTime):
 def pushData(dir, data):
     dir = dir + '/data'
     print data
-    db.reference(dir)
+    db.reference(dir).push(data)
 
 
 
