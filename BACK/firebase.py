@@ -8,6 +8,8 @@ default_app = firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://construccion-30739.firebaseio.com/'
 })
 
+# =================    1     ===================
+
 #validar si se inicia una nueva sesion.
 def start():
     dir = 'init'
@@ -23,15 +25,28 @@ def numberSession():
     dir = 'system/lastSession'
     data = db.reference(dir).get()
     if data != None:
+        db.reference('system/lastSession').set(int(data) + 1)
         return data +1
     else:
+        db.reference('system/lastSession').set(0)
         return 0
 
 #Almacenar los datos del formulario en sesion.
-def setInfoSession(sesion,info):
-    dir = 'sessions/S-' + str(sesion) + '/info'
+def setInfoSession(dir,info):
+    dir = str(dir) + '/info'
     db.reference(dir).set(info)
-    db.reference('system/lastSession').set(int(sesion))
+
+
+
+# =================    2     ===================
+def pushData(dir, data):
+    dir = dir + '/data'
+    print data
+    db.reference(dir)
+
+
+
+# =================    4     ===================
 
 #Detener ejecucion de forma manual
 def finManual():
