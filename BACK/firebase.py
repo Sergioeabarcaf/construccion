@@ -8,28 +8,32 @@ default_app = firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://construccion-30739.firebaseio.com/'
 })
 
-def getSession():
-    dir = 'sessiones/'
-    ref = db.reference(dir)
-    data = ref.get()
-    i = 0
-    for sesion in data:
-        if sesion['estado'] == 1:
-            print data[i]
-            return 0
-        i+=1
-    return 1
-
+#validar si se inicia una nueva sesion.
 def start():
     dir = 'init'
-    ref = db.reference(dir)
-    data = ref.get()
+    data = db.reference(dir).get()
     if data != None:
         db.reference('system/python').set(True)
         return data
     else:
         return 0
 
+#Obtener el numero de la session a crear.
+def numberSession():
+    dir = 'system/lastSession'
+    data = db.reference(dir).get()
+    if data != None:
+        return data +1
+    else:
+        return 0
+
+#Almacenar los datos del formulario en sesion.
+def setInfoSession(sesion,info):
+    dir = 'sessions/S-' + str(sesion) + '/info'
+    db.reference(dir).set(info)
+    db.reference('system/lastSession').set(int(sesion))
+
+#Detener ejecucion de forma manual
 def finManual():
     dir = 'system/start'
     data = db.reference(dir).get()
