@@ -18,6 +18,7 @@ export class InitComponent implements OnInit {
     });
 
     this._firebase.getInit();
+    this._firebase.getSessions();
   }
 
   ngOnInit() {}

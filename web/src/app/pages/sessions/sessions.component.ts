@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebaseService } from '../../providers/firebase.service';
 
 @Component({
   selector: 'app-sessions',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SessionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public _firebase: FirebaseService) { }
 
   ngOnInit() {
+  }
+
+  goToSession(index) {
+    console.log(this._firebase.sessions[index]);
   }
 
 }

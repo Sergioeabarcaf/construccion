@@ -1,1 +1,24 @@
 <h2 class="text-center">Listado se sesiones terminadas</h2>
+
+<div class="row justify-content-center">
+    <div class="col-10 table-responsive text-center">
+        <table class="table" *ngIf="_firebase.sessions != null">
+            <thead>
+                <tr>
+                    <th scope="col">Fecha y hora</th>
+                    <th scope="col">Material</th>
+                    <th scope="col">Encargado</th>
+                    <th scope="col">Ver</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sesion of _firebase.sessions, let i = index">
+                    <th scope="row"> {{ sesion.info.timeStart }}</th>
+                    <td>{{ sesion.info.material }}</td>
+                    <td>{{ sesion.info.responsable }}</td>
+                    <td><button class="btn btn-info" (click)=goToSession(i)> Ver sesion </button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

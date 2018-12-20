@@ -10,6 +10,7 @@ export class FirebaseService {
 
   start = null;
   python = null;
+  sessions = null;
 
   constructor(public _firebase: AngularFireDatabase, public router: Router) {
   }
@@ -31,5 +32,12 @@ export class FirebaseService {
   stop() {
     this._firebase.object('system/start').set(false);
     this._firebase.object('init').set(null);
+  }
+
+  getSessions() {
+    this._firebase.list('sessions').valueChanges().subscribe( (data) => {
+      this.sessions = data;
+      console.log(this.sessions);
+    });
   }
 }

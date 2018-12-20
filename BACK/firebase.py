@@ -45,6 +45,7 @@ def pushData(dir, data):
     print data
     db.reference(dir).push(data)
 
+# =================    3     ===================
 
 
 # =================    4     ===================
