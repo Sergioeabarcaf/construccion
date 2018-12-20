@@ -15,15 +15,16 @@ while(True):
         dir = 'sessions/S-' + str(firebase.numberSession())
         firebase.setInfoSession(dir,init,startTime)
 
-        dirFile = csvFile.createFile(dir,init['material'],startTime)
+        dirFile = csvFile.createFile(dir,init['material'],startTime, init)
 
         if init['tipoFinalizado'] == 'manual':
             while (firebase.finManual()):
-                timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')
-                data = {'timestamp': timestamp}
+                data = {'timestamp': datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
                 data.update(sensor.getExterior())
                 data.update(sensor.getInterior())
+
                 firebase.pushData(dir, data)
                 csvFile.writeData(dirFile, data)
+
                 time.sleep(intervalo)
 
