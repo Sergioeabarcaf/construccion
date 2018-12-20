@@ -11,8 +11,12 @@ import { FirebaseService } from '../../providers/firebase.service';
 export class NewComponent implements OnInit {
   public profile: any;
   formulario: FormGroup;
+  date = new Date();
+  today = '';
 
   constructor(public _auth0: Auth0Service, public _firebase: FirebaseService) {
+
+    this.getToday();
 
     if (this._auth0.userProfile) {
       this.profile = this._auth0.userProfile;
@@ -21,20 +25,24 @@ export class NewComponent implements OnInit {
         this.profile = profile;
       });
     }
+  }
 
+  ngOnInit() {
     this.formulario = new FormGroup({
       'responsable': new FormControl(this.profile.name, Validators.required),
       'material': new FormControl('', Validators.required),
-      'intervalTime': new FormControl('00:01:00', Validators.required),
+      'intervalTime': new FormControl('00:00:30', Validators.required),
       'tipoFinalizado': new FormControl('manual', Validators.required),
       'horaFinalizado': new FormControl(),
-      'fechaFinalizado': new FormControl()
+      'fechaFinalizado': new FormControl(this.today)
     });
   }
 
-  ngOnInit() { }
-
   guardarCambios() {
     this._firebase.setInit(this.formulario.value);
+  }
+
+  getToday() {
+    this.today = this.date.getDate() + '-' + (this.date.getMonth() + 1) + '-' + this.date.getFullYear();
   }
 }
