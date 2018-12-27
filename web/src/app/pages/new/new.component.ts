@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Auth0Service } from '../../providers/auth0.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { FirebaseService } from '../../providers/firebase.service';
 
 @Component({
@@ -43,6 +43,18 @@ export class NewComponent implements OnInit {
   }
 
   getToday() {
-    this.today = this.date.getDate() + '-' + (this.date.getMonth() + 1) + '-' + this.date.getFullYear();
+    this.today = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + this.date.getDate();
+    this.date.setHours(0, 0, 0, 0);
+  }
+
+  validDateMin() {
+    const dateInput = new Date(this.formulario.controls.fechaFinalizado.value);
+    dateInput.setHours(0, 0, 0, 0);
+    dateInput.setDate(dateInput.getDate() + 1);
+    if ( this.date <= dateInput ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

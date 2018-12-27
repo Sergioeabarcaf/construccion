@@ -47,19 +47,26 @@
                 <div class="form-group col-4">
                     <label>Fecha</label>
                     <input type="date" class="form-control" min="today" formControlName="fechaFinalizado" required>
+                    <div class="alert alert-danger" role="alert" *ngIf="!validDateMin()">
+                        Ingrese una fecha mayor o igual al dia de hoy
+                    </div>
                 </div>
                 <div class="form-group col-4">
                     <label>Hora</label>
                     <input type="time" class="form-control" formControlName="horaFinalizado" required>
+
                 </div>
             </div>
 
             <div class="form-group my-4">
-                <div class="input-group">
+                <div class="input-group" *ngIf="formulario.controls['tipoFinalizado'].value == 'programado'">
+                    <button *ngIf="formulario.valid && validDateMin()" type="submit" class="btn btn-success mx-auto"> Comenzar prueba </button>
+                    <button *ngIf="!formulario.valid" type="submit" class="btn btn-outline-danger mx-auto" disabled> Completar todo el formulario </button>
+                </div>
+                <div class="input-group" *ngIf="formulario.controls['tipoFinalizado'].value == 'manual'">
                     <button *ngIf="formulario.valid" type="submit" class="btn btn-success mx-auto"> Comenzar prueba </button>
                     <button *ngIf="!formulario.valid" type="submit" class="btn btn-outline-danger mx-auto" disabled> Completar todo el formulario </button>
                 </div>
-
             </div>
         </form>
     </div>
