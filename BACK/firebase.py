@@ -14,11 +14,13 @@ default_app = firebase_admin.initialize_app(cred, {
 def start():
     dir = 'init'
     data = db.reference(dir).get()
-    if data != None:
+    if data == None:
+        return 0
+    elif data == 'null':
+        return 0
+    else:
         db.reference('system/python').set(True)
         return data
-    else:
-        return 0
 
 #Obtener el numero de la session a crear.
 def numberSession():
@@ -46,6 +48,11 @@ def pushData(dir, data):
     db.reference(dir).push(data)
 
 # =================    3     ===================
+def execManualEnd():
+    dir = 'system/start'
+    dir2 = 'init'
+    db.reference(dir).set(False)
+    db.reference(dir2).set('null')
 
 
 # =================    4     ===================

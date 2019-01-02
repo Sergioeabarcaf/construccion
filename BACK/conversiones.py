@@ -4,9 +4,10 @@ def intervalToSeconds(interval):
     i = 2
     seconds = 0
     for x in range (0,len(temp)):
-        seconds += ( int(temp[x]) * pow(60, i))
+        seconds += ( int(temp[x]) * pow(60, i) )
         i -= 1
-    print seconds
     return seconds
 
+def finishedTimeInSeconds(days, hours, minutes):
+    return (int(days * 1440) + int(hours * 60) + int(minutes)) * 60
     
