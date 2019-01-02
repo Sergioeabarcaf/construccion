@@ -9,12 +9,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SessionComponent implements OnInit {
 
-  proyecto = null;
+  session = null;
 
   constructor(public _firebase: FirebaseService, public activatedRoute: ActivatedRoute, public router: Router) {
     this.activatedRoute.params.subscribe( param => {
-      this.proyecto = this._firebase.getSession(param.id);
-      console.log(this.proyecto);
+      this.session = this._firebase.getSession(param.id);
+      console.log(this.session);
     });
   }
 

@@ -1,3 +1,28 @@
-<p *ngIf="proyecto != null">
+<p *ngIf="session != null">
     session works!
 </p>
+
+<div class="row justify-content-center">
+    <div class="col-10 table-responsive">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td>Fecha Inicio: {{ session.info.timeStart }}</td>
+                    <td>Material: {{ session.info.material }}</td>
+                </tr>
+                <tr>
+                    <td>Intervalo de medición: {{ session.info.intervalTime }}</td>
+                    <td>Responsable: {{ session.info.responsable }}</td>
+                </tr>
+                <tr>
+                    <td>Duración: {{ session.info.finishedDays }}</td>
+                    <td>
+                        <Button class="btn btn-success">Descargar</Button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
