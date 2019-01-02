@@ -37,7 +37,10 @@ export class FirebaseService {
   getSessions() {
     this._firebase.list('sessions').valueChanges().subscribe( (data) => {
       this.sessions = data;
-      console.log(this.sessions);
     });
+  }
+
+  getSession(index) {
+    return this.sessions[index];
   }
 }
