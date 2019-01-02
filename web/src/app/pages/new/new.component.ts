@@ -11,12 +11,8 @@ import { FirebaseService } from '../../providers/firebase.service';
 export class NewComponent implements OnInit {
   public profile: any;
   formulario: FormGroup;
-  date = new Date();
-  today = '';
 
   constructor(public _auth0: Auth0Service, public _firebase: FirebaseService) {
-
-    this.getToday();
 
     if (this._auth0.userProfile) {
       this.profile = this._auth0.userProfile;
@@ -33,28 +29,13 @@ export class NewComponent implements OnInit {
       'material': new FormControl('', Validators.required),
       'intervalTime': new FormControl('00:00:30', Validators.required),
       'tipoFinalizado': new FormControl('manual', Validators.required),
-      'horaFinalizado': new FormControl(),
-      'fechaFinalizado': new FormControl(this.today)
+      'diasFinalizado': new FormControl('0', Validators.min(0)),
+      'horasFinalizado': new FormControl('0', [Validators.min(0), Validators.max(24)]),
+      'minutosFinalizado': new FormControl('0', [Validators.min(0), Validators.max(60)])
     });
   }
 
   guardarCambios() {
     this._firebase.setInit(this.formulario.value);
-  }
-
-  getToday() {
-    this.today = this.date.getFullYear() + '-' + (this.date.getMonth() + 1) + '-' + this.date.getDate();
-    this.date.setHours(0, 0, 0, 0);
-  }
-
-  validDateMin() {
-    const dateInput = new Date(this.formulario.controls.fechaFinalizado.value);
-    dateInput.setHours(0, 0, 0, 0);
-    dateInput.setDate(dateInput.getDate() + 1);
-    if ( this.date <= dateInput ) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }
