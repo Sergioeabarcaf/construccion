@@ -28,10 +28,10 @@ export class NewComponent implements OnInit {
       'responsable': new FormControl(this.profile.name, Validators.required),
       'material': new FormControl('', Validators.required),
       'intervalTime': new FormControl('00:00:30', Validators.required),
-      'tipoFinalizado': new FormControl('manual', Validators.required),
-      'diasFinalizado': new FormControl('0', Validators.min(0)),
-      'horasFinalizado': new FormControl('0', [Validators.min(0), Validators.max(24)]),
-      'minutosFinalizado': new FormControl('0', [Validators.min(0), Validators.max(60)])
+      'finishedType': new FormControl('manual', Validators.required),
+      'finishedDays': new FormControl(0, Validators.min(0)),
+      'finishedHours': new FormControl(0, [Validators.min(0), Validators.max(24)]),
+      'finishedMinutes': new FormControl(0, [Validators.min(0), Validators.max(60)])
     });
   }
 

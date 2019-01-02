@@ -36,7 +36,7 @@
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Tipo de finalizado</label>
                 <div class="col-7">
-                    <select class="custom-select" formControlName="tipoFinalizado">
+                    <select class="custom-select" formControlName="finishedType">
                         <option selected value="manual">Manual</option>
                         <option value="programado">Programado</option>
                     </select>
@@ -46,21 +46,21 @@
                 </div>
             </div>
 
-            <div class="form-row row justify-content-center align-item-center my-4" *ngIf="formulario.controls['tipoFinalizado'].value == 'programado'">
+            <div class="form-row row justify-content-center align-item-center my-4" *ngIf="formulario.controls['finishedType'].value == 'programado'">
                 <div class="form-group col-3">
                     <label>Días</label>
-                    <input type="number" class="form-control" min="0" formControlName="diasFinalizado" required>
+                    <input type="number" class="form-control" min="0" formControlName="finishedDays" required>
                 </div>
                 <div class="form-group col-3">
                     <label>Horas</label>
-                    <input type="number" class="form-control" min="0" max="24" formControlName="horasFinalizado" required>
+                    <input type="number" class="form-control" min="0" max="24" formControlName="finishedHours" required>
                     <small class="form-text text-muted text-center">
                         La cantidad minima de horas es 0 y la máxima es 24.
                     </small>
                 </div>
                 <div class="form-group col-3">
                     <label>Minutos</label>
-                    <input type="number" class="form-control" min="0" max="60" formControlName="minutosFinalizado" required>
+                    <input type="number" class="form-control" min="0" max="60" formControlName="finishedMinutes" required>
                     <small class="form-text text-muted text-center">
                         La cantidad minima de minutos es 0 y la máxima es 60.
                     </small>
