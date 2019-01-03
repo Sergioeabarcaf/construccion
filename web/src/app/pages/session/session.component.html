@@ -1,51 +1,93 @@
-<div class="row justify-content-center mb-4">
-    <div class="col-10 col-md-6 table-responsive text-center">
-        <table class="table table-borderless table-sm">
-            <tbody>
-                <tr>
-                    <td>Fecha Inicio: {{ session.info.timeStart }}</td>
-                    <td>Material: {{ session.info.material }}</td>
-                </tr>
-                <tr>
-                    <td>Intervalo de medición: {{ session.info.intervalTime }}</td>
-                    <td>Responsable: {{ session.info.responsable }}</td>
-                </tr>
-                <tr>
-                    <td>Duración: {{ session.info.finishedDays }}</td>
-                    <td>
-                        <Button class="btn btn-success btn-sm">Descargar</Button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<div class="row justify-content-center">
+    <div class="col-10 col-md-5 my-4">
+        <div class="card">
+            <div class="card-header">
+                Información de la sesión
+            </div>
+            <div class="card-body">
+                <div class="table-responsive text-center">
+                    <table class="table table-borderless table-sm">
+                        <tbody>
+                            <tr>
+                                <td>Fecha Inicio: {{ session.info.timeStart }}</td>
+                                <td>Material: {{ session.info.material }}</td>
+                            </tr>
+                            <tr>
+                                <td>Intervalo de medición: {{ session.info.intervalTime }}</td>
+                                <td>Responsable: {{ session.info.responsable }}</td>
+                            </tr>
+                            <tr>
+                                <td>Duración: {{ session.info.finishedDays }}</td>
+                                <td>
+                                    <Button class="btn btn-success btn-sm">Descargar</Button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    <div class="col-10 col-md-5">
+        <div class="row justify-content-center mt-4">
+            <div class="col-12">
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="my-0 text-muted"><small>Máxima Temperatura Interior</small></p>
+                            <h5 class="card-title">35 °C</h5>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="my-0 text-muted"><small>Máxima Temperatura Exterior</small></p>
+                            <h5 class="card-title">35 °C</h5>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="my-0 text-muted"><small>Máxima Humedad Interior</small></p>
+                            <h5 class="card-title">35 %HR</h5>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="my-0 text-muted"><small>Máxima Humedad Exterior</small></p>
+                            <h5 class="card-title">35 %HR</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div class="row justify-content-center my-4">
-    <div class="col-9">
-        <div class="card-group">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h4 class="card-title">35 °C</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Máxima Temperatura Interior</h6>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <h4 class="card-title">35 °C</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Máxima Temperatura Exterior</h6>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <h4 class="card-title">35 %HR</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Máxima Humedad Interior</h6>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <h4 class="card-title">35 %HR</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Máxima Humedad Exterior</h6>
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-12">
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="my-0 text-muted"><small>Minima Temperatura Interior</small></p>
+                            <h5 class="card-title">35 °C</h5>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="my-0 text-muted"><small>Minima Temperatura Exterior</small></p>
+                            <h5 class="card-title">35 °C</h5>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="my-0 text-muted"><small>Minima Humedad Interior</small></p>
+                            <h5 class="card-title">35 %HR</h5>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <p class="my-0 text-muted"><small>Minima Humedad Exterior</small></p>
+                            <h5 class="card-title">35 %HR</h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,60 +95,37 @@
 </div>
 
 
-<div class="row justify-content-center my-4">
-    <div class="col-9">
-        <div class="card-group">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h4 class="card-title">35 °C</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Minima Temperatura Interior</h6>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <h4 class="card-title">35 °C</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Minima Temperatura Exterior</h6>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <h4 class="card-title">35 %HR</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Minima Humedad Interior</h6>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <h4 class="card-title">35 %HR</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">Minima Humedad Exterior</h6>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="row justify-content-center" *ngIf="dataSession.length > 0">
+
+
+<div class="row justify-content-center pb-4" *ngIf="dataSession.length > 0">
     <div class="col-10">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Timestamp</th>
-                    <th scope="col">Temperatura Interior</th>
-                    <th scope="col">Humedad Interior</th>
-                    <th scope="col">Temperatura Exterior</th>
-                    <th scope="col">Humedad Exterior</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let data of dataSession">
-                    <th>{{ data.timestamp }}</th>
-                    <td>{{ data.Ti }}</td>
-                    <td>{{ data.Hi }}</td>
-                    <td>{{ data.Te }}</td>
-                    <td>{{ data.Ti }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="card text-center">
+            <div class="card-header">
+                Tabla de datos detallada
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Timestamp</th>
+                            <th scope="col">Temperatura Interior</th>
+                            <th scope="col">Humedad Interior</th>
+                            <th scope="col">Temperatura Exterior</th>
+                            <th scope="col">Humedad Exterior</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of dataSession">
+                            <th>{{ data.timestamp }}</th>
+                            <td>{{ data.Ti }}</td>
+                            <td>{{ data.Hi }}</td>
+                            <td>{{ data.Te }}</td>
+                            <td>{{ data.Ti }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-
 </div>
