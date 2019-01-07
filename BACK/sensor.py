@@ -1,6 +1,13 @@
+import Adafruit_DHT
+
+pinInt = 23
+pinExt = 24
+sensor = Adafruit_DHT.DHT11
 
 def getInterior():
-    return {'Ti':60, 'Hi':50}
+    humidity, temperature = Adafruit_DHT.read_retry(sensor, pinInt)
+    return {'Ti':temperature, 'Hi':humidity}
 
 def getExterior():
-    return {'Te':30, 'He':10}
+    humidity, temperature = Adafruit_DHT.read_retry(sensor, pinExt)
+    return {'Te':temperature, 'He':humidity}
