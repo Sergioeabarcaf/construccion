@@ -36,7 +36,7 @@ export class FirebaseService {
 
   getSessions() {
     this._firebase.list('sessions').valueChanges().subscribe( (data) => {
-      this.sessions = data;
+      this.sessions = data.reverse();
     });
   }
 
