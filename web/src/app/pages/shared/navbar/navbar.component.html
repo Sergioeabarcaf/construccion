@@ -1,13 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" [routerLink]="['home']">Proyecto Construcción</a>
+    <a class="navbar-brand" [routerLink]="['home']">Laboratorio Multi-propósito de Materiales</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="alert alert-info text-center" role="alert" *ngIf="!_auth0.isAuthenticated()">
-            No estas logeado en el sistema
-        </div>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['init']" *ngIf="_auth0.isAuthenticated()">Inicio</a>
@@ -16,11 +13,14 @@
                 <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['sessions']" *ngIf="_auth0.isAuthenticated()">Secciones</a>
             </li>
         </ul>
-        <button class="btn btn-primary btn-margin" *ngIf="!_auth0.isAuthenticated()" (click)="_auth0.login()">
+        <div class="alert alert-info text-center mr-4 mb-0" role="alert" *ngIf="!_auth0.isAuthenticated()">
+            No estas logeado en el sistema
+        </div>
+        <button class="btn btn-primary btn-margin btn-lg mr-2" *ngIf="!_auth0.isAuthenticated()" (click)="_auth0.login()">
             Ingresar
         </button>
 
-        <button class="btn btn-danger btn-margin" *ngIf="_auth0.isAuthenticated()" (click)="_auth0.logout()">
+        <button class="btn btn-danger btn-margin btn-lg mr-2" *ngIf="_auth0.isAuthenticated()" (click)="_auth0.logout()">
             Salir
         </button>
     </div>
