@@ -10,7 +10,7 @@
                 <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['init']" *ngIf="_auth0.isAuthenticated()">Inicio</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['sessions']" *ngIf="_auth0.isAuthenticated()">Secciones</a>
+                <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['sessions']" *ngIf="_auth0.isAuthenticated()">Historico</a>
             </li>
         </ul>
         <div class="alert alert-info text-center mr-4 mb-0" role="alert" *ngIf="!_auth0.isAuthenticated()">

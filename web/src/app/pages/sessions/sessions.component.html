@@ -1,15 +1,15 @@
 <div class="row justify-content-center">
-    <h2 class="col-8 text-center my-4">Listado de sesiones terminadas</h2>
+    <h2 class="col-8 text-center my-4">Historia del mediciones</h2>
 
     <div class="col-6 text-center" *ngIf="_firebase.sessions == null">
         <div class="alert alert-warning" role="alert">
-            Obteniendo la lista de sesiones almacenadas.
+            Obteniendo la lista de mediciones almacenadas.
         </div>
     </div>
 
     <div class="col-6 text-center" *ngIf="_firebase.sessions != null && _firebase.sessions.length == 0">
         <div class="alert alert-danger" role="alert">
-            No existen sesiones almacenadas.
+            No existen mediciones almacenadas.
         </div>
     </div>
 </div>
