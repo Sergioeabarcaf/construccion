@@ -15,7 +15,7 @@ export class Auth0Service {
     clientID: 'j3Xx0V12bESpDD8IW4IZyiojWjh0XPp7',
     domain: 'sergioeabarcaf.auth0.com',
     responseType: 'token id_token',
-    redirectUri: 'http://localhost:4200/callback',
+    redirectUri: 'https://construccion-30739.firebaseapp.com/callback',
     scope: 'openid profile'
   });
 

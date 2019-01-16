@@ -36,7 +36,16 @@ export class FirebaseService {
 
   getSessions() {
     this._firebase.list('sessions').valueChanges().subscribe( (data) => {
-      this.sessions = data;
+      this.sessions = data.sort(function (a, b) {
+        if (a['info']['timeStart'] > b['info']['timeStart']) {
+          return -1;
+        }
+        if (a['info']['timeStart'] < b['info']['timeStart']) {
+          return 1;
+        }
+        return 0;
+      });
+      console.log(this.sessions);
     });
   }
 
