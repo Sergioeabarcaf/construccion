@@ -23,37 +23,32 @@ time = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H
 firebase.first(time)
 
 while(True):
-    try:
-        # Validar que exista conexion a internet
-        if( conection.valid() ):
-            # Consultar si se ha enviado una nueva sesion desde la web app
-            init = firebase.start()
-            if init != 0:
-                print("inicio")
-                intervalo = conversiones.intervalToSeconds(init['intervalTime'])
-                startTime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H:%M:%S')
+    # Validar que exista conexion a internet
+    if( conection.valid() ):
+        # Consultar si se ha enviado una nueva sesion desde la web app
+        init = firebase.start()
+        if init != 0:
+            print("inicio")
+            intervalo = conversiones.intervalToSeconds(init['intervalTime'])
+            startTime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H:%M:%S')
 
-                dir = 'sessions/S-' + str(firebase.numberSession())
-                firebase.setInfoSession(dir,init,startTime)
+            dir = 'sessions/S-' + str(firebase.numberSession())
+            firebase.setInfoSession(dir,init,startTime)
 
-                dirFile = csvFile.createFile(dir,init['material'],startTime, init)
+            dirFile = csvFile.createFile(dir,init['material'],startTime, init)
 
-                if init['finishedType'] == 'manual':
-                    while (firebase.finManual()):
+            if init['finishedType'] == 'manual':
+                while (firebase.finManual()):
+                    getData(dir, dirFile)
+                    time.sleep(intervalo)
+            elif init['finishedType'] == 'programado':
+                finishedTimeInSeconds = conversiones.finishedTimeInSeconds(init['finishedDays'], init['finishedHours'], init['finishedMinutes'])
+                loops = int(finishedTimeInSeconds / intervalo)
+                print loops
+                while (firebase.finManual()):
+                    if loops > 0:
+                        loops -= 1
                         getData(dir, dirFile)
                         time.sleep(intervalo)
-                elif init['finishedType'] == 'programado':
-                    finishedTimeInSeconds = conversiones.finishedTimeInSeconds(init['finishedDays'], init['finishedHours'], init['finishedMinutes'])
-                    loops = int(finishedTimeInSeconds / intervalo)
-                    print loops
-                    while (firebase.finManual()):
-                        if loops > 0:
-                            loops -= 1
-                            getData(dir, dirFile)
-                            time.sleep(intervalo)
-                        else:
-                            firebase.execManualEnd()
-    except:
-        key = str(n) + '-timestamp'
-	time = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
-        firebase.last(time)
+                    else:
+                        firebase.execManualEnd()
