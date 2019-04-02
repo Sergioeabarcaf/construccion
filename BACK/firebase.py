@@ -8,6 +8,30 @@ default_app = firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://construccion-30739.firebaseio.com/'
 })
 
+# =================    0     ===================
+# cerrar todas las sesiones y almacenar registro de hora que se inicio el programa
+def first(time):
+    db.reference('init').set('null')
+    db.reference('system/python').set(False)
+    db.reference('system/start').set(False)
+    db.reference('log/start').push(time)
+
+def getNumber():
+    n = db.reference('log/n').get()
+    if (n != None):
+        db.reference('log/n').set(n + 1)
+        return n + 1
+    else:
+        db.reference('log/n').set(0)
+        return 0
+
+def last(time):
+    db.reference('init').set('null')
+    db.reference('system/python').set(False)
+    db.reference('system/start').set(False)
+    db.reference('log/error').push(time)
+
+
 # =================    1     ===================
 
 #validar si se inicia una nueva sesion.
@@ -42,12 +66,14 @@ def setInfoSession(dir, info, startTime):
 
 
 # =================    2     ===================
+# Enviar data a firebase 
 def pushData(dir, data):
     dir = dir + '/data'
     print data
     db.reference(dir).push(data)
 
 # =================    3     ===================
+# Detener de manera manual (web app) la ejecución del programa 
 def execManualEnd():
     dir = 'system/start'
     dir2 = 'init'
@@ -56,13 +82,12 @@ def execManualEnd():
 
 
 # =================    4     ===================
-
-#Detener ejecucion de forma manual
+#Validar si fue detenido desde la web app la medición
 def finManual():
     dir = 'system/start'
     data = db.reference(dir).get()
     if data == True:
-        return data
+        return True
     else:
         db.reference('system/python').set(False)
-        return data
+        return False
