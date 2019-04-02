@@ -3,7 +3,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 import json
 
-cred = credentials.Certificate('/media/Datos/proyectosSergio/github/construccion/BACK/names.json')
+cred = credentials.Certificate('/home/pi/construccion/BACK/names.json')
 default_app = firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://construccion-30739.firebaseio.com/'
 })
@@ -33,8 +33,7 @@ def last(time):
 
 
 # =================    1     ===================
-
-#validar si se inicia una nueva sesion.
+# validar si se inicia una nueva sesion.
 def start():
     dir = 'init'
     data = db.reference(dir).get()
@@ -46,7 +45,7 @@ def start():
         db.reference('system/python').set(True)
         return data
 
-#Obtener el numero de la session a crear.
+# Obtener el numero de la session a crear.
 def numberSession():
     dir = 'system/lastSession'
     data = db.reference(dir).get()
@@ -57,7 +56,7 @@ def numberSession():
         db.reference('system/lastSession').set(0)
         return 0
 
-#Almacenar los datos del formulario en sesion.
+# Almacenar los datos del formulario en sesion.
 def setInfoSession(dir, info, startTime):
     dir = str(dir) + '/info'
     info.update({'timeStart':startTime})
@@ -66,14 +65,14 @@ def setInfoSession(dir, info, startTime):
 
 
 # =================    2     ===================
-# Enviar data a firebase 
+# Enviar data a firebase
 def pushData(dir, data):
     dir = dir + '/data'
     print data
     db.reference(dir).push(data)
 
 # =================    3     ===================
-# Detener de manera manual (web app) la ejecución del programa 
+# Detener de manera manual (web app) la ejecucion del programa
 def execManualEnd():
     dir = 'system/start'
     dir2 = 'init'
@@ -82,7 +81,7 @@ def execManualEnd():
 
 
 # =================    4     ===================
-#Validar si fue detenido desde la web app la medición
+# Validar si fue detenido desde la web app la medicion
 def finManual():
     dir = 'system/start'
     data = db.reference(dir).get()

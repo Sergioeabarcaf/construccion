@@ -7,7 +7,7 @@ import csvFile
 import conection
 
 
-# Función para obtener datos de medición, almacenarlos en CSV y Firebase.
+# Funcion para obtener datos de medicion, almacenarlos en CSV y Firebase.
 def getData(dir, dirFile):
     data = {'timestamp': datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
     data.update(sensor.getExterior())
@@ -16,15 +16,15 @@ def getData(dir, dirFile):
     firebase.pushData(dir, data)
     csvFile.writeData(dirFile, data)
 
-# Obtener el numero de intento para loguear y Detener la ejecución de cualquier sesion al iniciar el programa
+# Obtener el numero de intento para loguear y Detener la ejecucion de cualquier sesion al iniciar el programa
 n = firebase.getNumber()
-key = n + '-timestamp'
+key = str(n) + '-timestamp'
 time = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
 firebase.first(time)
 
 while(True):
     try:
-        # Validar que exista conexión a internet
+        # Validar que exista conexion a internet
         if( conection.valid() ):
             # Consultar si se ha enviado una nueva sesion desde la web app
             init = firebase.start()
@@ -54,8 +54,6 @@ while(True):
                         else:
                             firebase.execManualEnd()
     except:
-        key = n + '-timestamp'
-        time = {'key': datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
-        firebase.last(time)        
-                    
-
+        key = str(n) + '-timestamp'
+	time = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
+        firebase.last(time)
