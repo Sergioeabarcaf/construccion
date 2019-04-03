@@ -61,5 +61,5 @@ while(True):
     # Si existe un error, enviar el timestamp del error a firebase
     except:
         key = str(n) + '-timestamp'
-	    value = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
+        value = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
         firebase.clean(value, 'error')
