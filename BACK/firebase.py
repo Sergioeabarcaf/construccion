@@ -10,13 +10,13 @@ default_app = firebase_admin.initialize_app(cred, {
 
 # =================    0     ===================
 # cerrar todas las sesiones y almacenar registro de hora que se inicio el programa
-def first(time):
+def clean(time, dir):
     db.reference('init').set('null')
     db.reference('system/python').set(False)
     db.reference('system/start').set(False)
-    db.reference('log/start').push(time)
+    db.reference('log/' + dir ).set(time)
 
-def getNumber():
+def getNumberLog():
     n = db.reference('log/n').get()
     if (n != None):
         db.reference('log/n').set(n + 1)
@@ -24,12 +24,6 @@ def getNumber():
     else:
         db.reference('log/n').set(0)
         return 0
-
-def last(time):
-    db.reference('init').set('null')
-    db.reference('system/python').set(False)
-    db.reference('system/start').set(False)
-    db.reference('log/error').push(time)
 
 
 # =================    1     ===================
@@ -61,8 +55,7 @@ def setInfoSession(dir, info, startTime):
     dir = str(dir) + '/info'
     info.update({'timeStart':startTime})
     db.reference(dir).set(info)
-
-
+    
 
 # =================    2     ===================
 # Enviar data a firebase
@@ -82,7 +75,7 @@ def execManualEnd():
 
 # =================    4     ===================
 # Validar si fue detenido desde la web app la medicion
-def finManual():
+def endManualFromWebApp():
     dir = 'system/start'
     data = db.reference(dir).get()
     if data == True:

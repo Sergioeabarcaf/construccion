@@ -1,11 +1,10 @@
 import firebase
-import conversiones
+import converter
 import sensor
 import time
 import datetime
 import csvFile
 import conection
-
 
 # Funcion para obtener datos de medicion, almacenarlos en CSV y Firebase.
 def getData(dir, dirFile):
@@ -17,10 +16,10 @@ def getData(dir, dirFile):
     csvFile.writeData(dirFile, data)
 
 # Obtener el numero de intento para loguear y Detener la ejecucion de cualquier sesion al iniciar el programa
-n = firebase.getNumber()
+n = firebase.getNumberLog()
 key = str(n) + '-timestamp'
-time = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
-firebase.first(time)
+value = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
+firebase.clean(value, 'start')
 
 while(True):
     try:
@@ -29,8 +28,10 @@ while(True):
             # Consultar si se ha enviado una nueva sesion desde la web app
             init = firebase.start()
             if init != 0:
-                print("inicio")
-                intervalo = conversiones.intervalToSeconds(init['intervalTime'])
+                interval = converter.intervalToSeconds(init['intervalTime'])
+                # Comprobar que interval sea > 0, interval minimo 1
+                if (interval < 1):
+                    interval = 1
                 startTime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H:%M:%S')
 
                 dir = 'sessions/S-' + str(firebase.numberSession())
@@ -38,22 +39,27 @@ while(True):
 
                 dirFile = csvFile.createFile(dir,init['material'],startTime, init)
 
+                # Funcionamiento en modo manual
                 if init['finishedType'] == 'manual':
-                    while (firebase.finManual()):
+                    # Esperar a que el usuario termine desde la WebApp
+                    while (firebase.endManualFromWebApp()):
                         getData(dir, dirFile)
-                        time.sleep(intervalo)
+                        time.sleep(interval)
+                # Funcionamiento en modo automatico
                 elif init['finishedType'] == 'programado':
-                    finishedTimeInSeconds = conversiones.finishedTimeInSeconds(init['finishedDays'], init['finishedHours'], init['finishedMinutes'])
-                    loops = int(finishedTimeInSeconds / intervalo)
-                    print loops
-                    while (firebase.finManual()):
+                    finishedTimeInSeconds = converter.finishedTimeInSeconds(init['finishedDays'], init['finishedHours'], init['finishedMinutes'])
+                    # Calcular la cantidad de mediciones que se deben realizar
+                    loops = int(finishedTimeInSeconds / interval)
+                    # Esperar a que el usuario termine desde la WebApp
+                    while (firebase.endManualFromWebApp()):
                         if loops > 0:
                             loops -= 1
                             getData(dir, dirFile)
-                            time.sleep(intervalo)
+                            time.sleep(interval)
                         else:
                             firebase.execManualEnd()
+    # Si existe un error, enviar el timestamp del error a firebase
     except:
         key = str(n) + '-timestamp'
-	time = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
-        firebase.last(time)
+	    value = {key : datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')}
+        firebase.clean(value, 'error')
