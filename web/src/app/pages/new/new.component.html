@@ -5,7 +5,8 @@
         </div>
     </div>
     <div class="row justify-content-center align-item-center">
-        <form [formGroup]="formulario" (ngSubmit)="guardarCambios()" novalidate="novalidate">
+        <form [formGroup]="formulario" (ngSubmit)="sendForm()" novalidate="novalidate">
+            <!-- Usuario -->
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Responsable</label>
                 <div class="col-7">
@@ -15,14 +16,14 @@
                     </small>
                 </div>
             </div>
-
+            <!-- Material -->
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Material</label>
                 <div class="col-7">
                     <input class="form-control" type="text" placeholder="Material a observar" formControlName="material">
                 </div>
             </div>
-
+            <!-- Intervalo -->
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Intervalo de medición</label>
                 <div class="col-7">
@@ -32,7 +33,7 @@
                     </small>
                 </div>
             </div>
-
+            <!-- Tipo finalizado -->
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Tipo de finalizado</label>
                 <div class="col-7">
@@ -42,17 +43,31 @@
                     </select>
                 </div>
             </div>
-
+            <!-- Si finalizado es programado -->
             <div class="form-group row justify-content-center align-item-center my-4" *ngIf="formulario.controls['finishedType'].value == 'programado'">
                 <label class="col-3 col-form-label">Fecha y hora de finalizado</label>
-                <div class="col-7">
-                    <input type="datetime-local" formControlName="endTime" min="{{now}}">
+                <div class="col-4">
+                    <input type="date" formControlName="finishedDate" min="{{ nowDate }}">
                     <small class="form-text text-muted text-center">
-                        Ingresar la fecha y hora de termino para la medición.
+                        Ingresar la fecha de termino para la medición.
+                    </small>
+                </div>
+                <!-- Fecha finalizado -->
+                <div class="col-3" *ngIf="formulario.value.finishedDate == nowDate">
+                    <input type="time" formControlName="finishedTime" min="{{ nowTime }}" max="23:59:00">
+                    <small class="form-text text-muted text-center">
+                        Ingresar la hora de termino para la medición.
+                    </small>
+                </div>
+                <!-- Hora finalizado -->
+                <div class="col-3" *ngIf="formulario.value.finishedDate != nowDate">
+                    <input type="time" formControlName="finishedTime">
+                    <small class="form-text text-muted text-center">
+                        Ingresar la hora de termino para la medición.
                     </small>
                 </div>
             </div>
-
+            <!-- Enviar -->
             <div class="form-group my-4">
                 <div class="input-group">
                     <button *ngIf="formulario.valid" type="submit" class="btn btn-success mx-auto"> Comenzar prueba </button>

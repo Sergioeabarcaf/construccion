@@ -12,12 +12,16 @@ export class NewComponent implements OnInit {
   public profile: any;
   formulario: FormGroup;
   dateTime = new Date();
-  now: string = '';
+  nowDate: String = '';
+  nowTime: String = '';
 
   constructor(public _auth0: Auth0Service, public _firebase: FirebaseService) {
 
-    this.now = this.dateTime.getFullYear().toString() + '-' + this.appendZero(this.dateTime.getMonth() + 1) + '-' + this.appendZero(this.dateTime.getDate()) + 'T' + this.appendZero(this.dateTime.getHours()) + ':' + this.appendZero(this.dateTime.getMinutes());
-
+    // Obtener fecha y hora en formato string
+    this.nowDate = this.dateTime.getFullYear().toString() + '-' + this.appendZero(this.dateTime.getMonth() + 1) + '-' + this.appendZero(this.dateTime.getDate());
+    this.nowTime = this.appendZero(this.dateTime.getHours()) + ':' + this.appendZero(this.dateTime.getMinutes())  + ':00';
+  
+    // Obtener perfil del usuario
     if (this._auth0.userProfile) {
       this.profile = this._auth0.userProfile;
     } else {
@@ -28,21 +32,25 @@ export class NewComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Crear formulario con valores por defecto
     this.formulario = new FormGroup({
       'responsable': new FormControl(this.profile.name, Validators.required),
       'material': new FormControl('', Validators.required),
       'intervalTime': new FormControl('10', [Validators.required, Validators.min(10)]),
       'finishedType': new FormControl('manual', Validators.required),
-      'endTime': new FormControl( this.now )
+      'finishedDate': new FormControl( this.nowDate ),
+      'finishedTime': new FormControl( this.nowTime )
     });
   }
 
-  guardarCambios() {
+  // Enviar datos de formulario a firebase
+  sendForm() {
     this._firebase.setInit(this.formulario.value);
   }
 
+  // Validar que día, mes, hora y minuto tengan dos digitos.
   appendZero( num: number ) {
-    if ( num < 10 ){
+    if ( num < 10 ) {
       return '0' + num.toString();
     } else {
       return num.toString();
