@@ -8,7 +8,4 @@ def nowDateTime():
     return datetime.datetime.now()
 
 def getTimestamp():
-    print ( datetime.datetime.fromtimestamp( time.time() ) )
-    return datetime.datetime.fromtimestamp(time.time()).strftime('%Y/%m/%d-%H:%M:%S')
-
-
+    return time.time()
