@@ -26,9 +26,9 @@
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Intervalo de medición</label>
                 <div class="col-7">
-                    <input class="form-control" type="time" min="00:00:01" max="23:59:59" placeholder="Correo electrónico" formControlName="intervalTime">
+                    <input class="form-control" type="number" min="10" formControlName="intervalTime">
                     <small class="form-text text-muted">
-                        El formato de entrada de tiempo es HH:MM:SS (Intervalo minimo: 00:00:01, Intervalo máximo: 23:59:59).
+                        Ingrese el intervalo en segundos entre cada medición (minimo 10 segundos).
                     </small>
                 </div>
             </div>
@@ -40,9 +40,6 @@
                         <option selected value="manual">Manual</option>
                         <option value="programado">Programado</option>
                     </select>
-                    <small class="form-text text-muted text-center">
-                        En modo programado, se debe ingresar la cantiad de Días, Horas u Minutos que durará la prueba.
-                    </small>
                 </div>
             </div>
 
@@ -51,7 +48,7 @@
                 <div class="col-7">
                     <input type="datetime-local" formControlName="endTime" min="{{now}}">
                     <small class="form-text text-muted text-center">
-                        En modo programado, se debe ingresar la cantiad de Días, Horas u Minutos que durará la prueba.
+                        Ingresar la fecha y hora de termino para la medición.
                     </small>
                 </div>
             </div>

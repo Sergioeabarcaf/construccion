@@ -31,7 +31,7 @@ export class NewComponent implements OnInit {
     this.formulario = new FormGroup({
       'responsable': new FormControl(this.profile.name, Validators.required),
       'material': new FormControl('', Validators.required),
-      'intervalTime': new FormControl('00:00:30', Validators.required),
+      'intervalTime': new FormControl('10', [Validators.required, Validators.min(10)]),
       'finishedType': new FormControl('manual', Validators.required),
       'endTime': new FormControl( this.now )
     });
