@@ -32,11 +32,11 @@ while(True):
                 # Comprobar que interval sea > 0, interval minimo 1
                 if (interval < 1):
                     interval = 1
+                # Obtener timestamp actual
                 startTime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H:%M:%S')
 
                 dir = 'sessions/S-' + str(firebase.numberSession())
                 firebase.setInfoSession(dir,init,startTime)
-
                 dirFile = csvFile.createFile(dir,init['material'],startTime, init)
 
                 # Funcionamiento en modo manual

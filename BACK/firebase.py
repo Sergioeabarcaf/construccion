@@ -14,7 +14,7 @@ def clean(time, dir):
     db.reference('init').set('null')
     db.reference('system/python').set(False)
     db.reference('system/start').set(False)
-    db.reference('log/' + dir ).set(time)
+    db.reference('log/' + dir ).push(time)
 
 def getNumberLog():
     n = db.reference('log/n').get()
