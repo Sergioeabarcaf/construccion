@@ -11,8 +11,12 @@ import { FirebaseService } from '../../providers/firebase.service';
 export class NewComponent implements OnInit {
   public profile: any;
   formulario: FormGroup;
+  dateTime = new Date();
+  now: string = '';
 
   constructor(public _auth0: Auth0Service, public _firebase: FirebaseService) {
+
+    this.now = this.dateTime.getFullYear().toString() + '-' + this.appendZero(this.dateTime.getMonth() + 1) + '-' + this.appendZero(this.dateTime.getDate()) + 'T' + this.appendZero(this.dateTime.getHours()) + ':' + this.appendZero(this.dateTime.getMinutes());
 
     if (this._auth0.userProfile) {
       this.profile = this._auth0.userProfile;
@@ -29,13 +33,19 @@ export class NewComponent implements OnInit {
       'material': new FormControl('', Validators.required),
       'intervalTime': new FormControl('00:00:30', Validators.required),
       'finishedType': new FormControl('manual', Validators.required),
-      'finishedDays': new FormControl(0, Validators.min(0)),
-      'finishedHours': new FormControl(0, [Validators.min(0), Validators.max(24)]),
-      'finishedMinutes': new FormControl(0, [Validators.min(0), Validators.max(60)])
+      'endTime': new FormControl( this.now )
     });
   }
 
   guardarCambios() {
     this._firebase.setInit(this.formulario.value);
+  }
+
+  appendZero( num: number ) {
+    if ( num < 10 ){
+      return '0' + num.toString();
+    } else {
+      return num.toString();
+    }
   }
 }
