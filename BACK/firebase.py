@@ -67,10 +67,9 @@ def pushData(dir, data):
 # =================    3     ===================
 # Detener de manera manual (web app) la ejecucion del programa
 def execManualEnd():
-    dir = 'system/start'
-    dir2 = 'init'
-    db.reference(dir).set(False)
-    db.reference(dir2).set('null')
+    db.reference('system/start').set(False)
+    db.reference('system/python').set(False)
+    db.reference('init').set('null')
 
 
 # =================    4     ===================
