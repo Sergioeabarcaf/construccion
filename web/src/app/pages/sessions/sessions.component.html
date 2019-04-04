@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let sesion of _firebase.sessions, let i = index">
-                    <th scope="row"> {{ sesion.info.timeStart }}</th>
+                    <th scope="row"> {{ sesion.info.timeStart * 1000 | date:'yyyy/MMM/dd - HH:mm' }}</th>
                     <td>{{ sesion.info.material }}</td>
                     <td>{{ sesion.info.responsable }}</td>
                     <td><button class="btn btn-info" (click)=goToSession(i)> Ver sesion </button></td>
