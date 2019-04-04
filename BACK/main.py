@@ -28,7 +28,7 @@ while(True):
             # Consultar si se ha enviado una nueva sesion desde la web app
             init = firebase.start()
             if init != 0:
-                interval = converter.intervalToSeconds(init['intervalTime'])
+                interval = init['intervalTime']
                 # Comprobar que interval sea > 0, interval minimo 1
                 if (interval < 1):
                     interval = 1
@@ -47,9 +47,13 @@ while(True):
                         time.sleep(interval)
                 # Funcionamiento en modo automatico
                 elif init['finishedType'] == 'programado':
-                    finishedTimeInSeconds = converter.finishedTimeInSeconds(init['finishedDays'], init['finishedHours'], init['finishedMinutes'])
-                    # Calcular la cantidad de mediciones que se deben realizar
-                    loops = int(finishedTimeInSeconds / interval)
+                    # Obtener fecha y hora de finalizacion en tipo Date.
+                    finishedDate = finishDate(init['finishedDate'])
+                    print(type(finishedDate))
+                    print(finishedDate)
+                    finishedTime = finishTime(init['finishedTime'])
+                    print(type(finishedTime))
+                    print(finishedTime)
                     # Esperar a que el usuario termine desde la WebApp
                     while (firebase.endManualFromWebApp()):
                         if loops > 0:
