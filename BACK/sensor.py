@@ -1,4 +1,5 @@
 import Adafruit_DHT
+# https://github.com/adafruit/Adafruit_Python_DHT
 
 pinInt = 23
 pinExt = 24
