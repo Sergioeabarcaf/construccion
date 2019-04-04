@@ -51,7 +51,7 @@ while(True):
                     finishedDate = converter.finishDate(init['finishedDate'] + ' ' + init['finishedTime'] )
                     # Mientras hora actual sea menor o igual a finishedDate y el usuario no
                     # haya terminado desde la aplicacion, realizar mediciones en los intervalos
-                    while( finishedDate >= converter.nowDateTime() && firebase.endManualFromWebApp() ):
+                    while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp() ):
                         getData(dir, dirFile)
                         time.sleep(interval - 2)
                     # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
