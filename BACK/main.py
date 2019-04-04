@@ -28,7 +28,7 @@ while(True):
             # Consultar si se ha enviado una nueva sesion desde la web app
             init = firebase.start()
             if init != 0:
-                interval = init['intervalTime']
+                interval = int(init['intervalTime'])
                 # Comprobar que interval sea > 0, interval minimo 1
                 if (interval < 1):
                     interval = 1
