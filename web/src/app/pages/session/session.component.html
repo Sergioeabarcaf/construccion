@@ -1,5 +1,5 @@
 <div class="row justify-content-center">
-    <div class="col-10 col-md-5 my-4">
+    <div class="col-10 col-md-10 my-4">
         <div class="card">
             <div class="card-header">
                 Información de la sesión
@@ -9,15 +9,15 @@
                     <table class="table table-borderless table-sm">
                         <tbody>
                             <tr>
-                                <td>Fecha Inicio: {{ session.info.timeStart }}</td>
-                                <td>Material: {{ session.info.material }}</td>
+                                <td class="border-right">Fecha inicio: {{ session.info.timeStart * 1000 | date:'dd MMMM yyyy' }}</td>
+                                <td class="border-right">Material: {{ session.info.material }}</td>
+                                <td class="border-right">Fecha termino: {{ session.info.finishedDate | date:'dd MMMM yyyy' }}</td>
+                                <td class="border-right">Responsable: {{ session.info.responsable }}</td>
                             </tr>
                             <tr>
-                                <td>Intervalo de medición: {{ session.info.intervalTime }}</td>
-                                <td>Responsable: {{ session.info.responsable }}</td>
-                            </tr>
-                            <tr>
-                                <td>Duración: {{ session.info.finishedDays }}</td>
+                                <td>Hora inicio: {{ session.info.timeStart * 1000 | date:'HH:mm' }}</td>
+                                <td>Intervalo de medición: {{ session.info.intervalTime }} segundos</td>
+                                <td>Hora termino: {{ session.info.finishedTime }}</td>
                                 <td>
                                     <Button class="btn btn-success btn-sm">Descargar</Button>
                                 </td>
@@ -117,7 +117,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of dataSession">
-                            <th>{{ data.timestamp }}</th>
+                            <th>{{ data.timestamp * 1000 | date:'HH:mm:ss - dd MMM' }}</th>
                             <td>{{ data.Ti }}</td>
                             <td>{{ data.Hi }}</td>
                             <td>{{ data.Te }}</td>
