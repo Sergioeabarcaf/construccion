@@ -12,11 +12,11 @@ export class Auth0Service {
   public userProfile: any;
 
   auth0 = new auth0.WebAuth({
-    clientID: 'j3Xx0V12bESpDD8IW4IZyiojWjh0XPp7',
-    domain: 'sergioeabarcaf.auth0.com',
-    responseType: 'token id_token',
-    redirectUri: 'https://construccion-30739.firebaseapp.com/callback',
-    scope: 'openid profile'
+    clientID: '',
+    domain: '',
+    responseType: '',
+    redirectUri: '',
+    scope: ''
   });
 
   constructor(public router: Router) {
