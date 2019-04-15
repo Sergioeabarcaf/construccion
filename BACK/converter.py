@@ -9,3 +9,9 @@ def nowDateTime():
 
 def getTimestamp():
     return time.time()
+
+def getCurrentDateSTR():
+    return datetime.date.strftime('%d-%m-%Y')
+
+def getCurrentTimeSTR():
+    return datetime.time.strftime('%H:%M')

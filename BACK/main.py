@@ -28,6 +28,8 @@ while(True):
             init = firebase.start()
             if init != 0:
                 interval = int(init['intervalTime']) - 2
+                print(converter.getCurrentDateSTR())
+                print(converter.getCurrentTimeSTR())
 
                 # Obtener timestamp actual
                 startTime = converter.getTimestamp()
