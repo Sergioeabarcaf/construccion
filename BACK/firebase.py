@@ -2,6 +2,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 import json
+import converter
 
 cred = credentials.Certificate('/home/pi/construccion/BACK/names.json')
 default_app = firebase_admin.initialize_app(cred, {
@@ -66,19 +67,23 @@ def pushData(dir, data):
 
 # =================    3     ===================
 # Detener de manera manual (web app) la ejecucion del programa
-def execManualEnd():
+def execManualEnd(numberSession):
     db.reference('system/start').set(False)
     db.reference('system/python').set(False)
+    db.reference('sessions/S-' + numberSession + '/info/finishedDate').set(converter.getCurrentDateSTR())
+    db.reference('sessions/S-' + numberSession + '/info/finishedTime').set(converter.getCurrentTimeSTR())
     db.reference('init').set('null')
 
 
 # =================    4     ===================
 # Validar si fue detenido desde la web app la medicion
-def endManualFromWebApp():
+def endManualFromWebApp(numberSession):
     dir = 'system/start'
     data = db.reference(dir).get()
     if data == True:
         return True
     else:
+        db.reference('sessions/S-' + numberSession + '/info/finishedDate').set(converter.getCurrentDateSTR())
+        db.reference('sessions/S-' + numberSession + '/info/finishedTime').set(converter.getCurrentTimeSTR())
         db.reference('system/python').set(False)
         return False

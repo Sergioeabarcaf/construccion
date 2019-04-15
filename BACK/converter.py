@@ -11,7 +11,7 @@ def getTimestamp():
     return time.time()
 
 def getCurrentDateSTR():
-    return datetime.date.strftime('%d-%m-%Y')
+    return time.strftime('%Y-%m-%d')
 
 def getCurrentTimeSTR():
-    return datetime.time.strftime('%H:%M')
+    return time.strftime('%H:%M:%S')

@@ -28,20 +28,19 @@ while(True):
             init = firebase.start()
             if init != 0:
                 interval = int(init['intervalTime']) - 2
-                print(converter.getCurrentDateSTR())
-                print(converter.getCurrentTimeSTR())
 
                 # Obtener timestamp actual
                 startTime = converter.getTimestamp()
-                
-                dir = 'sessions/S-' + str(firebase.numberSession())
+
+                numberSession = str(firebase.numberSession())
+                dir = 'sessions/S-' + numberSession
                 firebase.setInfoSession(dir,init,startTime)
                 dirFile = csvFile.createFile(dir,init['material'],startTime, init)
 
                 # Funcionamiento en modo manual
                 if init['finishedType'] == 'manual':
                     # Esperar a que el usuario termine desde la WebApp
-                    while (firebase.endManualFromWebApp()):
+                    while (firebase.endManualFromWebApp(numberSession)):
                         getData(dir, dirFile)
                         time.sleep(interval)
                 # Funcionamiento en modo automatico
@@ -50,12 +49,12 @@ while(True):
                     finishedDate = converter.finishDate(init['finishedDate'] + ' ' + init['finishedTime'] )
                     # Mientras hora actual sea menor o igual a finishedDate y el usuario no
                     # haya terminado desde la aplicacion, realizar mediciones en los intervalos
-                    while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp() ):
+                    while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(numberSession) ):
                         getData(dir, dirFile)
                         time.sleep(interval)
                     # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
                     if (finishedDate < converter.nowDateTime() ):
-                        firebase.execManualEnd()
+                        firebase.execManualEnd(numberSession)
     # Si existe un error, enviar el timestamp del error a firebase
     except:
         key = str(n) + '-timestamp'
