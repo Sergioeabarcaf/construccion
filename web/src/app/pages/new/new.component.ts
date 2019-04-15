@@ -43,8 +43,13 @@ export class NewComponent implements OnInit {
     });
   }
 
-  // Enviar datos de formulario a firebase
+  // Enviar datos de formulario a firebase y inicializar el contenido de current en firebase
   sendForm() {
+    this._firebase.current.He = 0;
+    this._firebase.current.Hi = 0;
+    this._firebase.current.Te = 0;
+    this._firebase.current.Ti = 0;
+    this._firebase.current.timestamp = '0';
     this._firebase.setInit(this.formulario.value);
   }
 
