@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" [routerLink]="['home']">Laboratorio Multi-propósito de Materiales</a>
+    <a class="navbar-brand d-none d-md-block" [routerLink]="['home']">Laboratorio Multi-propósito de Materiales</a>
+    <a class="navbar-brand d-block d-md-none" [routerLink]="['home']">Laboratorio Materiales</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,14 +14,11 @@
                 <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['sessions']" *ngIf="_auth0.isAuthenticated()">Historial de mediciones</a>
             </li>
         </ul>
-        <div class="alert alert-info text-center mr-4 mb-0" role="alert" *ngIf="!_auth0.isAuthenticated()">
-            No estas logeado en el sistema
-        </div>
-        <button class="btn btn-primary btn-margin btn-lg mr-2" *ngIf="!_auth0.isAuthenticated()" (click)="_auth0.login()">
+        <button class="btn btn-outline-success btn-margin btn-lg mx-2 my-2" *ngIf="!_auth0.isAuthenticated()" (click)="_auth0.login()">
             Ingresar
         </button>
 
-        <button class="btn btn-danger btn-margin btn-lg mr-2" *ngIf="_auth0.isAuthenticated()" (click)="_auth0.logout()">
+        <button class="btn btn-danger btn-margin btn-lg mx-2 my-2" *ngIf="_auth0.isAuthenticated()" (click)="_auth0.logout()">
             Salir
         </button>
     </div>
