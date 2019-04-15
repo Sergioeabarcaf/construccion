@@ -9,7 +9,9 @@ import { FirebaseService } from '../../providers/firebase.service';
 })
 export class LiveComponent implements OnInit {
 
-  constructor(public _firebase: FirebaseService, public router: Router) { }
+  constructor(public _firebase: FirebaseService, public router: Router) {
+    this._firebase.getLastDataSessionCurrent(this._firebase.currentSession);
+  }
 
   ngOnInit() {
   }

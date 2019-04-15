@@ -20,7 +20,7 @@ export class NewComponent implements OnInit {
     // Obtener fecha y hora en formato string
     this.nowDate = this.dateTime.getFullYear().toString() + '-' + this.appendZero(this.dateTime.getMonth() + 1) + '-' + this.appendZero(this.dateTime.getDate());
     this.nowTime = this.appendZero(this.dateTime.getHours()) + ':' + this.appendZero(this.dateTime.getMinutes())  + ':00';
-  
+
     // Obtener perfil del usuario
     if (this._auth0.userProfile) {
       this.profile = this._auth0.userProfile;

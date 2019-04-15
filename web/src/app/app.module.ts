@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AngularFireModule} from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
+import { GaugeModule } from 'angular-gauge';
 
 import { Auth0Service } from './providers/auth0.service';
 import { AuthGuardService } from './providers/auth-guard.service';
@@ -38,7 +39,8 @@ import { SessionsComponent } from './pages/sessions/sessions.component';
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    GaugeModule.forRoot()
   ],
   providers: [
     Auth0Service,
