@@ -45,7 +45,7 @@ while(True):
             # Funcionamiento en modo automatico
             elif init['finishedType'] == 'programado':
                 # Obtener fecha y hora de finalizacion en tipo Date.
-                finishedDate = converter.finishDate(init['finishedDate'] + ' ' + init['finishedTime'] )
+                finishedDate = converter.finishDate(init['finishedDate'], init['finishedTime'] )
                 # Mientras hora actual sea menor o igual a finishedDate y el usuario no
                 # haya terminado desde la aplicacion, realizar mediciones en los intervalos
                 while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(numberSession) ):
