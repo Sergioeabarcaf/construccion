@@ -2,7 +2,6 @@ import datetime
 import time
 
 def finishDate(strDate, strTime):
-    print(len(strTime))
     if (len(strTime) == 5):
         return datetime.datetime.strptime(strDate + " " + strTime, '%Y-%m-%d %H:%M')
     if (len(strTime) == 8):
