@@ -56,7 +56,6 @@ while(True):
                     # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
                     if (finishedDate < converter.nowDateTime() ):
                         firebase.execManualEnd(numberSession)
-        break
 # Si existe un error, enviar el timestamp del error a firebase
     except:
         print(type(sys.exc_info()[0]))
