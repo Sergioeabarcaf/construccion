@@ -6,31 +6,37 @@
 </div>
 
 <!-- Gauge realtime con datos actualizados en tiempo real -->
-<div class="row justify-content-center">
-    <div class="col-6 col-md-2 text-center">
-        <p>Temperatura Interior</p>
-        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.Ti" [animated]="true" [animationDuration]="2">
-        </mwl-gauge>
-    </div>
-    <div class="col-6 col-md-2 text-center">
-        <p>Temperatura Exterior</p>
-        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.Te" [animated]="true" [animationDuration]="2">
-        </mwl-gauge>
-    </div>
-    <div class="col-6 col-md-2 text-center">
-        <p>Humedad Interior</p>
-        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.Hi" [animated]="true" [animationDuration]="2">
-        </mwl-gauge>
-    </div>
-    <div class="col-6 col-md-2 text-center">
-        <p>Humedad Exterior</p>
-        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.He" [animated]="true" [animationDuration]="2">
-        </mwl-gauge>
-    </div>
+<div class="card text-center">
+  <div class="card-body">
+      <!-- Gauge con datos en tiempo real -->
+        <div class="row justify-content-center">
+            <div class="col-6 col-md-2 text-center">
+                <p>Temperatura Interior</p>
+                <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.Ti" [animated]="true" [animationDuration]="2">
+                </mwl-gauge>
+            </div>
+            <div class="col-6 col-md-2 text-center">
+                <p>Temperatura Exterior</p>
+                <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.Te" [animated]="true" [animationDuration]="2">
+                </mwl-gauge>
+            </div>
+            <div class="col-6 col-md-2 text-center">
+                <p>Humedad Interior</p>
+                <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.Hi" [animated]="true" [animationDuration]="2">
+                </mwl-gauge>
+            </div>
+            <div class="col-6 col-md-2 text-center">
+                <p>Humedad Exterior</p>
+                <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.He" [animated]="true" [animationDuration]="2">
+                </mwl-gauge>
+            </div>
+        </div>
+  </div>
+  <!-- Hora y fecha del dato obtenido -->
+  <div class="card-footer text-muted">
+    Dato obtenido: {{ _firebase.current.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+  </div>
 </div>
-
-<!-- AGREGAR HORA Y FECHA DE ULTIMA MEDICIÓN REALIZADA. -->
-
 
 <!-- Boton para detener ejecucion -->
 <!-- AGREGAR MODAL PARA CONFIRMACION DE FINALIZACION -->
