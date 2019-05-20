@@ -39,10 +39,30 @@
 </div>
 
 <!-- Boton para detener ejecucion -->
-<!-- AGREGAR MODAL PARA CONFIRMACION DE FINALIZACION -->
 <div class="row justify-content-center">
     <div class="col-10 col-md-4">
-        <button class="btn btn-block btn-lg btn-danger" (click)="stop()">Detener</button>
+        <button type="button" class="btn btn-block btn-lg btn-danger" data-toggle="modal" data-target="#confirmationStopModal">Detener</button>
+    </div>
+</div>
+
+<!-- Modal para confirmar la detencion de la medición -->
+<div class="modal fade" id="confirmationStopModal" tabindex="-1" role="dialog" aria-labelledby="confirmationStopModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="confirmationStopModalLabel">Detener medición</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            ¿Esta seguro de detener la medición?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary" (click)="stop()">Si</button>
+        </div>
+        </div>
     </div>
 </div>
 
