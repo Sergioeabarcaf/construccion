@@ -10,6 +10,7 @@ export class AuthGuardService implements CanActivate {
   constructor(public _auth0: Auth0Service) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    // Validar si el usuario esta autentificado.
     if (this._auth0.isAuthenticated()) {
       return true;
     } else {

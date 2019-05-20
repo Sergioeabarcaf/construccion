@@ -10,6 +10,7 @@ import { FirebaseService } from '../../providers/firebase.service';
 export class LiveComponent implements OnInit {
 
   constructor(public _firebase: FirebaseService, public router: Router) {
+    // Actualizar los valores de current en firebase.service con los de la ultima sesion.
     this._firebase.getLastDataSessionCurrent(this._firebase.currentSession);
   }
 
@@ -17,6 +18,7 @@ export class LiveComponent implements OnInit {
   }
 
   stop() {
+    // Detener la ejecución del programa en firebase
     this._firebase.stop();
     this.router.navigate(['/init']);
   }

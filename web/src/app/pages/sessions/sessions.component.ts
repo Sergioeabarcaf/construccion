@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class SessionsComponent implements OnInit {
 
   constructor(public _firebase: FirebaseService, public router: Router) {
+    // Obtener las sesiones en Firebase.service
     this._firebase.getSessions();
   }
 
