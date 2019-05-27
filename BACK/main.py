@@ -56,4 +56,4 @@ while(True):
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
     except:
         print(sys.exc_info())
-        firebase.clean(converter.getTimestamp(), 'error', sys.exc_info())
+        firebase.clean(converter.getTimestamp(), 'error', sys.exc_info()[0] + " - " +  sys.exc_info()[1])
