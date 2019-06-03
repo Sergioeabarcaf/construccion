@@ -10,14 +10,17 @@ import { FirebaseService } from '../../providers/firebase.service';
 })
 export class InitComponent implements OnInit {
 
+  // Flag para identificar si los datos del usuario ya estan listos.
   ready = false;
 
   constructor(public _auth0: Auth0Service, public _firebase: FirebaseService) {
+    // Obtener los datos del usuario autentificado
     this._auth0.getProfile((err, profile) => {
       this.ready = true;
     });
-
+    // Actualizar las variables de start y python en Firebase Service
     this._firebase.getInit();
+    // Obtener las sesiones almacenadas en Firebase
     this._firebase.getSessions();
   }
 

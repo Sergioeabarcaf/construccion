@@ -1,12 +1,15 @@
 <div class="row justify-content-center">
+    <!-- titulo -->
     <h2 class="col-8 text-center my-4">Historial del mediciones</h2>
 
+    <!-- Alerta informativa mientras se obtienen los datos de la sesiones -->
     <div class="col-6 text-center" *ngIf="_firebase.sessions == null">
         <div class="alert alert-warning" role="alert">
             Obteniendo la lista de mediciones almacenadas.
         </div>
     </div>
 
+    <!-- Alerta informativa de que no existen sesiones almacenadas -->
     <div class="col-6 text-center" *ngIf="_firebase.sessions != null && _firebase.sessions.length == 0">
         <div class="alert alert-danger" role="alert">
             No existen mediciones almacenadas.
@@ -14,7 +17,7 @@
     </div>
 </div>
 
-
+<!-- Tabla con las sesiones almacenadas. -->
 <div class="row justify-content-center" *ngIf="_firebase.sessions != null && _firebase.sessions.length > 0">
     <div class="col-10 table-responsive text-center">
         <table class="table table-sm" *ngIf="_firebase.sessions != null">
