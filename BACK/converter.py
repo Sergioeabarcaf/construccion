@@ -1,8 +1,11 @@
 import datetime
 import time
 
-def finishDate(strDate):
-    return datetime.datetime.strptime(strDate, '%Y-%m-%d %H:%M')
+def finishDate(strDate, strTime):
+    if (len(strTime) == 5):
+        return datetime.datetime.strptime(strDate + " " + strTime, '%Y-%m-%d %H:%M')
+    if (len(strTime) == 8):
+        return datetime.datetime.strptime(strDate + " " + strTime , '%Y-%m-%d %H:%M:%S')
 
 def nowDateTime():
     return datetime.datetime.now()
