@@ -10,7 +10,7 @@
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Responsable</label>
                 <div class="col-7">
-                    <input class="form-control" type="text" placeholder="Nombre" formControlName="responsable" readonly>
+                    <input class="form-control" type="text" placeholder="Nombre" formControlName="startResponsable" readonly>
                     <small class="form-text text-muted">
                         El responsable es obtenido desde su cuenta y no es modificable.
                     </small>
@@ -23,50 +23,72 @@
                     <input class="form-control" type="text" placeholder="Material a observar" formControlName="material">
                 </div>
             </div>
+            <!-- Modulos a utilizar -->
+            <div class="form-group row justify-content-center align-item-center my-4">
+                <label class="col-3 col-form-label">Seleccione los modulos a utilizar</label>
+                <!-- Si estan ambos modulos disponibles -->
+                <div class="col-7" *ngIf="moduleAvailable == 2">
+                    <select class="custom-select" formControlName="module">
+                        <option selected value="2">Ambos</option>
+                        <option value="0">Solo termico</option>
+                        <option value="1">Solo sonido</option>
+                    </select>
+                </div>
+                <!-- Si disponible el modulo thermico -->
+                <div class="col-7" *ngIf="moduleAvailable == 0">
+                    <input class="form-control" type="text" placeholder="Termico" formControlName="module" readonly>
+                    <small class="form-text text-muted">
+                        Solo el módulo termico esta disponible, no es modificable.
+                    </small>
+                </div>
+                <!-- Si disponible el modulo sonido -->
+                <div class="col-7" *ngIf="moduleAvailable == 1">
+                    <input class="form-control" type="text" placeholder="Sonido" formControlName="module" readonly>
+                    <small class="form-text text-muted">
+                        Solo el módulo sonido esta disponible, no es modificable.
+                    </small>
+                </div>
+            </div>
             <!-- Intervalo -->
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Intervalo de medición en segundos</label>
                 <div class="col-7">
-                    <input class="form-control" type="number" min="30" formControlName="intervalTime">
+                    <input class="form-control" type="number" min="30" formControlName="timeInterval">
                     <small class="form-text text-muted">
                         Ingrese el intervalo en segundos entre cada medición (minimo 30 segundos).
                     </small>
                 </div>
             </div>
-            <!-- AGREGAR SI USARÁ LOS DOS MODULOS EN SIMULTANEO O UNO DE ELLOS -->
-
-
-
-            
             <!-- Tipo finalizado -->
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Tipo de finalizado</label>
                 <div class="col-7">
-                    <select class="custom-select" formControlName="finishedType">
-                        <option selected value="manual">Manual</option>
-                        <option value="programado">Programado</option>
+                    <select class="custom-select" formControlName="endType">
+                        <option selected value="0">Manual</option>
+                        <option value="1">Programado</option>
                     </select>
                 </div>
             </div>
             <!-- Si finalizado es programado -->
-            <div class="form-group row justify-content-center align-item-center my-4" *ngIf="formulario.controls['finishedType'].value == 'programado'">
+            <div class="form-group row justify-content-center align-item-center my-4" *ngIf="formulario.controls['endType'].value == '1'">
                 <label class="col-3 col-form-label">Fecha y hora de finalizado</label>
+                <!-- Fecha finalizado -->
                 <div class="col-4">
-                    <input type="date" formControlName="finishedDate" min="{{ nowDate }}">
+                    <input type="date" formControlName="endDate" min="{{ nowDate }}">
                     <small class="form-text text-muted text-center">
                         Ingresar la fecha de termino para la medición.
                     </small>
                 </div>
-                <!-- Fecha finalizado -->
-                <div class="col-3" *ngIf="formulario.value.finishedDate == nowDate">
-                    <input type="time" formControlName="finishedTime" min="{{ nowTime }}" max="23:59:00">
+                <!-- Hora finalizado si es el mismo dia-->
+                <div class="col-3" *ngIf="formulario.value.endDate == nowDate">
+                    <input type="time" formControlName="endDate" min="{{ nowTime }}" max="23:59:00">
                     <small class="form-text text-muted text-center">
-                        Ingresar la hora de termino para la medición.
+                        Ingresar la hora de termino para la medición. (hoy)
                     </small>
                 </div>
-                <!-- Hora finalizado -->
-                <div class="col-3" *ngIf="formulario.value.finishedDate != nowDate">
-                    <input type="time" formControlName="finishedTime">
+                <!-- Hora finalizado si es distinto el dia al hoy-->
+                <div class="col-3" *ngIf="formulario.value.endDate != nowDate">
+                    <input type="time" formControlName="endDate">
                     <small class="form-text text-muted text-center">
                         Ingresar la hora de termino para la medición.
                     </small>

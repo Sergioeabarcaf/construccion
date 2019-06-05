@@ -11,7 +11,7 @@ export class FirebaseService {
   // Variables para ver si se inicia una nueva sesion o se revisa la actual
   thermal = {
     sesionNumber: -1,
-    value: 0
+    value: 1
   };
   sound = {
     sesionNumber: -1,
@@ -54,7 +54,31 @@ export class FirebaseService {
   setInit(formulario: any) {
     console.log(formulario);
     this._firebase.object('init').set(formulario);
-    this._firebase.object('system/start').set(true);
+    // Si se usan ambos modulos, se actualizan los valores en system/status
+    if ( formulario.module === 2 ) {
+      this._firebase.object('system/status').update({'thermal': {'value': -1 , 'sesionNumber': 0 },
+                                                      'sound': {'value': -1 , 'sesionNumber': 0 },
+                                                      'both': {'value': 1 , 'sesionNumber': formulario.sessionNumber }
+                                                    });
+    }
+    // Si se usa solo el modulo thermal, se actualizan los valores en system/status
+    if ( formulario.module === 0 ) {
+      this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sesionNumber': formulario.sessionNumber },
+                                                      'sound': {'value': -1 , 'sesionNumber': 0 },
+                                                      'both': {'value': -1 , 'sesionNumber': 0 }
+                                                    });
+    }
+    // Si se usa solo el modulo sound, se actualizan los valores en system/status
+    if ( formulario.module === 0 ) {
+      this._firebase.object('system/status').update({'thermal': {'value': -1 , 'sesionNumber': 0 },
+                                                      'sound': {'value': 1 , 'sesionNumber': formulario.sessionNumber },
+                                                      'both': {'value': -1 , 'sesionNumber': 0 }
+                                                    });
+}
+    // Enviar la navegacion a live
+    // ----
+    // Queda pendiente enviar el parametro con el numero de sesion
+    // ----
     this.router.navigate(['live']);
   }
 
@@ -64,7 +88,7 @@ export class FirebaseService {
       this.thermal = data.status.thermal;
       this.sound = data.status.sound;
       this.both = data.status.both;
-      this.currentSessionNumber = data.lastSession;
+      this.currentSessionNumber = data.lastSession + 1;
     });
   }
 
