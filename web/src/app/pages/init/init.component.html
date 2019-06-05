@@ -1,35 +1,104 @@
 <div class="container">
     <div class="row align-items-center justify-content-center">
-        <!-- En caso de que start y python no tengan valores asignados -->
-        <div class="col-12 col-lg-5 text-center mt-4" *ngIf="_firebase.start == null && _firebase.python == null">
+
+        <!-- Uso en conjunto de los modulos -->
+
+        <!-- En caso de que aun no se hayan actualizado los datos desde Firebase -->
+        <div class="col-12 col-lg-6 text-center mt-4" *ngIf="_firebase.thermal.value == -1 && _firebase.sound.value == -1">
             <div class="alert alert-info" role="alert">
                 Espere un momento, estamos validando que no existan ejecuciones en el módulo.
             </div>
         </div>
 
-        <!-- En caso de que python aun se esta ejecutando pero ya se finalizo desde web -->
-        <div class="col-12 col-lg-5 text-center mt-4" *ngIf="_firebase.start != null && !_firebase.start && _firebase.python">
-            <div class="alert alert-warning" role="alert">
-                Espere un momento, se esta cerrando la ejecucion de la sesion en el módulo.
-            </div>
-        </div>
-
-        <!-- En caso de que ambas condiciones sean distitas a null y se pueda iniciar una nueva medición -->
-        <div class="col-12 col-lg-5 text-center" *ngIf="_firebase.start != null && !_firebase.start && !_firebase.python">
-            <h2 class="mb-1 mt-4">Iniciar nueva sesion de medición</h2>
+        <!-- En caso de que ambos modulos esten libres -->
+        <div class="col-12 col-lg-6 text-center mt-4" *ngIf="_firebase.thermal.value == 0 && _firebase.sound.value == 0">
+            <p class="mb-1 my-4 h2">Iniciar nueva sesion de medición</p>
             <!-- si los datos del usuario autentificado estan listos se puede iniciar una nueva medición. -->
             <a *ngIf="ready" [routerLink]="['/new']"><button class="btn btn-success btn-lg">Comenzar</button></a>
-            <button *ngIf="!ready" type="button" class="btn btn-outline-success" disabled>Espere un momento...</button>
+            <button *ngIf="!ready" type="button" class="btn btn-outline-success" disabled>Espere un momento, estamos obteniendo su información...</button>
         </div>
 
-        <!-- En caso de que ambas condiciones sean true y se visualice la medición -->
-        <div class="col-12 col-lg-5 text-center" *ngIf="_firebase.start != null && _firebase.start && _firebase.python">
-            <h2 class="mb-1 mt-4">Ver la session actual</h2>
+        <!-- En caso de que ambos modulos realicen la misma sesion de medicion -->
+        <div class="col-12 col-lg-6 text-center" *ngIf="_firebase.both.value != -1">
+            <p class="mb-1 my-4 h2">Ver la session actual</p>
+            <!--  -->
+            <!-- Queda pendiente enviar el numero de sesion para ver en live -->
+            <!--  -->
             <a [routerLink]="['/live']"><button class="btn btn-success btn-lg">Ver</button></a>
         </div>
 
+        <!-- Uso individual de los modulos -->
+
+        <!-- En caso de que thermal aun se este ejecutando pero ya se finalizo desde web -->
+        <div class="col-6 col-lg-3 text-center mt-4" *ngIf="_firebase.thermal.value == 3">
+            <div class="alert alert-secondary" role="alert">
+                <p><small>Espere un momento, se esta cerrando la ejecucion de la sesion en el módulo termico.</small></p>
+            </div>
+        </div>
+
+        <!-- En caso de que sound aun se este ejecutando pero ya se finalizo desde web -->
+        <div class="col-6 col-lg-3 text-center mt-4" *ngIf="_firebase.sound.value == 3">
+            <div class="alert alert-secondary" role="alert">
+                <p><small>Espere un momento, se esta cerrando la ejecucion de la sesion en el módulo de sonido.</small></p>
+            </div>
+        </div>
+
+        <!-- En caso de que thermal este realizando mediciones -->
+        <div class="col-6 col-lg-3 text-center" *ngIf="_firebase.thermal.value == 2">
+            <p class="mb-1 my-4 h5">Ver la session actual del modulo termico</p>
+            <!--  -->
+            <!-- Queda pendiente enviar el numero de sesion para ver en live -->
+            <!--  -->
+            <a [routerLink]="['/live']"><button class="btn btn-success btn-lg">Ver</button></a>
+        </div>
+
+        <!-- En caso de que sound este realizando mediciones -->
+        <div class="col-6 col-lg-3 text-center" *ngIf="_firebase.sound.value == 2">
+            <p class="mb-1 my-4 h5">Ver la session actual del modulo de sonido</p>
+            <!--  -->
+            <!-- Queda pendiente enviar el numero de sesion para ver en live -->
+            <!--  -->
+            <a [routerLink]="['/live']"><button class="btn btn-success btn-lg">Ver</button></a>
+        </div>
+
+        <!-- En caso de enviar una solicitud de medicion a thermal y aun no se haya cambiado el estado -->
+        <div class="col-6 col-lg-3 text-center mt-4" *ngIf="_firebase.thermal.value == 1">
+            <div class="alert alert-warning" role="alert">
+                <p><small>Espere un momento, pronto comenzará a recibir datos de la medición.</small></p>
+            </div>
+        </div>
+
+        <!-- En caso de enviar una solicitud de medicion a sound y aun no se haya cambiado el estado -->
+        <div class="col-6 col-lg-3 text-center mt-4" *ngIf="_firebase.sound.value == 1">
+            <div class="alert alert-warning" role="alert">
+                <p><small>Espere un momento, pronto comenzará a recibir datos de la medición.</small></p>
+            </div>
+        </div>
+
+        <!-- En caso de que solo el modulo thermal este libre -->
+        <div class="col-6 col-lg-3 text-center mt-4" *ngIf="_firebase.thermal.value == 0 && _firebase.sound.value != 0">
+            <p class="mb-1 my-4 h5">Iniciar medición en el modulo termico</p>
+            <!-- si los datos del usuario autentificado estan listos se puede iniciar una nueva medición. -->
+            <!--  -->
+            <!-- Queda pendiente enviar el modulo disponible para la ejecucion -->
+            <!--  -->
+            <a *ngIf="ready" [routerLink]="['/new']"><button class="btn btn-success btn-lg">Comenzar</button></a>
+            <button *ngIf="!ready" type="button" class="btn btn-outline-success" disabled>Espere un momento</button>
+        </div>
+
+        <!-- En caso de que solo el modulo sound este libre -->
+        <div class="col-6 col-lg-3 text-center mt-4" *ngIf="_firebase.thermal.value != 0 && _firebase.sound.value == 0">
+            <p class="mb-1 my-4 h5">Iniciar medición en el modulo de sonido</p>
+            <!-- si los datos del usuario autentificado estan listos se puede iniciar una nueva medición. -->
+            <!--  -->
+            <!-- Queda pendiente enviar el modulo disponible para la ejecucion -->
+            <!--  -->
+            <a *ngIf="ready" [routerLink]="['/new']"><button class="btn btn-success btn-lg">Comenzar</button></a>
+            <button *ngIf="!ready" type="button" class="btn btn-outline-success" disabled>Espere un momento</button>
+        </div>
+
         <!-- Ver el historial de mediciones realizadas -->
-        <div class="col-12 col-lg-7 text-center" style="max-height: 550px; overflow: scroll;">
+        <div class="col-12 col-lg-6 text-center" style=" overflow: scroll;">
             <app-sessions></app-sessions>
         </div>
     </div>

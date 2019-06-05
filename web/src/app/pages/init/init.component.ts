@@ -18,10 +18,10 @@ export class InitComponent implements OnInit {
     this._auth0.getProfile((err, profile) => {
       this.ready = true;
     });
-    // Actualizar las variables de start y python en Firebase Service
-    this._firebase.getInit();
-    // Obtener las sesiones almacenadas en Firebase
-    this._firebase.getSessions();
+    // Obtener los estados de cada modulos desde firebase.
+    this._firebase.getStatus();
+    // Obtener la informacion corta de todas las sesiones almacenadas en Firebase.
+    this._firebase.getinfoSessionsShort();
   }
 
   ngOnInit() {}
