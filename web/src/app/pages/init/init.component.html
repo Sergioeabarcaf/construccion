@@ -4,7 +4,7 @@
         <!-- Uso en conjunto de los modulos -->
 
         <!-- En caso de que aun no se hayan actualizado los datos desde Firebase -->
-        <div class="col-12 col-lg-6 text-center mt-4" *ngIf="_firebase.thermal.value == -1 && _firebase.sound.value == -1">
+        <div class="col-12 col-lg-6 text-center mt-4" *ngIf="_firebase.thermal.value == -1 && _firebase.sound.value == -1 && _firebase.both.value == -1">
             <div class="alert alert-info" role="alert">
                 Espere un momento, estamos validando que no existan ejecuciones en el módulo.
             </div>

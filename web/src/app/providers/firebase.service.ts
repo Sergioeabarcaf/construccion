@@ -55,25 +55,22 @@ export class FirebaseService {
     console.log(formulario);
     this._firebase.object('init').set(formulario);
     // Si se usan ambos modulos, se actualizan los valores en system/status
-    if ( formulario.module === 2 ) {
+    if ( formulario.module === '2' ) {
+      console.log(formulario.module);
       this._firebase.object('system/status').update({'thermal': {'value': -1 , 'sesionNumber': 0 },
                                                       'sound': {'value': -1 , 'sesionNumber': 0 },
                                                       'both': {'value': 1 , 'sesionNumber': formulario.sessionNumber }
                                                     });
     }
     // Si se usa solo el modulo thermal, se actualizan los valores en system/status
-    if ( formulario.module === 0 ) {
-      this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sesionNumber': formulario.sessionNumber },
-                                                      'sound': {'value': -1 , 'sesionNumber': 0 },
-                                                      'both': {'value': -1 , 'sesionNumber': 0 }
-                                                    });
+    if ( formulario.module === '0' ) {
+      console.log(formulario.module);
+      this._firebase.object('system/status/thermal').update({'value': 1 , 'sesionNumber': formulario.sessionNumber});
     }
     // Si se usa solo el modulo sound, se actualizan los valores en system/status
-    if ( formulario.module === 0 ) {
-      this._firebase.object('system/status').update({'thermal': {'value': -1 , 'sesionNumber': 0 },
-                                                      'sound': {'value': 1 , 'sesionNumber': formulario.sessionNumber },
-                                                      'both': {'value': -1 , 'sesionNumber': 0 }
-                                                    });
+    if ( formulario.module === '1' ) {
+      console.log(formulario.module);
+      this._firebase.object('system/status/sound').update({'value': 1 , 'sesionNumber': formulario.sessionNumber});
 }
     // Enviar la navegacion a live
     // ----

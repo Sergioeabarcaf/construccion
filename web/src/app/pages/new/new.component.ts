@@ -42,7 +42,7 @@ export class NewComponent implements OnInit {
       'startResponsable': new FormControl(this.profile.name, Validators.required),
       'sessionNumber': new FormControl(this.sessionNumber),
       'material': new FormControl('', Validators.required),
-      'module': new FormControl(this.moduleAvailable, Validators.required),
+      'module': new FormControl(this.moduleAvailable.toString(), Validators.required),
       'timeInterval': new FormControl(30, [Validators.required, Validators.min(30)]),
       'endType': new FormControl('0', Validators.required),
       'endDate': new FormControl( this.nowDate ),
