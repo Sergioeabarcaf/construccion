@@ -90,7 +90,7 @@ export class FirebaseService {
   }
 
   // Obtener la información corta de todas las mediciones realizadas, se usa en INIT, SESSIONS
-  getinfoSessionsShort() {
+  getInfoSessionsShort() {
     // Obtener el listado se sesiones
     this._firebase.list('info/short').valueChanges().subscribe( (data) => {
       // Ordenar de reciente a antiguos
