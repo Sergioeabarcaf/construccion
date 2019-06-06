@@ -31,7 +31,7 @@ export class FirebaseService {
     Te: 0,
     Hi: 0,
     Ti: 0
-  };
+  }; 
 
   thermalData = {
     He: 0,
@@ -46,6 +46,8 @@ export class FirebaseService {
     sound: this.soundData
   };
 
+  // Almacenar toda la data de la sesion actual.
+  dataCurrent: any[];
 
   constructor(public _firebase: AngularFireDatabase, public router: Router) {
   }
@@ -107,17 +109,24 @@ export class FirebaseService {
   }
 
   // Se actualizan los datos de current con la ultima sesion realizada, se usa en LIVE
-  // getLastDataSessionCurrent(session) {
-  //   this._firebase.list(`sessions/S-${session}/data`).valueChanges().subscribe( (data: any[]) => {
-  //     const dataLast = data.pop();
-  //     this.current.He = dataLast.He;
-  //     this.current.Hi = dataLast.Hi;
-  //     this.current.Te = dataLast.Te;
-  //     this.current.Ti = dataLast.Ti;
-  //     this.current.timestamp = dataLast.timestamp;
-  //     console.log(this.current);
-  //   });
-  // }
+  getLastDataSessionCurrent(session) {
+    this._firebase.list(`data/S-${session}`).valueChanges().subscribe( (data: any[]) => {
+      // Almacenar todos los datos recibidos para mostrarlos en live
+      this.dataCurrent = data;
+      // Extraer el ultimo dato para mostrarlo en gauge
+      const dataLast = data.pop();
+      this.current.timestamp = dataLast.timestamp;
+      this.current.thermal.He = dataLast.thermal.He;
+      this.current.thermal.Hi = dataLast.thermal.Hi;
+      this.current.thermal.Te = dataLast.thermal.Te;
+      this.current.thermal.Ti = dataLast.thermal.Ti;
+      this.current.sound.He = dataLast.sound.He;
+      this.current.sound.Hi = dataLast.sound.Hi;
+      this.current.sound.Te = dataLast.sound.Te;
+      this.current.sound.Ti = dataLast.sound.Ti;
+      console.log(this.current);
+    });
+  }
 
   // Setear las variables para detener la ejecución del programa en python, se usa en LIVE
   stop() {
