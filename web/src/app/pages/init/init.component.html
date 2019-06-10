@@ -19,12 +19,9 @@
         </div>
 
         <!-- En caso de que ambos modulos realicen la misma sesion de medicion -->
-        <div class="col-12 col-lg-6 text-center" *ngIf="_firebase.both.value != -1">
+        <div class="col-12 col-lg-6 text-center" *ngIf="_firebase.both.value != 2 && _firebase.thermal.value == -1 && _firebase.sound.value == -1">
             <p class="mb-1 my-4 h2">Ver la session actual</p>
-            <!--  -->
-            <!-- Queda pendiente enviar el numero de sesion para ver en live -->
-            <!--  -->
-            <a [routerLink]="['/live']"><button class="btn btn-success btn-lg">Ver</button></a>
+            <a [routerLink]="['/live', _firebase.both.sesionNumber]"><button class="btn btn-success btn-lg">Ver</button></a>
         </div>
 
         <!-- Uso individual de los modulos -->
@@ -46,19 +43,13 @@
         <!-- En caso de que thermal este realizando mediciones -->
         <div class="col-6 col-lg-3 text-center" *ngIf="_firebase.thermal.value == 2">
             <p class="mb-1 my-4 h5">Ver la session actual del modulo termico</p>
-            <!--  -->
-            <!-- Queda pendiente enviar el numero de sesion para ver en live -->
-            <!--  -->
-            <a [routerLink]="['/live']"><button class="btn btn-success btn-lg">Ver</button></a>
+            <a [routerLink]="['/live', _firebase.thermal.sesionNumber]"><button class="btn btn-success btn-lg">Ver</button></a>
         </div>
 
         <!-- En caso de que sound este realizando mediciones -->
         <div class="col-6 col-lg-3 text-center" *ngIf="_firebase.sound.value == 2">
             <p class="mb-1 my-4 h5">Ver la session actual del modulo de sonido</p>
-            <!--  -->
-            <!-- Queda pendiente enviar el numero de sesion para ver en live -->
-            <!--  -->
-            <a [routerLink]="['/live']"><button class="btn btn-success btn-lg">Ver</button></a>
+            <a [routerLink]="['/live',_firebase.sound.sesionNumber]"><button class="btn btn-success btn-lg">Ver</button></a>
         </div>
 
         <!-- En caso de enviar una solicitud de medicion a thermal y aun no se haya cambiado el estado -->
