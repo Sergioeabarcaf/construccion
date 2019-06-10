@@ -5,63 +5,194 @@
     </div>
 </div>
 
-<!-- Gauge realtime con datos actualizados en tiempo real -->
-<div class="card text-center">
-  <div class="card-body">
-      <!-- Gauge con datos en tiempo real -->
-        <div class="row justify-content-center">
-            <div class="col-6 col-md-2 text-center">
-                <p>Temperatura Interior</p>
-                <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.Ti" [animated]="true" [animationDuration]="2">
-                </mwl-gauge>
-            </div>
-            <div class="col-6 col-md-2 text-center">
-                <p>Temperatura Exterior</p>
-                <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.Te" [animated]="true" [animationDuration]="2">
-                </mwl-gauge>
-            </div>
-            <div class="col-6 col-md-2 text-center">
-                <p>Humedad Interior</p>
-                <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.Hi" [animated]="true" [animationDuration]="2">
-                </mwl-gauge>
-            </div>
-            <div class="col-6 col-md-2 text-center">
-                <p>Humedad Exterior</p>
-                <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.He" [animated]="true" [animationDuration]="2">
-                </mwl-gauge>
-            </div>
-        </div>
-  </div>
-  <!-- Hora y fecha del dato obtenido -->
-  <div class="card-footer text-muted">
-    Dato obtenido: {{ _firebase.current.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
-  </div>
-</div>
-
 <!-- Boton para detener ejecucion -->
-<div class="row justify-content-center">
-    <div class="col-10 col-md-4">
-        <button type="button" class="btn btn-block btn-lg btn-danger" data-toggle="modal" data-target="#confirmationStopModal">Detener</button>
+<div class="row justify-content-center my-3">
+    <div class="col-11 col-md-4">
+        <button type="button" class="btn btn-block btn-lg btn-info disabled" *ngIf="profile == '' ">Obteniendo información usuario.</button>
+        <button type="button" class="btn btn-block btn-lg btn-danger" data-toggle="modal" data-target="#confirmationStopModal" *ngIf="profile != '' ">Detener</button>
     </div>
 </div>
+
+<!-- Gauge para sesion de ambos modulos -->
+<div class="row justify-content-around" *ngIf="_firebase.infoLargeCurrent.module == 2">
+    <!-- Gauge para modulo termico -->
+    <div class="col-10 col-md-5 py-3">
+        <!-- Gauge realtime con datos actualizados en tiempo real -->
+        <div class="card text-center">
+            <div class="card-header">
+                Módulo térmico
+            </div>
+            <div class="card-body">
+                <!-- Gauge con datos en tiempo real -->
+                <div class="row justify-content-center">
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Temperatura Interior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Ti" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Temperatura Exterior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Te" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Humedad Interior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Hi" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Humedad Exterior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.He" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                </div>
+            </div>
+            <!-- Hora y fecha del dato obtenido -->
+            <div class="card-footer text-muted">
+                Dato obtenido: {{ _firebase.current.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Gauge para modulo acustico -->
+    <div class="col-11 col-md-5 py-3">
+        <!-- Gauge realtime con datos actualizados en tiempo real -->
+        <div class="card text-center">
+            <div class="card-header">
+                Módulo acústico
+            </div>
+            <div class="card-body">
+                <!-- Gauge con datos en tiempo real -->
+                <div class="row justify-content-center">
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Temperatura Interior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Ti" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Temperatura Exterior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Te" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Humedad Interior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Hi" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Humedad Exterior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.He" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                </div>
+            </div>
+            <!-- Hora y fecha del dato obtenido -->
+            <div class="card-footer text-muted">
+                Dato obtenido: {{ _firebase.current.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gauge para sesion de un solo modulo -->
+<div class="row justify-content-around" *ngIf="_firebase.infoLargeCurrent.module != 2">
+    <!-- Gauge para modulo termico -->
+    <div class="col-10 py-3" *ngIf="_firebase.infoLargeCurrent.moudule == 0">
+        <!-- Gauge realtime con datos actualizados en tiempo real -->
+        <div class="card text-center">
+            <div class="card-header">
+                Módulo térmico
+            </div>
+            <div class="card-body">
+                <!-- Gauge con datos en tiempo real -->
+                <div class="row justify-content-center">
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Temperatura Interior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Ti" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Temperatura Exterior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Te" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Humedad Interior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Hi" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Humedad Exterior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.He" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                </div>
+            </div>
+            <!-- Hora y fecha del dato obtenido -->
+            <div class="card-footer text-muted">
+                Dato obtenido: {{ _firebase.current.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Gauge para modulo acustico -->
+    <div class="col-10 py-3" *ngIf="_firebase.infoLargeCurrent.moudule == 1">
+        <!-- Gauge realtime con datos actualizados en tiempo real -->
+        <div class="card text-center">
+            <div class="card-header">
+                Módulo acústico
+            </div>
+            <div class="card-body">
+                <!-- Gauge con datos en tiempo real -->
+                <div class="row justify-content-center">
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Temperatura Interior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Ti" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Temperatura Exterior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Te" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Humedad Interior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Hi" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                    <div class="col-6 col-md-3 text-center">
+                        <p><small>Humedad Exterior</small></p>
+                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.He" [animated]="true" [animationDuration]="2">
+                        </mwl-gauge>
+                    </div>
+                </div>
+            </div>
+            <!-- Hora y fecha del dato obtenido -->
+            <div class="card-footer text-muted">
+                Dato obtenido: {{ _firebase.current.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Modal para confirmar la detencion de la medición -->
 <div class="modal fade" id="confirmationStopModal" tabindex="-1" role="dialog" aria-labelledby="confirmationStopModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="confirmationStopModalLabel">Detener medición</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationStopModalLabel">Detener medición</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
-        </div>
-        <div class="modal-body">
-            ¿Esta seguro de detener la medición?
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary" (click)="stop()">Si</button>
-        </div>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de detener la medición?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="stop()">Si</button>
+            </div>
         </div>
     </div>
 </div>

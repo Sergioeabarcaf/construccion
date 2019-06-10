@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from '../../providers/firebase.service';
+import { Auth0Service } from '../../providers/auth0.service';
+
 
 @Component({
   selector: 'app-live',
@@ -9,12 +11,26 @@ import { FirebaseService } from '../../providers/firebase.service';
 })
 export class LiveComponent implements OnInit {
 
-  constructor(public _firebase: FirebaseService, public router: Router) {
-    // Actualizar los valores de current en firebase.service con los de la ultima sesion.
-    // 
-    // Recibir numero de sesion por parametro
-    // 
-    this._firebase.getLastDataSessionCurrent(this._firebase.currentSessionNumber);
+  profile: any;
+  sessionNumberCurrent: -1;
+
+  constructor(public _auth0: Auth0Service, public _firebase: FirebaseService, public activatedRoute: ActivatedRoute, public router: Router) {
+    // Obtener perfil del usuario
+    if (this._auth0.userProfile) {
+      this.profile = this._auth0.userProfile;
+    } else {
+      this._auth0.getProfile((err, profile) => {
+        this.profile = profile;
+      });
+    }
+
+    this.activatedRoute.params.subscribe( param => {
+      this.sessionNumberCurrent = param.id;
+      // Actualizar los valores de current en firebase.service con los de la ultima sesion.
+      this._firebase.getDataSessionCurrent(param.id);
+      // Obtener informacion de la sesion
+      this._firebase.getInfoLargeCurrent(param.id);
+    });
   }
 
   ngOnInit() {
@@ -22,7 +38,7 @@ export class LiveComponent implements OnInit {
 
   stop() {
     // Detener la ejecución del programa en firebase
-    this._firebase.stop();
+    this._firebase.stop(this.profile.name, this.sessionNumberCurrent);
     this.router.navigate(['/init']);
   }
 
