@@ -21,7 +21,7 @@ export class InitComponent implements OnInit {
     // Obtener los estados de cada modulos desde firebase.
     this._firebase.getStatus();
     // Obtener la informacion corta de todas las sesiones almacenadas en Firebase.
-    this._firebase.getinfoSessionsShort();
+    this._firebase.getInfoSessionsShort();
   }
 
   ngOnInit() {}
