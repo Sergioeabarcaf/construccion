@@ -11,11 +11,11 @@ export class FirebaseService {
   // Variables para ver si se inicia una nueva sesion o se revisa la actual
   thermal = {
     sesionNumber: -1,
-    value: 1
+    value: -1
   };
   sound = {
     sesionNumber: -1,
-    value: 0
+    value: -1
   };
   both = {
     sesionNumber: -1,
@@ -31,7 +31,7 @@ export class FirebaseService {
     Te: 0,
     Hi: 0,
     Ti: 0
-  }; 
+  };
 
   thermalData = {
     He: 0,
@@ -48,6 +48,8 @@ export class FirebaseService {
 
   // Almacenar toda la data de la sesion actual.
   dataCurrent: any[];
+  // Almacenar la informacion completa de la sesion actual.
+  infoLargeCurrent: any;
 
   constructor(public _firebase: AngularFireDatabase, public router: Router) {
   }
@@ -67,18 +69,17 @@ export class FirebaseService {
     // Si se usa solo el modulo thermal, se actualizan los valores en system/status
     if ( formulario.module === '0' ) {
       console.log(formulario.module);
-      this._firebase.object('system/status/thermal').update({'value': 1 , 'sesionNumber': formulario.sessionNumber});
+      this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sesionNumber': formulario.sessionNumber},
+                                                      'both': {'value': -1 , 'sesionNumber': 0 }});
     }
     // Si se usa solo el modulo sound, se actualizan los valores en system/status
     if ( formulario.module === '1' ) {
       console.log(formulario.module);
-      this._firebase.object('system/status/sound').update({'value': 1 , 'sesionNumber': formulario.sessionNumber});
+      this._firebase.object('system/status').update({'sound': {'value': 1 , 'sesionNumber': formulario.sessionNumber},
+                                                      'both': {'value': -1 , 'sesionNumber': 0 }});
 }
     // Enviar la navegacion a live
-    // ----
-    // Queda pendiente enviar el parametro con el numero de sesion
-    // ----
-    this.router.navigate(['live']);
+    this.router.navigate(['/live', formulario.sessionNumber]);
   }
 
   // Obtener los valores de estado para cada modulo, se usa en INIT
@@ -108,8 +109,15 @@ export class FirebaseService {
     });
   }
 
+  // Obtener la informacion completa de la sesion, se usa en LIVE
+  getInfoLargeCurrent(session) {
+    this._firebase.object(`info/large/S-${session}`).valueChanges().subscribe( (data: any) => {
+      this.infoLargeCurrent = data;
+    });
+  }
+
   // Se actualizan los datos de current con la ultima sesion realizada, se usa en LIVE
-  getLastDataSessionCurrent(session) {
+  getDataSessionCurrent(session) {
     this._firebase.list(`data/S-${session}`).valueChanges().subscribe( (data: any[]) => {
       // Almacenar todos los datos recibidos para mostrarlos en live
       this.dataCurrent = data;
@@ -129,13 +137,24 @@ export class FirebaseService {
   }
 
   // Setear las variables para detener la ejecución del programa en python, se usa en LIVE
-  stop() {
-    this._firebase.object('system/start').set(false);
+  stop(endResponsable, sessionNumber) {
+    console.log(this.infoLargeCurrent.module);
+    // Almacenar al responsable de la detencion.
+    this._firebase.object(`info/large/S-${sessionNumber}/endResponsable`).set(endResponsable);
+    // Limpiar la zona de init.
     this._firebase.object('init').set(null);
+    // Si se usan ambos modulos, se actualizan los valores en system/status
+    if ( this.infoLargeCurrent.module === '2' ) {
+      this._firebase.object('system/status/both').update({'value': 3 , 'sesionNumber': sessionNumber });
+    }
+    // Si se usa solo el modulo thermal, se actualizan los valores en system/status
+    if ( this.infoLargeCurrent.module === '0' ) {
+      this._firebase.object('system/status/thermal').update({'value': 3 , 'sesionNumber': sessionNumber });
+    }
+    // Si se usa solo el modulo sound, se actualizan los valores en system/status
+    if ( this.infoLargeCurrent.module === '1' ) {
+      this._firebase.object('system/status/sound').update({'value': 3 , 'sesionNumber': sessionNumber });
+    }
   }
 
-  // Se retornan los valores de la sesion en base al id solicitado, se una sen SESSION
-  // getSession(index) {
-  //   return this.sessions[index];
-  // }
 }
