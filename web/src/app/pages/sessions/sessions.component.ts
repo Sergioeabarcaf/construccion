@@ -10,13 +10,8 @@ import { Router } from '@angular/router';
 export class SessionsComponent implements OnInit {
 
   constructor(public _firebase: FirebaseService, public router: Router) {
-<<<<<<< HEAD
-    // Obtener la informacion corta de todas las sesiones almacenadas en Firebase.
-    this._firebase.getinfoSessionsShort();
-=======
     // Obtener las sesiones en Firebase.service
     this._firebase.getInfoSessionsShort();
->>>>>>> ba2eed828f87daf1de558d2b225ee671dc8b0a4f
   }
 
   ngOnInit() {
