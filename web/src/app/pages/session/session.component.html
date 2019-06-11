@@ -1,27 +1,173 @@
-<div class="row justify-content-center">
-    <!-- tarjeta con información sobre la medición realizada. -->
-    <div class="col-10 col-md-10 my-4">
-        <div class="card">
-            <div class="card-header">
-                Información de la sesión
+<!-- Alerta mientras de obtienen los datos. -->
+<div class="row justify-content-center" *ngIf="!_firebase.infoLargeSessionCurrentReady && !_firebase.dataSessionCurrentReady">
+    <div class="col-5">
+        <div class="alert alert-warning" role="alert">
+            Obteniendo datos de la medición.
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="_firebase.infoLargeSessionCurrentReady && _firebase.dataSessionCurrentReady">
+    <div class="row justify-content-center">
+        <!-- tarjeta con información sobre la medición realizada. -->
+        <div class="col-10 my-4">
+            <div class="card">
+                <div class="card-header">
+                    Información de la sesión
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive text-center">
+                        <table class="table table-borderless table-sm">
+                            <tbody>
+                                <tr>
+                                    <td class="border-right">Fecha inicio: {{ _firebase.infoLargeCurrent.startTimestamp * 1000 | date:'dd MMMM yyyy' }}</td>
+                                    <td class="border-right">Material: {{ _firebase.infoLargeCurrent.material }}</td>
+                                    <td class="border-right">Fecha termino: {{ _firebase.infoLargeCurrent.endTimestamp * 1000 | date:'dd MMMM yyyy' }}</td>
+                                    <td class="border-right">Responsable: {{ _firebase.infoLargeCurrent.responsable }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Hora inicio: {{ _firebase.infoLargeCurrent.startTimestamp * 1000 | date:'HH:mm' }}</td>
+                                    <td>Intervalo de medición: {{ _firebase.infoLargeCurrent.intervalTime }} segundos</td>
+                                    <td>Hora termino: {{ _firebase.infoLargeCurrent.endTimestamp }}</td>
+                                    <td>Responsable finalizacion: {{ _firebase.infoLargeCurrent.endResponsable }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" *ngIf="_firebase.infoLargeCurrent.module == 2">Modulos usados: ambos</td>
+                                    <td colspan="2" *ngIf="_firebase.infoLargeCurrent.module == 0">Modulos usados: Solo térmico</td>
+                                    <td colspan="2" *ngIf="_firebase.infoLargeCurrent.module == 1">Modulos usados: Solo acústico</td>
+                                    <td colspan="2">
+                                        <a href={{_firebase.infoLargeCurrent.url}} class="btn btn-success btn-block" role="button">Descargar</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="table-responsive text-center">
-                    <table class="table table-borderless table-sm">
-                        <tbody>
+        </div>
+
+        <!-- tarjeta con información sobre maximos y minimos-->
+        <!-- Modulo termico -->
+        <div class="col-10 my-4" *ngIf="_firebase.infoLargeCurrent.module == 2 || _firebase.infoLargeCurrent.module == 0">
+            <div class="card">
+                <div class="card-header">
+                    Máximos y Minimos módulo térmico.
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive text-center">
+                        <table class="table table-borderless table-sm">
+                            <tbody>
+                                <tr>
+                                    <td class="border-right">Temperatura Interior</td>
+                                    <td class="border-right">Humedad Interior</td>
+                                    <td class="border-right">Temperatura Exterior</td>
+                                    <td class="border-right">Humedad Exterior</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ _firebase.infoLargeCurrent.extreme.thermal.Ti }} °C</td>
+                                    <td>{{ _firebase.infoLargeCurrent.extreme.thermal.Hi }} %hr</td>
+                                    <td>{{ _firebase.infoLargeCurrent.extreme.thermal.Te }} °C</td>
+                                    <td>{{ _firebase.infoLargeCurrent.extreme.thermal.He }} %hr</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modulo acustico -->
+        <div class="col-10 my-4" *ngIf="_firebase.dataCurrent.module == 2 || _firebase.dataCurrent.module == 1">
+            <div class="card">
+                <div class="card-header">
+                    Máximos y Minimos módulo acústico.
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive text-center">
+                        <table class="table table-borderless table-sm">
+                            <tbody>
+                                <tr>
+                                    <td class="border-right">Temperatura Interior</td>
+                                    <td class="border-right">Humedad Interior</td>
+                                    <td class="border-right">Temperatura Exterior</td>
+                                    <td class="border-right">Humedad Exterior</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ _firebase.infoLargeCurrent.extreme.sound.Ti }} °C</td>
+                                    <td>{{ _firebase.infoLargeCurrent.extreme.sound.Hi }} %hr</td>
+                                    <td>{{ _firebase.infoLargeCurrent.extreme.sound.Te }} °C</td>
+                                    <td>{{ _firebase.infoLargeCurrent.extreme.sound.He }} %hr</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AGREGAR GRAFICO CON LOS DATOS OBTENIDOS. -->
+
+    <!-- Tabla con datos detallados ambos modulos. -->
+    <div class="row justify-content-around pb-4" *ngIf="_firebase.dataSessionCurrentReady && _firebase.infoLargeCurrent.module == 2">
+        <!-- Tabla de datos para modulo termico -->
+        <div class="col-10 col-md-5">
+            <div class="card text-center">
+                <div class="card-header">
+                    Tabla de datos modulo térmico
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td class="border-right">Fecha inicio: {{ session.info.timeStart * 1000 | date:'dd MMMM yyyy' }}</td>
-                                <td class="border-right">Material: {{ session.info.material }}</td>
-                                <td class="border-right">Fecha termino: {{ session.info.finishedDate | date:'dd MMMM yyyy' }}</td>
-                                <td class="border-right">Responsable: {{ session.info.responsable }}</td>
+                                <th scope="col">Fecha y hora</th>
+                                <th scope="col">Temperatura Interior</th>
+                                <th scope="col">Humedad Interior</th>
+                                <th scope="col">Temperatura Exterior</th>
+                                <th scope="col">Humedad Exterior</th>
                             </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of _firebase.dataCurrent.thermal">
+                                <th>{{ data.timestamp * 1000 | date:'dd/MMM - HH:mm:ss' }}</th>
+                                <td>{{ data.Ti }}</td>
+                                <td>{{ data.Hi }}</td>
+                                <td>{{ data.Te }}</td>
+                                <td>{{ data.Ti }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de datos para modulo acustico -->
+        <div class="col-10 col-md-5">
+            <div class="card text-center">
+                <div class="card-header">
+                    Tabla de datos modulo acústico
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td>Hora inicio: {{ session.info.timeStart * 1000 | date:'HH:mm' }}</td>
-                                <td>Intervalo de medición: {{ session.info.intervalTime }} segundos</td>
-                                <td>Hora termino: {{ session.info.finishedTime }}</td>
-                                <td>
-                                    <Button class="btn btn-success btn-sm">Descargar</Button>
-                                </td>
+                                <th scope="col">Fecha y hora</th>
+                                <th scope="col">Temperatura Interior</th>
+                                <th scope="col">Humedad Interior</th>
+                                <th scope="col">Temperatura Exterior</th>
+                                <th scope="col">Humedad Exterior</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of _firebase.dataCurrent.sound">
+                                <th>{{ data.timestamp * 1000 | date:'dd/MMM - HH:mm:ss' }}</th>
+                                <td>{{ data.Ti }}</td>
+                                <td>{{ data.Hi }}</td>
+                                <td>{{ data.Te }}</td>
+                                <td>{{ data.Ti }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -29,40 +175,68 @@
             </div>
         </div>
     </div>
-    
-    <!-- AGREGAR INFORMACIÓN DE MAXIMOS Y MINIMOS DE CADA PARAMETRO. -->
 
-    <!-- AGREGAR GRAFICO CON LOS DATOS OBTENIDOS. -->
-</div>
-
-<!-- Tabla con datos detallados. -->
-<div class="row justify-content-center pb-4" *ngIf="dataSession.length > 0">
-    <div class="col-10">
-        <div class="card text-center">
-            <div class="card-header">
-                Tabla de datos detallada
+    <!-- Tabla con datos detallados ambos modulos. -->
+    <div class="row justify-content-around pb-4" *ngIf="_firebase.dataSessionCurrentReady && _firebase.infoLargeCurrent.module != 2">
+        <!-- Tabla de datos para modulo termico -->
+        <div class="col-10" *ngIf="_firebase.infoLargeCurrent.module == 0">
+            <div class="card text-center">
+                <div class="card-header">
+                    Tabla de datos modulo térmico
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Fecha y hora</th>
+                                <th scope="col">Temperatura Interior</th>
+                                <th scope="col">Humedad Interior</th>
+                                <th scope="col">Temperatura Exterior</th>
+                                <th scope="col">Humedad Exterior</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of _firebase.dataCurrent.thermal">
+                                <th>{{ data.timestamp * 1000 | date:'dd/MMM - HH:mm:ss' }}</th>
+                                <td>{{ data.Ti }}</td>
+                                <td>{{ data.Hi }}</td>
+                                <td>{{ data.Te }}</td>
+                                <td>{{ data.Ti }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="card-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Timestamp</th>
-                            <th scope="col">Temperatura Interior</th>
-                            <th scope="col">Humedad Interior</th>
-                            <th scope="col">Temperatura Exterior</th>
-                            <th scope="col">Humedad Exterior</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let data of dataSession">
-                            <th>{{ data.timestamp * 1000 | date:'HH:mm:ss - dd MMM' }}</th>
-                            <td>{{ data.Ti }}</td>
-                            <td>{{ data.Hi }}</td>
-                            <td>{{ data.Te }}</td>
-                            <td>{{ data.Ti }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+        </div>
+
+        <!-- Tabla de datos para modulo acustico -->
+        <div class="col-10" *ngIf="_firebase.infoLargeCurrent.module == 1">
+            <div class="card text-center">
+                <div class="card-header">
+                    Tabla de datos modulo acústico
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Fecha y hora</th>
+                                <th scope="col">Temperatura Interior</th>
+                                <th scope="col">Humedad Interior</th>
+                                <th scope="col">Temperatura Exterior</th>
+                                <th scope="col">Humedad Exterior</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of _firebase.dataCurrent.sound">
+                                <th>{{ data.timestamp * 1000 | date:'dd/MMM - HH:mm:ss' }}</th>
+                                <td>{{ data.Ti }}</td>
+                                <td>{{ data.Hi }}</td>
+                                <td>{{ data.Te }}</td>
+                                <td>{{ data.Ti }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -55,6 +55,10 @@ export class FirebaseService {
   // Almacenar la informacion completa de la sesion actual.
   infoLargeCurrent: any;
 
+  // Flag para infoLargeSession y dataCurrent se usa en SESSION
+  infoLargeSessionCurrentReady = false;
+  dataSessionCurrentReady = false;
+
   constructor(public _firebase: AngularFireDatabase, public router: Router) {
   }
 
@@ -121,13 +125,18 @@ export class FirebaseService {
 
   // Obtener la informacion completa de la sesion, se usa en LIVE
   getInfoLargeCurrent(session) {
+    // Cada vez que se solicite una informacion, comience en false y cambie cuando los datos ya estan cargados.
+    this.infoLargeSessionCurrentReady = false;
     this._firebase.object(`info/large/S-${session}`).valueChanges().subscribe( (data: any) => {
       this.infoLargeCurrent = data;
+      this.infoLargeSessionCurrentReady = true;
     });
   }
 
   // Se actualizan los datos de current con la ultima sesion realizada, se usa en LIVE
   getDataSessionCurrent(session) {
+    // Colocar flag en false cada vez que se obtienen datos.
+    this.dataSessionCurrentReady = false;
     this._firebase.list(`data/S-${session}`).valueChanges().subscribe( (data: any) => {
       // Almacenar todos los datos recibidos para mostrarlos en tablas
       this.dataCurrent = data;
@@ -144,6 +153,8 @@ export class FirebaseService {
       this.current.sound.Hi = dataLastSound.sound.Hi;
       this.current.sound.Te = dataLastSound.sound.Te;
       this.current.sound.Ti = dataLastSound.sound.Ti;
+      // Colocar flag en false cada vez que se obtienen datos.
+      this.dataSessionCurrentReady = true;
       console.log(this.current);
     });
   }
