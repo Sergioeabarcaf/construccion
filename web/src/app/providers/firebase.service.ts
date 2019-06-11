@@ -23,8 +23,6 @@ export class FirebaseService {
   };
   // Almacenar el numero de la ultima sesion realizada.
   currentSessionNumber = -1;
-  // Almacena la informacion corta de todas las sesiones almacenadas.
-  infoSessionsShort = null;
   // Ultimos valores recibidos de la ultima sesion.
   soundData = {
     He: 0,
@@ -46,8 +44,12 @@ export class FirebaseService {
     sound: this.soundData
   };
 
+  // Almacena la informacion corta de todas las sesiones almacenadas.
+  infoSessionsShort = null;
+
   // Almacenar toda la data de la sesion actual.
   dataCurrent: any[];
+
   // Almacenar la informacion completa de la sesion actual.
   infoLargeCurrent: any;
 
@@ -57,27 +59,34 @@ export class FirebaseService {
   // Almacenar información de la nueva sesion de medición, se usa en NEW
   setInit(formulario: any) {
     console.log(formulario);
-    this._firebase.object('init').set(formulario);
-    // Si se usan ambos modulos, se actualizan los valores en system/status
     if ( formulario.module === '2' ) {
       console.log(formulario.module);
+      // Se agregan los parametros de iniciacion en init para ambos modulos.
+      this._firebase.object('init/thermal').set(formulario);
+      this._firebase.object('init/sound').set(formulario);
+      // Se actualizan los estados en system/Status
       this._firebase.object('system/status').update({'thermal': {'value': -1 , 'sesionNumber': 0 },
                                                       'sound': {'value': -1 , 'sesionNumber': 0 },
                                                       'both': {'value': 1 , 'sesionNumber': formulario.sessionNumber }
                                                     });
+
     }
     // Si se usa solo el modulo thermal, se actualizan los valores en system/status
     if ( formulario.module === '0' ) {
       console.log(formulario.module);
+      // Se agregan los parametros de iniciacion en init para modulo thermal.
+      this._firebase.object('init/thermal').set(formulario);
       this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sesionNumber': formulario.sessionNumber},
                                                       'both': {'value': -1 , 'sesionNumber': 0 }});
     }
     // Si se usa solo el modulo sound, se actualizan los valores en system/status
     if ( formulario.module === '1' ) {
       console.log(formulario.module);
+      // Se agregan los parametros de iniciacion en init para modulo sound.
+      this._firebase.object('init/sound').set(formulario);
       this._firebase.object('system/status').update({'sound': {'value': 1 , 'sesionNumber': formulario.sessionNumber},
                                                       'both': {'value': -1 , 'sesionNumber': 0 }});
-}
+    }
     // Enviar la navegacion a live
     this.router.navigate(['/live', formulario.sessionNumber]);
   }
