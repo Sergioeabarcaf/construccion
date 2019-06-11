@@ -26,6 +26,7 @@ export class FirebaseService {
 
   // Ultimos valores recibidos de la ultima sesion.
   soundData = {
+    timestamp: '',
     He: 0,
     Te: 0,
     Hi: 0,
@@ -33,6 +34,7 @@ export class FirebaseService {
   };
 
   thermalData = {
+    timestamp: '',
     He: 0,
     Te: 0,
     Hi: 0,
@@ -40,7 +42,6 @@ export class FirebaseService {
   };
 
   current = {
-    timestamp: '',
     thermal: this.thermalData,
     sound: this.soundData
   };
@@ -49,7 +50,7 @@ export class FirebaseService {
   infoSessionsShort = null;
 
   // Almacenar toda la data de la sesion actual.
-  dataCurrent: any[];
+  dataCurrent: any;
 
   // Almacenar la informacion completa de la sesion actual.
   infoLargeCurrent: any;
@@ -127,20 +128,22 @@ export class FirebaseService {
 
   // Se actualizan los datos de current con la ultima sesion realizada, se usa en LIVE
   getDataSessionCurrent(session) {
-    this._firebase.list(`data/S-${session}`).valueChanges().subscribe( (data: any[]) => {
-      // Almacenar todos los datos recibidos para mostrarlos en live
+    this._firebase.list(`data/S-${session}`).valueChanges().subscribe( (data: any) => {
+      // Almacenar todos los datos recibidos para mostrarlos en tablas
       this.dataCurrent = data;
       // Extraer el ultimo dato para mostrarlo en gauge
-      const dataLast = data.pop();
-      this.current.timestamp = dataLast.timestamp;
-      this.current.thermal.He = dataLast.thermal.He;
-      this.current.thermal.Hi = dataLast.thermal.Hi;
-      this.current.thermal.Te = dataLast.thermal.Te;
-      this.current.thermal.Ti = dataLast.thermal.Ti;
-      this.current.sound.He = dataLast.sound.He;
-      this.current.sound.Hi = dataLast.sound.Hi;
-      this.current.sound.Te = dataLast.sound.Te;
-      this.current.sound.Ti = dataLast.sound.Ti;
+      const dataLastThermal = data.thermal.pop();
+      this.current.thermal.timestamp = dataLastThermal.timestamp;
+      this.current.thermal.He = dataLastThermal.thermal.He;
+      this.current.thermal.Hi = dataLastThermal.thermal.Hi;
+      this.current.thermal.Te = dataLastThermal.thermal.Te;
+      this.current.thermal.Ti = dataLastThermal.thermal.Ti;
+      const dataLastSound = data.sound.pop();
+      this.current.sound.timestamp = dataLastSound.timestamp;
+      this.current.sound.He = dataLastSound.sound.He;
+      this.current.sound.Hi = dataLastSound.sound.Hi;
+      this.current.sound.Te = dataLastSound.sound.Te;
+      this.current.sound.Ti = dataLastSound.sound.Ti;
       console.log(this.current);
     });
   }
