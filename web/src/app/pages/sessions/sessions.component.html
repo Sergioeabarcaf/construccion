@@ -19,27 +19,29 @@
 
 <!-- Tabla con las sesiones almacenadas. -->
 <div class="row justify-content-center" *ngIf="_firebase.infoSessionsShort != null && _firebase.infoSessionsShort.length > 0">
-    <div class="col-10 table-responsive text-center">
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Fecha y hora</th>
-                    <th scope="col">Material</th>
-                    <th scope="col">Encargado</th>
-                    <th scope="col">Ver</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let sesion of _firebase.infoSessionsShort, let i = index">
-                    <th scope="row"> {{ sesion.timeStart * 1000 | date:'yyyy/MMM/dd - HH:mm' }}</th>
-                    <td>{{ sesion.material }}</td>
-                    <td>{{ sesion.responsable }}</td>
-                    <!--  -->
-                    <!-- Eviar el numero de sesion -->
-                    <!--  -->
-                    <td><button class="btn btn-info" (click)=goToSession(sesion.sessionNumber)> Ver sesion </button></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="col-10 text-center">
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Fecha y hora</th>
+                        <th scope="col">Material</th>
+                        <th scope="col">Encargado</th>
+                        <th scope="col">Ver</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sesion of _firebase.infoSessionsShort">
+                        <th scope="row"> {{ sesion.startTimestamp * 1000 | date:'yyyy/MMM/dd - HH:mm' }}</th>
+                        <td>{{ sesion.material }}</td>
+                        <td>{{ sesion.startResponsable }}</td>
+                        <td>
+                            <button class="btn btn-success" (click)=goToSession(0,sesion.sessionNumber) *ngIf="sesion.status == 0"> Ver sesion </button>
+                            <button class="btn btn-warning" (click)=goToSession(1,sesion.sessionNumber) *ngIf="sesion.status == 1"> Ver sesion </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

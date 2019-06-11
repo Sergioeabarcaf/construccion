@@ -17,8 +17,14 @@ export class SessionsComponent implements OnInit {
   ngOnInit() {
   }
 
-  goToSession(index) {
-    this.router.navigate(['/session', index]);
+  goToSession(dir, session) {
+    // Navegar a session si esta ya ha terminado.
+    if (dir === 0) {
+      this.router.navigate(['/session', session]);
+    }
+    // Navegar a live si aun no termina la medicion.
+    if (dir === 1) {
+      this.router.navigate(['/live', session]);
+    }
   }
-
 }
