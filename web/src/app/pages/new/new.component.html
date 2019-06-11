@@ -25,13 +25,13 @@
             </div>
             <!-- Modulos a utilizar -->
             <div class="form-group row justify-content-center align-item-center my-4">
-                <label class="col-3 col-form-label">Seleccione los modulos a utilizar</label>
+                <label class="col-3 col-form-label">Seleccione los módulos a utilizar</label>
                 <!-- Si estan ambos modulos disponibles -->
                 <div class="col-7" *ngIf="moduleAvailable == 2">
                     <select class="custom-select" formControlName="module">
-                        <option selected value="2">Ambos</option>
+                        <option selected value=2>Ambos</option>
                         <option value=0>Solo termico</option>
-                        <option value=1>Solo sonido</option>
+                        <option value=1>Solo acústico</option>
                     </select>
                 </div>
                 <!-- Si disponible el modulo thermico -->
@@ -45,7 +45,7 @@
                 <div class="col-7" *ngIf="moduleAvailable == 1">
                     <input class="form-control" type="text" placeholder="Sonido" formControlName="module" readonly>
                     <small class="form-text text-muted">
-                        Solo el módulo sonido esta disponible, no es modificable.
+                        Solo el módulo acústico esta disponible, no es modificable.
                     </small>
                 </div>
             </div>
@@ -64,8 +64,8 @@
                 <label class="col-3 col-form-label">Tipo de finalizado</label>
                 <div class="col-7">
                     <select class="custom-select" formControlName="endType">
-                        <option selected value="0">Manual</option>
-                        <option value="1">Programado</option>
+                        <option selected value=0>Manual</option>
+                        <option value=1>Programado</option>
                     </select>
                 </div>
             </div>
