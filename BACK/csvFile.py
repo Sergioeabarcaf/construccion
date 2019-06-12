@@ -4,9 +4,10 @@ fieldNames = ['timestamp', 'Te', 'Ti', 'Hi', 'He']
 keys = []
 
 
-def createFile(session, material, start, info):
-    session = session.split('/')[1]
-    nameFile = str(session) + '_' + str(material) + '_' + str(start) + '.csv'
+def createFile(start, info):
+    # Crear nombre del archivo
+    nameFile = 'S-' + str(info['sessionNumber']) + '_' + str(info['material']) + '_' + str(start) + '.csv'
+    # Crear cabeceras con informacion 
     for key in info:
         keys.append(key)  
     with open(nameFile, 'a') as csvfile:

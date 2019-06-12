@@ -38,15 +38,25 @@ def getNumberLog():
 
 # =================    1     ===================
 # validar si se inicia una nueva sesion.
-def start():
-    dir = 'init'
+def start(module):
+    dir = 'init/' + module
     data = db.reference(dir).get()
     if data == None:
         return 0
     elif data == 'null':
         return 0
     else:
-        db.reference('system/python').set(True)
+        # Si existen datos en init, configurar infoShort, actualizar estado en system
+        short = {
+            'sessionNumber': int(data['sessionNumber']),
+            'startResponsable': data['startResponsable'],
+            'startTimestamp': data['startTimestamp'],
+            'material': data['material'],
+            'status': 2
+        }
+        print short
+        db.reference('system/status/' + module).set({'value': 2, 'sessionNumber': short['sessionNumber']})
+        db.reference('info/short/s-' + data['sessionNumber']).set(short)
         return data
 
 # Obtener el numero de la session a crear.

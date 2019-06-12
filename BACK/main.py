@@ -9,6 +9,50 @@ import conection
 # Cambiar segun el modulo donde se esta utilizando, pudiendo ser thermal o sound
 module = 'thermal'
 
+# Generar estructura para almacenar la informacion larga de la sesion
+infoLarge = {
+    'material': '',
+    'startResponsable': '',
+    'startTimestamp': '',
+    'module': -1,
+    'intervalTime': -1,
+    'sessionNumber': -1,
+    'endResponsable': '',
+    'endTimestamp': '',
+    'url': '',
+    'extreme': {
+        'thermal': {
+            'max':{
+                'Ti': -1,
+                'Hi': -1,
+                'Te': -1,
+                'He': -1
+            },
+            'min':{
+                'Ti': -1,
+                'Hi': -1,
+                'Te': -1,
+                'He': -1
+            }
+        },
+        'sound': {
+            'max':{
+                'Ti': -1,
+                'Hi': -1,
+                'Te': -1,
+                'He': -1
+            },
+            'min':{
+                'Ti': -1,
+                'Hi': -1,
+                'Te': -1,
+                'He': -1
+            }
+        }
+    }
+}
+
+
 # Funcion para obtener datos de medicion.
 def getData(dir, dirFile):
     data = {'timestamp': converter.getTimestamp()}
@@ -26,17 +70,19 @@ while(True):
         # Validar que exista conexion a internet
         if( conection.valid() ):
             # Consultar si se ha enviado una nueva sesion desde la web app
-            init = firebase.start()
+            init = firebase.start(module)
             if init != 0:
+                # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
                 interval = int(init['intervalTime']) - 2
 
                 # Obtener timestamp actual
                 startTime = converter.getTimestamp()
 
-                numberSession = str(firebase.numberSession())
-                dir = 'sessions/S-' + numberSession
-                firebase.setInfoSession(dir,init,startTime)
-                dirFile = csvFile.createFile(dir,init['material'],startTime, init)
+                # Actualizar infoLarge
+                infoLarge.update({'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': init['startTimestamp'], 'module': int(init['module']), 'intervalTime': int(init['intervalTime']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']})
+
+                # Crear archivo CSV con cabeceras de informacion
+                dirFile = csvFile.createFile(startTime, init)
 
                 # Funcionamiento en modo manual
                 if init['finishedType'] == 'manual':
