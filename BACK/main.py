@@ -6,7 +6,10 @@ import time
 import csvFile
 import conection
 
-# Funcion para obtener datos de medicion, almacenarlos en CSV y Firebase.
+# Cambiar segun el modulo donde se esta utilizando, pudiendo ser thermal o sound
+module = 'thermal'
+
+# Funcion para obtener datos de medicion.
 def getData(dir, dirFile):
     data = {'timestamp': converter.getTimestamp()}
     data.update(sensor.getExterior())
@@ -16,7 +19,7 @@ def getData(dir, dirFile):
     csvFile.writeData(dirFile, data)
 
 # Detener la ejecucion de cualquier sesion al iniciar el programa
-firebase.clean(converter.getTimestamp(), 'start')
+firebase.clean(module, converter.getTimestamp(), 'start')
 
 while(True):
     try:
@@ -55,5 +58,4 @@ while(True):
                         firebase.execManualEnd(numberSession)
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
     except:
-        print(sys.exc_info())
-        firebase.clean(converter.getTimestamp(), 'error', sys.exc_info()[0], sys.exc_info()[1])
+        firebase.clean(module, converter.getTimestamp(), 'error', sys.exc_info()[0], sys.exc_info()[1])

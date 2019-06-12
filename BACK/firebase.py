@@ -11,19 +11,21 @@ default_app = firebase_admin.initialize_app(cred, {
 
 # =================    0     ===================
 # cerrar todas las sesiones y almacenar registro de hora que se inicio el programa
-def clean(time, dir, error = False, arg = 'False'):
-    db.reference('init').set('null')
-    db.reference('system/python').set(False)
-    db.reference('system/start').set(False)
-    # Si es error es True, enviar a ruta de Errores con mensaje de error, si no, enviar a log de start
+def clean(module, time, dir, error = False, arg = 'False'):
+    # Limpiar init en Firebase
+    db.reference('init/' + module).set('null')
+    # Limpiar status del modulo
+    db.reference('system/status/' + module + '/value').set(0)
+    db.reference('system/status/' + module + '/sessionNumber').set(-1)
+    # Si es error, enviar a ruta de Errores con mensaje de error, si no, enviar a log de start
     if (dir == 'start'):
         db.reference('log/' + dir ).push(time)
     elif (dir == 'error'):
-        log = {'value': error, 'timestamp': time, 'arg': arg}
-        db.reference('log/' + dir ).push(log)
-        
-        
+        db.reference('log/' + dir ).push({'value': error, 'timestamp': time, 'arg': arg})
 
+# 
+# Revisar si se usara
+# 
 def getNumberLog():
     n = db.reference('log/n').get()
     if (n != None):
