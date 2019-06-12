@@ -54,12 +54,12 @@ infoLarge = {
 
 
 # Funcion para obtener datos de medicion.
-def getData(dir, dirFile):
+def getData(dirFile, module, sessionNumber):
     data = {'timestamp': converter.getTimestamp()}
     data.update(sensor.getExterior())
     data.update(sensor.getInterior())
 
-    firebase.pushData(dir, data)
+    firebase.pushData(module, sessionNumber, data)
     csvFile.writeData(dirFile, data)
 
 # Detener la ejecucion de cualquier sesion al iniciar el programa
@@ -75,21 +75,24 @@ while(True):
                 # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
                 interval = int(init['intervalTime']) - 2
 
-                # Obtener timestamp actual
-                startTime = converter.getTimestamp()
-
                 # Actualizar infoLarge
                 infoLarge.update({'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': init['startTimestamp'], 'module': int(init['module']), 'intervalTime': int(init['intervalTime']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']})
 
-                # Crear archivo CSV con cabeceras de informacion
-                dirFile = csvFile.createFile(startTime, init)
+                # Crear archivo CSV con tiempo actual y cabeceras de informacion
+                dirFile = csvFile.createFile(converter.getTimestamp(), init)
 
                 # Funcionamiento en modo manual
-                if init['finishedType'] == 'manual':
+                if init['endType'] == 'manual':
                     # Esperar a que el usuario termine desde la WebApp
-                    while (firebase.endManualFromWebApp(numberSession)):
-                        getData(dir, dirFile)
+                    while (firebase.endManualFromWebApp(module)):
+                        getData(dirFile, module, init['sessionNumber'])
+                        # 
+                        # Comparar valores para almacenar maximos y minimos
+                        # 
                         time.sleep(interval)
+                    # 
+                    # Subir archivo CSV a storage
+                    # 
                 # Funcionamiento en modo automatico
                 elif init['finishedType'] == 'programado':
                     # Obtener fecha y hora de finalizacion en tipo Date.
@@ -97,8 +100,14 @@ while(True):
                     # Mientras hora actual sea menor o igual a finishedDate y el usuario no
                     # haya terminado desde la aplicacion, realizar mediciones en los intervalos
                     while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(numberSession) ):
-                        getData(dir, dirFile)
+                        getData(dirFile, module, init['sessionNumber'])
+                        # 
+                        # Comparar valores para almacenar maximos y minimos
+                        # 
                         time.sleep(interval)
+                        # 
+                    # Subir archivo CSV a storage
+                    # 
                     # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
                     if (finishedDate < converter.nowDateTime() ):
                         firebase.execManualEnd(numberSession)

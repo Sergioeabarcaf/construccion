@@ -52,23 +52,13 @@ def start(module):
             'startResponsable': data['startResponsable'],
             'startTimestamp': data['startTimestamp'],
             'material': data['material'],
-            'status': 2
+            'status': 1
         }
         print short
         db.reference('system/status/' + module).set({'value': 2, 'sessionNumber': short['sessionNumber']})
         db.reference('info/short/s-' + data['sessionNumber']).set(short)
         return data
 
-# Obtener el numero de la session a crear.
-def numberSession():
-    dir = 'system/lastSession'
-    data = db.reference(dir).get()
-    if data != None:
-        db.reference('system/lastSession').set(int(data) + 1)
-        return data +1
-    else:
-        db.reference('system/lastSession').set(0)
-        return 0
 
 # Almacenar los datos del formulario en sesion.
 def setInfoSession(dir, info, startTime):
@@ -79,8 +69,8 @@ def setInfoSession(dir, info, startTime):
 
 # =================    2     ===================
 # Enviar data a firebase
-def pushData(dir, data):
-    dir = dir + '/data'
+def pushData(module, sessionNumber, data):
+    dir = 'data/S-' + sessionNumber + '/' + module
     print data
     db.reference(dir).push(data)
 
@@ -96,13 +86,14 @@ def execManualEnd(numberSession):
 
 # =================    4     ===================
 # Validar si fue detenido desde la web app la medicion
-def endManualFromWebApp(numberSession):
-    dir = 'system/start'
+def endManualFromWebApp(module):
+    dir = 'system/status/' + module + '/value'
     data = db.reference(dir).get()
-    if data == True:
-        return True
-    else:
-        db.reference('sessions/S-' + numberSession + '/info/finishedDate').set(converter.getCurrentDateSTR())
-        db.reference('sessions/S-' + numberSession + '/info/finishedTime').set(converter.getCurrentTimeSTR())
-        db.reference('system/python').set(False)
+    # Si recibe el valor 3 es finalizacion web
+    if data == 3:
+        # db.reference('info/short/S-' + module + '/status').set(0)
+        # db.reference('info/large/S-' + module + '/endTimestamp').set(converter.getTimestamp())
         return False
+    else:
+        return True
+        
