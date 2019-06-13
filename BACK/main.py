@@ -76,7 +76,7 @@ while(True):
                 interval = int(init['intervalTime']) - 2
 
                 # Actualizar infoLarge
-                infoLarge.update({'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': init['startTimestamp'], 'module': int(init['module']), 'intervalTime': int(init['intervalTime']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']})
+                infoLarge.update({'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': converter.getTimestamp(), 'module': int(init['module']), 'intervalTime': int(init['intervalTime']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']})
 
                 # Crear archivo CSV con tiempo actual y cabeceras de informacion
                 dirFile = csvFile.createFile(converter.getTimestamp(), init)
