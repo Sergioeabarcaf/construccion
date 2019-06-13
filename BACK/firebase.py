@@ -34,19 +34,13 @@ def start(module):
     elif data == 'null':
         return 0
     else:
-        # Si existen datos en init, configurar infoShort, actualizar estado en system
-        short = {
-            'sessionNumber': int(data['sessionNumber']),
-            'startResponsable': data['startResponsable'],
-            'startTimestamp': data['startTimestamp'],
-            'material': data['material'],
-            'status': 1
-        }
-        print short
-        db.reference('system/status/' + module).set({'value': 2, 'sessionNumber': short['sessionNumber']})
-        db.reference('info/short/s-' + data['sessionNumber']).set(short)
+        # Si existen datos en init, actualizar estado en system
+        db.reference('system/status/' + module).set({'value': 2, 'sessionNumber': int(data['sessionNumber'])})
         return data
 
+def sendInfoShort(infoShort):
+    dir = 'info/short/S-' + infoShort['sessionNumber']
+    db.reference(dir).set(infoShort)
 
 # =================    2     ===================
 # Enviar data a firebase

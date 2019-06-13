@@ -57,67 +57,70 @@ def getData(dirFile, module, sessionNumber):
 firebase.clean(module, converter.getTimestamp(), 'start')
 
 while(True):
-    try:
-        # Validar que exista conexion a internet
-        if( conection.valid() ):
-            # Consultar si se ha enviado una nueva sesion desde la web app
-            init = firebase.start(module)
-            if init != 0:
-                # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
-                interval = int(init['intervalTime']) - 2
+    # try:
+    # Validar que exista conexion a internet
+    if( conection.valid() ):
+        # Consultar si se ha enviado una nueva sesion desde la web app
+        init = firebase.start(module)
+        if init != 0:
+            # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
+            interval = int(init['intervalTime']) - 2
 
-                # Actualizar infoLarge
-                infoLarge = ({'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': str(converter.getTimestamp()), 'module': int(init['module']), 'intervalTime': int(init['intervalTime']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']})
+            # Crear infoLarge
+            infoLarge = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': str(converter.getTimestamp()), 'module': int(init['module']), 'intervalTime': int(init['intervalTime']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']}
 
-                # Crear archivo CSV con tiempo actual y cabeceras de informacion
-                dirFile = csvFile.createFile(converter.getTimestamp(), init)
+            # Crear infoShort y actualizar en info/short de firebase
+            infoShort = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': infoLarge['startTimestamp'], 'sessionNumber': int(init['sessionNumber']), 'status': 1}
 
-                # Funcionamiento en modo manual
-                if init['endType'] == 0:
-                    # Esperar a que el usuario termine desde la WebApp
-                    while (firebase.endManualFromWebApp(module)):
-                        getData(dirFile, module, init['sessionNumber'])
-                        # 
-                        # Comparar valores para almacenar maximos y minimos
-                        # 
-                        time.sleep(interval)
+            # Crear archivo CSV con tiempo actual y cabeceras de informacion
+            dirFile = csvFile.createFile(converter.getTimestamp(), init)
+
+            # Funcionamiento en modo manual
+            if init['endType'] == 0:
+                # Esperar a que el usuario termine desde la WebApp
+                while (firebase.endManualFromWebApp(module)):
+                    getData(dirFile, module, init['sessionNumber'])
                     # 
-                    # Subir archivo CSV a storage
+                    # Comparar valores para almacenar maximos y minimos
                     # 
-                    url = 'algo'
-                    # Actualizar la infoLarge con endTimestamp y url
-                    infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
-                    # Almacenar la informacion y detener la medicion
+                    time.sleep(interval)
+                # 
+                # Subir archivo CSV a storage
+                # 
+                url = 'algo'
+                # Actualizar la infoLarge con endTimestamp y url
+                infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
+                # Almacenar la informacion y detener la medicion
+                firebase.execManualEnd(infoLarge)
+                # Limpiar infoLarge
+                infoLarge.clear()
+
+            # Funcionamiento en modo automatico
+            elif init['endType'] == 1:
+                # Obtener fecha y hora de finalizacion en tipo Date.
+                finishedDate = converter.finishDate(init['finishedDate'], init['finishedTime'] )
+                print finishedDate
+                # Mientras hora actual sea menor o igual a finishedDate y el usuario no
+                # haya terminado desde la aplicacion, realizar mediciones en los intervalos
+                while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(module) ):
+                    getData(dirFile, module, init['sessionNumber'])
+                    # 
+                    # Comparar valores para almacenar maximos y minimos
+                    # 
+                    time.sleep(interval)
+                    # 
+                # Subir archivo CSV a storage
+                # 
+                url = 'algo'
+                # Actualizar la infoLarge con endTimestamp y url
+                infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
+                # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
+                if (finishedDate < converter.nowDateTime() ):
                     firebase.execManualEnd(infoLarge)
                     # Limpiar infoLarge
                     infoLarge.clear()
-
-                # Funcionamiento en modo automatico
-                elif init['endType'] == 1:
-                    # Obtener fecha y hora de finalizacion en tipo Date.
-                    finishedDate = converter.finishDate(init['finishedDate'], init['finishedTime'] )
-                    print finishedDate
-                    # Mientras hora actual sea menor o igual a finishedDate y el usuario no
-                    # haya terminado desde la aplicacion, realizar mediciones en los intervalos
-                    while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(module) ):
-                        getData(dirFile, module, init['sessionNumber'])
-                        # 
-                        # Comparar valores para almacenar maximos y minimos
-                        # 
-                        time.sleep(interval)
-                        # 
-                    # Subir archivo CSV a storage
-                    # 
-                    url = 'algo'
-                    # Actualizar la infoLarge con endTimestamp y url
-                    infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
-                    # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
-                    if (finishedDate < converter.nowDateTime() ):
-                        firebase.execManualEnd(infoLarge)
-                        # Limpiar infoLarge
-                        infoLarge.clear()
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
-    except:
-        print sys.exc_info()
-        firebase.clean(module, converter.getTimestamp(), 'error', str(sys.exc_info()[0]), str(sys.exc_info()[1]))
-        time.sleep(5)
+    # except:
+    #     print sys.exc_info()
+    #     firebase.clean(module, converter.getTimestamp(), 'error', str(sys.exc_info()[0]), str(sys.exc_info()[1]))
+    #     time.sleep(5)
