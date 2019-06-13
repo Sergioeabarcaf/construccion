@@ -39,13 +39,13 @@ def start(module):
         return data
 
 def sendInfoShort(infoShort):
-    dir = 'info/short/S-' + infoShort['sessionNumber']
+    dir = 'info/short/S-' + str(infoShort['sessionNumber'])
     db.reference(dir).set(infoShort)
 
 # =================    2     ===================
 # Enviar data a firebase
 def pushData(module, sessionNumber, data):
-    dir = 'data/S-' + sessionNumber + '/' + module
+    dir = 'data/S-' + str(sessionNumber) + '/' + module
     print data
     db.reference(dir).push(data)
 
@@ -56,10 +56,10 @@ def execManualEnd(infoLarge):
     # Limpiar init/module
     db.reference('init/' + infoLarge['module']).set('null')
     # Cambiar estado en infoShort y en Status del modulo
-    db.reference('info/short/S-' + infoLarge['sessionNumber'] + '/status').set(0)
-    db.reference('system/status/' + infoLarge['module']).set({'value': 0, 'sessionNumber': -1})
+    db.reference('info/short/S-' + str(infoLarge['sessionNumber']) + '/status').set(0)
+    db.reference('system/status/' + str(infoLarge['module'])).set({'value': 0, 'sessionNumber': -1})
     # Enviar informacion large
-    db.reference('info/large/S-' + infoLarge['sessionNumber']).set(infoLarge)
+    db.reference('info/large/S-' + str(infoLarge['sessionNumber'])).set(infoLarge)
 
 
 # =================    4     ===================
