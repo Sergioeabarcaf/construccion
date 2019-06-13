@@ -11,15 +11,6 @@ module = 'thermal'
 
 # Generar estructura para almacenar la informacion larga de la sesion
 infoLarge = {
-    'material': '',
-    'startResponsable': '',
-    'startTimestamp': '',
-    'module': -1,
-    'intervalTime': -1,
-    'sessionNumber': -1,
-    'endResponsable': '',
-    'endTimestamp': '',
-    'url': '',
     'extreme': {
         'thermal': {
             'max':{
@@ -76,7 +67,7 @@ while(True):
                 interval = int(init['intervalTime']) - 2
 
                 # Actualizar infoLarge
-                infoLarge.update({'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': converter.getTimestamp(), 'module': int(init['module']), 'intervalTime': int(init['intervalTime']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']})
+                infoLarge = ({'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': str(converter.getTimestamp()), 'module': int(init['module']), 'intervalTime': int(init['intervalTime']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']})
 
                 # Crear archivo CSV con tiempo actual y cabeceras de informacion
                 dirFile = csvFile.createFile(converter.getTimestamp(), init)
@@ -98,6 +89,8 @@ while(True):
                     infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
                     # Almacenar la informacion y detener la medicion
                     firebase.execManualEnd(infoLarge)
+                    # Limpiar infoLarge
+                    infoLarge.clear()
 
                 # Funcionamiento en modo automatico
                 elif init['endType'] == 1:
@@ -121,8 +114,10 @@ while(True):
                     # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
                     if (finishedDate < converter.nowDateTime() ):
                         firebase.execManualEnd(infoLarge)
+                        # Limpiar infoLarge
+                        infoLarge.clear()
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
     except:
         print sys.exc_info()
         firebase.clean(module, converter.getTimestamp(), 'error', str(sys.exc_info()[0]), str(sys.exc_info()[1]))
-        time.sleep(1)
+        time.sleep(5)
