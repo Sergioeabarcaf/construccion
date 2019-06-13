@@ -64,10 +64,10 @@ while(True):
         init = firebase.start(module)
         if init != 0:
             # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
-            interval = int(init['intervalTime']) - 2
+            interval = int(init['timeInterval']) - 2
 
             # Crear infoLarge
-            infoLarge = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': str(converter.getTimestamp()), 'module': int(init['module']), 'intervalTime': int(init['intervalTime']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']}
+            infoLarge = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': str(converter.getTimestamp()), 'module': int(init['module']), 'timeInterval': int(init['timeInterval']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']}
 
             # Crear infoShort y actualizar en info/short de firebase
             infoShort = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': infoLarge['startTimestamp'], 'sessionNumber': int(init['sessionNumber']), 'status': 1}
