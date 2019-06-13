@@ -96,7 +96,7 @@ while(True):
                     url = 'algo'
                     # Actualizar la infoLarge con endTimestamp y url
                     infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
-                    # Almacenar la información y detener la medicion
+                    # Almacenar la informacion y detener la medicion
                     firebase.execManualEnd(infoLarge)
 
                 # Funcionamiento en modo automatico
