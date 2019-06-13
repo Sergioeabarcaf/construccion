@@ -52,12 +52,12 @@ def pushData(module, sessionNumber, data):
 
 # =================    3     ===================
 # Detener de manera manual (web app) la ejecucion del programa
-def execManualEnd(infoLarge):
+def execManualEnd(module, infoLarge):
     # Limpiar init/module
-    db.reference('init/' + infoLarge['module']).set('null')
+    db.reference('init/' + module).set('null')
     # Cambiar estado en infoShort y en Status del modulo
     db.reference('info/short/S-' + str(infoLarge['sessionNumber']) + '/status').set(0)
-    db.reference('system/status/' + str(infoLarge['module'])).set({'value': 0, 'sessionNumber': -1})
+    db.reference('system/status/' + module).set({'value': 0, 'sessionNumber': -1})
     # Enviar informacion large
     db.reference('info/large/S-' + str(infoLarge['sessionNumber'])).set(infoLarge)
 

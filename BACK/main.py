@@ -71,6 +71,7 @@ while(True):
 
             # Crear infoShort y actualizar en info/short de firebase
             infoShort = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': infoLarge['startTimestamp'], 'sessionNumber': int(init['sessionNumber']), 'status': 1}
+            firebase.sendInfoShort(infoShort)
 
             # Crear archivo CSV con tiempo actual y cabeceras de informacion
             dirFile = csvFile.createFile(converter.getTimestamp(), init)
@@ -91,7 +92,7 @@ while(True):
                 # Actualizar la infoLarge con endTimestamp y url
                 infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
                 # Almacenar la informacion y detener la medicion
-                firebase.execManualEnd(infoLarge)
+                firebase.execManualEnd(module, infoLarge)
                 # Limpiar infoLarge
                 infoLarge.clear()
 
@@ -116,7 +117,7 @@ while(True):
                 infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
                 # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
                 if (finishedDate < converter.nowDateTime() ):
-                    firebase.execManualEnd(infoLarge)
+                    firebase.execManualEnd(module,infoLarge)
                     # Limpiar infoLarge
                     infoLarge.clear()
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
