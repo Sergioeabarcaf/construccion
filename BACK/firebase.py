@@ -23,18 +23,6 @@ def clean(module, time, dir, error = False, arg = 'False'):
     elif (dir == 'error'):
         db.reference('log/' + dir ).push({'value': error, 'timestamp': time, 'arg': arg})
 
-# 
-# Revisar si se usara
-# 
-def getNumberLog():
-    n = db.reference('log/n').get()
-    if (n != None):
-        db.reference('log/n').set(n + 1)
-        return n + 1
-    else:
-        db.reference('log/n').set(0)
-        return 0
-
 
 # =================    1     ===================
 # validar si se inicia una nueva sesion.
@@ -60,13 +48,6 @@ def start(module):
         return data
 
 
-# Almacenar los datos del formulario en sesion.
-def setInfoSession(dir, info, startTime):
-    dir = str(dir) + '/info'
-    info.update({'timeStart':startTime})
-    db.reference(dir).set(info)
-    
-
 # =================    2     ===================
 # Enviar data a firebase
 def pushData(module, sessionNumber, data):
@@ -74,14 +55,17 @@ def pushData(module, sessionNumber, data):
     print data
     db.reference(dir).push(data)
 
+
 # =================    3     ===================
 # Detener de manera manual (web app) la ejecucion del programa
-def execManualEnd(numberSession):
-    db.reference('system/start').set(False)
-    db.reference('system/python').set(False)
-    db.reference('sessions/S-' + numberSession + '/info/finishedDate').set(converter.getCurrentDateSTR())
-    db.reference('sessions/S-' + numberSession + '/info/finishedTime').set(converter.getCurrentTimeSTR())
-    db.reference('init').set('null')
+def execManualEnd(infoLarge):
+    # Limpiar init/module
+    db.reference('init/' + infoLarge['module']).set('null')
+    # Cambiar estado en infoShort y en Status del modulo
+    db.reference('info/short/S-' + infoLarge['sessionNumber'] + '/status').set(0)
+    db.reference('system/status/' + infoLarge['module']).set({'value': 0, 'sessionNumber': -1})
+    # Enviar informacion large
+    db.reference('info/large/S-' + infoLarge['sessionNumber']).set(infoLarge)
 
 
 # =================    4     ===================
@@ -91,8 +75,6 @@ def endManualFromWebApp(module):
     data = db.reference(dir).get()
     # Si recibe el valor 3 es finalizacion web
     if data == 3:
-        # db.reference('info/short/S-' + module + '/status').set(0)
-        # db.reference('info/large/S-' + module + '/endTimestamp').set(converter.getTimestamp())
         return False
     else:
         return True

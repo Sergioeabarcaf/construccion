@@ -82,7 +82,7 @@ while(True):
                 dirFile = csvFile.createFile(converter.getTimestamp(), init)
 
                 # Funcionamiento en modo manual
-                if init['endType'] == 'manual':
+                if init['endType'] == 0:
                     # Esperar a que el usuario termine desde la WebApp
                     while (firebase.endManualFromWebApp(module)):
                         getData(dirFile, module, init['sessionNumber'])
@@ -93,13 +93,20 @@ while(True):
                     # 
                     # Subir archivo CSV a storage
                     # 
+                    url = 'algo'
+                    # Actualizar la infoLarge con endTimestamp y url
+                    infoLarge.update('endTimestamp': converter.getTimestamp(), 'url': url)
+                    # Almacenar la información y detener la medicion
+                    firebase.execManualEnd(infoLarge)
+
                 # Funcionamiento en modo automatico
-                elif init['finishedType'] == 'programado':
+                elif init['endType'] == 1:
                     # Obtener fecha y hora de finalizacion en tipo Date.
                     finishedDate = converter.finishDate(init['finishedDate'], init['finishedTime'] )
+                    print finishedDate
                     # Mientras hora actual sea menor o igual a finishedDate y el usuario no
                     # haya terminado desde la aplicacion, realizar mediciones en los intervalos
-                    while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(numberSession) ):
+                    while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(module) ):
                         getData(dirFile, module, init['sessionNumber'])
                         # 
                         # Comparar valores para almacenar maximos y minimos
@@ -108,9 +115,12 @@ while(True):
                         # 
                     # Subir archivo CSV a storage
                     # 
+                    url = 'algo'
+                    # Actualizar la infoLarge con endTimestamp y url
+                    infoLarge.update('endTimestamp': converter.getTimestamp(), 'url': url)
                     # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
                     if (finishedDate < converter.nowDateTime() ):
-                        firebase.execManualEnd(numberSession)
+                        firebase.execManualEnd(infoLarge)
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
     except:
         firebase.clean(module, converter.getTimestamp(), 'error', sys.exc_info()[0], sys.exc_info()[1])
