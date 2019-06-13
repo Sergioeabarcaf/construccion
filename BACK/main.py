@@ -123,4 +123,6 @@ while(True):
                         firebase.execManualEnd(infoLarge)
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
     except:
-        firebase.clean(module, converter.getTimestamp(), 'error', sys.exc_info()[0])
+        print sys.exc_info()
+        firebase.clean(module, converter.getTimestamp(), 'error', str(sys.exc_info()[0]), str(sys.exc_info()[1]))
+        time.sleep(1)
