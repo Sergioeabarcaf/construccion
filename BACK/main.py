@@ -99,7 +99,7 @@ while(True):
             # Funcionamiento en modo automatico
             elif int(init['endType']) == 1:
                 # Obtener fecha y hora de finalizacion en tipo Date.
-                finishedDate = converter.finishDate(init['finishedDate'], init['finishedTime'] )
+                finishedDate = converter.finishDate(init['endDate'], init['endTime'] )
                 print finishedDate
                 # Mientras hora actual sea menor o igual a finishedDate y el usuario no
                 # haya terminado desde la aplicacion, realizar mediciones en los intervalos
