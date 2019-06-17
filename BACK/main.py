@@ -67,7 +67,7 @@ while(True):
             interval = int(init['timeInterval']) - 2
 
             # Crear infoLarge
-            infoLarge = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': str(converter.getTimestamp()), 'module': int(init['module']), 'timeInterval': int(init['timeInterval']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable']}
+            infoLarge = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': str(converter.getTimestamp()), 'module': int(init['module']), 'timeInterval': int(init['timeInterval']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable'], 'endType': int(init['endType'])}
 
             # Crear infoShort y actualizar en info/short de firebase
             infoShort = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': infoLarge['startTimestamp'], 'sessionNumber': int(init['sessionNumber']), 'status': 1}
@@ -77,7 +77,7 @@ while(True):
             dirFile = csvFile.createFile(converter.getTimestamp(), init)
 
             # Funcionamiento en modo manual
-            if init['endType'] == 0:
+            if int(init['endType']) == 0:
                 # Esperar a que el usuario termine desde la WebApp
                 while (firebase.endManualFromWebApp(module)):
                     getData(dirFile, module, init['sessionNumber'])
@@ -97,7 +97,7 @@ while(True):
                 infoLarge.clear()
 
             # Funcionamiento en modo automatico
-            elif init['endType'] == 1:
+            elif int(init['endType']) == 1:
                 # Obtener fecha y hora de finalizacion en tipo Date.
                 finishedDate = converter.finishDate(init['finishedDate'], init['finishedTime'] )
                 print finishedDate
