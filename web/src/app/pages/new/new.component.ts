@@ -44,7 +44,7 @@ export class NewComponent implements OnInit {
       'material': new FormControl('', Validators.required),
       'module': new FormControl(this.moduleAvailable, Validators.required),
       'timeInterval': new FormControl(30, [Validators.required, Validators.min(30)]),
-      'endType': new FormControl( 0, Validators.required),
+      'endType': new FormControl( this.moduleAvailable, Validators.required),
       'endDate': new FormControl( this.nowDate ),
       'endTime': new FormControl( this.nowTime )
     });

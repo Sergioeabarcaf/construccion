@@ -164,18 +164,16 @@ export class FirebaseService {
     console.log(this.infoLargeCurrent.module);
     // Almacenar al responsable de la detencion.
     this._firebase.object(`info/large/S-${sessionNumber}/endResponsable`).set(endResponsable);
-    // Limpiar la zona de init.
-    this._firebase.object('init').set(null);
     // Si se usan ambos modulos, se actualizan los valores en system/status
-    if ( this.infoLargeCurrent.module === '2' ) {
+    if ( this.infoLargeCurrent.module === 2 ) {
       this._firebase.object('system/status/both').update({'value': 3 , 'sessionNumber': sessionNumber });
     }
     // Si se usa solo el modulo thermal, se actualizan los valores en system/status
-    if ( this.infoLargeCurrent.module === '0' ) {
+    if ( this.infoLargeCurrent.module === 0 ) {
       this._firebase.object('system/status/thermal').update({'value': 3 , 'sessionNumber': sessionNumber });
     }
     // Si se usa solo el modulo sound, se actualizan los valores en system/status
-    if ( this.infoLargeCurrent.module === '1' ) {
+    if ( this.infoLargeCurrent.module === 1 ) {
       this._firebase.object('system/status/sound').update({'value': 3 , 'sessionNumber': sessionNumber });
     }
   }
