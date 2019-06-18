@@ -50,7 +50,8 @@ export class FirebaseService {
   infoSessionsShort = null;
 
   // Almacenar toda la data de la sesion actual.
-  dataCurrent: any;
+  dataCurrentThermal: any;
+  dataCurrentSound: any;
 
   // Almacenar la informacion completa de la sesion actual.
   infoLargeCurrent: any;
@@ -74,21 +75,21 @@ export class FirebaseService {
 
   // Almacenar información de la nueva sesion de medición, se usa en NEW
   setInit(formulario: any) {
+    // Actualizar el numero de la ultima sesion utilizada
+    this._firebase.object('system/lastSession').set(formulario.sessionNumber);
     console.log(formulario);
     if ( formulario.module === 2 ) {
-      console.log(formulario.module);
       // Se agregan los parametros de iniciacion en init para ambos modulos.
       this._firebase.object('init/thermal').set(formulario);
       this._firebase.object('init/sound').set(formulario);
       // Se actualizan los estados en system/Status
-      this._firebase.object('system/status').update({'thermal': {'value': -1 , 'sessionNumber': 0 },
-                                                      'sound': {'value': -1 , 'sessionNumber': 0 },
+      this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sessionNumber': formulario.sessionNumber },
+                                                      'sound': {'value': 1 , 'sessionNumber': formulario.sessionNumber },
                                                       'both': {'value': 1 , 'sessionNumber': formulario.sessionNumber }
                                                     });
     }
     // Si se usa solo el modulo thermal, se actualizan los valores en system/status
     if ( formulario.module === 0 ) {
-      console.log(formulario.module);
       // Se agregan los parametros de iniciacion en init para modulo thermal.
       this._firebase.object('init/thermal').set(formulario);
       this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sessionNumber': formulario.sessionNumber},
@@ -96,7 +97,6 @@ export class FirebaseService {
     }
     // Si se usa solo el modulo sound, se actualizan los valores en system/status
     if ( formulario.module === 1 ) {
-      console.log(formulario.module);
       // Se agregan los parametros de iniciacion en init para modulo sound.
       this._firebase.object('init/sound').set(formulario);
       this._firebase.object('system/status').update({'sound': {'value': 1 , 'sessionNumber': formulario.sessionNumber},
@@ -109,17 +109,10 @@ export class FirebaseService {
   // Obtener la información corta de todas las mediciones realizadas, se usa en INIT, SESSIONS
   getInfoSessionsShort() {
     // Obtener el listado se sesiones
-    this._firebase.list('info/short').valueChanges().subscribe( (data) => {
-      // Ordenar de reciente a antiguos
-      this.infoSessionsShort = data.sort(function (a, b) {
-        if (a['timeStart'] > b['timeStart']) {
-          return -1;
-        }
-        if (a['timeStart'] < b['timeStart']) {
-          return 1;
-        }
-        return 0;
-      });
+    this._firebase.list('info/short', ref => ref.orderByChild('timeStart')).valueChanges().subscribe( (data: any[]) => {
+      // invertir orden del array
+      this.infoSessionsShort = data.reverse();
+      console.log(this.infoSessionsShort);
     });
   }
 
@@ -135,28 +128,40 @@ export class FirebaseService {
 
   // Se actualizan los datos de current con la ultima sesion realizada, se usa en LIVE
   getDataSessionCurrent(session) {
+    // limpiar variables dataCurrent
+    this.dataCurrentThermal = null;
+    this.dataCurrentSound = null;
     // Colocar flag en false cada vez que se obtienen datos.
     this.dataSessionCurrentReady = false;
-    this._firebase.list(`data/S-${session}`).valueChanges().subscribe( (data: any) => {
+    this._firebase.list(`data/S-${session}/thermal`).valueChanges().subscribe( (data: any[]) => {
+      console.log(data);
+      console.log(typeof(data));
       // Almacenar todos los datos recibidos para mostrarlos en tablas
-      this.dataCurrent = data;
+      this.dataCurrentThermal = data;
       // Extraer el ultimo dato para mostrarlo en gauge
-      const dataLastThermal = data.thermal.pop();
+      const dataLastThermal = data[data.length - 1];
       this.current.thermal.timestamp = dataLastThermal.timestamp;
-      this.current.thermal.He = dataLastThermal.thermal.He;
-      this.current.thermal.Hi = dataLastThermal.thermal.Hi;
-      this.current.thermal.Te = dataLastThermal.thermal.Te;
-      this.current.thermal.Ti = dataLastThermal.thermal.Ti;
-      const dataLastSound = data.sound.pop();
-      this.current.sound.timestamp = dataLastSound.timestamp;
-      this.current.sound.He = dataLastSound.sound.He;
-      this.current.sound.Hi = dataLastSound.sound.Hi;
-      this.current.sound.Te = dataLastSound.sound.Te;
-      this.current.sound.Ti = dataLastSound.sound.Ti;
-      // Colocar flag en false cada vez que se obtienen datos.
-      this.dataSessionCurrentReady = true;
-      console.log(this.current);
+      this.current.thermal.He = dataLastThermal.He;
+      this.current.thermal.Hi = dataLastThermal.Hi;
+      this.current.thermal.Te = dataLastThermal.Te;
+      this.current.thermal.Ti = dataLastThermal.Ti;
     });
+
+    this._firebase.list(`data/S-${session}/sound`).valueChanges().subscribe( (data: any[]) => {
+      console.log(data);
+      console.log(typeof(data));
+      // Almacenar todos los datos recibidos para mostrarlos en tablas
+      this.dataCurrentSound = data;
+      // Extraer el ultimo dato para mostrarlo en gauge
+      const dataLastSound = data[data.length - 1];
+      this.current.sound.timestamp = dataLastSound.timestamp;
+      this.current.sound.He = dataLastSound.He;
+      this.current.sound.Hi = dataLastSound.Hi;
+      this.current.sound.Te = dataLastSound.Te;
+      this.current.sound.Ti = dataLastSound.Ti;
+    });
+    console.log(this.current);
+    this.dataSessionCurrentReady = true;
   }
 
   // Setear las variables para detener la ejecución del programa en python, se usa en LIVE
