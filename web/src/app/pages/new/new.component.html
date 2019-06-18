@@ -81,14 +81,14 @@
                 </div>
                 <!-- Hora finalizado si es el mismo dia-->
                 <div class="col-3" *ngIf="formulario.value.endDate == nowDate">
-                    <input type="time" formControlName="endDate" min="{{ nowTime }}" max="23:59:00">
+                    <input type="time" formControlName="endTime" min="{{ nowTime }}" max="23:59:00">
                     <small class="form-text text-muted text-center">
                         Ingresar la hora de termino para la medición. (hoy)
                     </small>
                 </div>
                 <!-- Hora finalizado si es distinto el dia al hoy-->
                 <div class="col-3" *ngIf="formulario.value.endDate != nowDate">
-                    <input type="time" formControlName="endDate">
+                    <input type="time" formControlName="endTime">
                     <small class="form-text text-muted text-center">
                         Ingresar la hora de termino para la medición.
                     </small>
