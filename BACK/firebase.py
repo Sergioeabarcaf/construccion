@@ -34,6 +34,18 @@ def start(module):
     elif data == 'null':
         return 0
     else:
+        # Actualizar valores cuando se usan ambos modulos o solo uno
+        # uso de solo modulo termico
+        if int(data['module']) == 0:
+            db.reference('system/status/thermal').set({'value': 2, 'sessionNumber': int(data['sessionNumber'])})
+        # Uso de solo modulo acustico
+        elif int(data['module']) == 1:
+            db.reference('system/status/sound').set({'value': 2, 'sessionNumber': int(data['sessionNumber'])})
+        # Uso de ambos modulos
+        elif int(data['module']) == 2:
+            db.reference('system/status/thermal').set({'value': 2, 'sessionNumber': int(data['sessionNumber'])})
+            db.reference('system/status/sound').set({'value': 2, 'sessionNumber': int(data['sessionNumber'])})
+            db.reference('system/status/both').set({'value': 2, 'sessionNumber': int(data['sessionNumber'])})
         return data
 
 def sendInfoShort(infoShort):
@@ -53,22 +65,31 @@ def updateInfoLarge(sessionNumber, infoUpdate):
 def pushData(module, sessionNumber, data):
     dir = 'data/S-' + str(sessionNumber) + '/' + module
     print data
-    db.reference(dir).push(data)
+    x = db.reference(dir).push(data)
+    print x
 
 
 # =================    3     ===================
-# Detener de manera manual (web app) la ejecucion del programa
-def execManualEnd(module, infoShort):
+# Detener la ejecucion del programa
+def execManualEnd(ownModule, infoShort, usedModule):
     # Limpiar init/module
-    db.reference('init/' + module).set('null')
+    db.reference('init/' + ownModule).set(None)
     # Cambiar estado en infoShort y en Status del modulo
     db.reference('info/short/S-' + str(infoShort['sessionNumber']) + '/status').set(0)
-    db.reference('system/status/' + module).set({'value': 0, 'sessionNumber': -1})
-
+    # en caso de usar solo el modulo termico
+    if usedModule == 0:
+        db.reference('system/status/thermal').set({'value': 0, 'sessionNumber': -1})
+    # en caso de usar solo el modulo acustico
+    elif usedModule == 1:
+        db.reference('system/status/sound').set({'value': 0, 'sessionNumber': -1})
+    # en caso de usar ambos modulos
+    elif usedModule == 2:
+        db.reference('system/status').set({'thermal': {'value': 0, 'sessionNumber': -1}, 'sound': {'value': 0, 'sessionNumber': -1}, 'both': {'value': 0, 'sessionNumber': -1}})
 
 # =================    4     ===================
 # Validar si fue detenido desde la web app la medicion
 def endManualFromWebApp(module):
+    print 'finalizado desde web'
     dir = 'system/status/' + module + '/value'
     data = db.reference(dir).get()
     # Si recibe el valor 3 es finalizacion web
@@ -76,4 +97,3 @@ def endManualFromWebApp(module):
         return False
     else:
         return True
-        

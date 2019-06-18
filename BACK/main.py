@@ -63,7 +63,7 @@ while(True):
         # Consultar si se ha enviado una nueva sesion desde la web app
         init = firebase.start(module)
         if init != 0:
-            print('hay algo en init')
+            print init
             # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
             interval = int(init['timeInterval']) - 2
 
@@ -95,7 +95,7 @@ while(True):
                 # Actualizar la infoLarge con endTimestamp y url, almacenar en firebase
                 firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url})
                 # Almacenar la informacion y detener la medicion
-                firebase.execManualEnd(module, infoShort)
+                firebase.execManualEnd(module, infoShort, int(init['module']))
                 # Limpiar infoLarge
                 infoLarge.clear()
 
@@ -113,6 +113,7 @@ while(True):
                     # 
                     time.sleep(interval)
                     # 
+                print 'Finalizado por tiempo'
                 # Subir archivo CSV a storage
                 # 
                 url = 'algo'
@@ -120,7 +121,7 @@ while(True):
                 firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url})
                 # # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
                 # if (finishedDate < converter.nowDateTime() ):
-                firebase.execManualEnd(module, infoShort)
+                firebase.execManualEnd(module, infoShort, int(init['module']))
                 # Limpiar infoLarge
                 infoLarge.clear()
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
