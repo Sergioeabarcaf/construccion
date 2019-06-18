@@ -34,13 +34,19 @@ def start(module):
     elif data == 'null':
         return 0
     else:
-        # Si existen datos en init, actualizar estado en system
-        db.reference('system/status/' + module).set({'value': 2, 'sessionNumber': int(data['sessionNumber'])})
         return data
 
 def sendInfoShort(infoShort):
     dir = 'info/short/S-' + str(infoShort['sessionNumber'])
     db.reference(dir).set(infoShort)
+
+def sendInfoLarge(infoLarge):
+    dir = 'info/large/S-' + str(infoLarge['sessionNumber'])
+    db.reference(dir).set(infoLarge)
+
+def updateInfoLarge(sessionNumber, infoUpdate):
+    dir = 'info/large/S-' + sessionNumber
+    db.reference(dir).update(infoUpdate)
 
 # =================    2     ===================
 # Enviar data a firebase
@@ -52,14 +58,12 @@ def pushData(module, sessionNumber, data):
 
 # =================    3     ===================
 # Detener de manera manual (web app) la ejecucion del programa
-def execManualEnd(module, infoLarge):
+def execManualEnd(module, infoShort):
     # Limpiar init/module
     db.reference('init/' + module).set('null')
     # Cambiar estado en infoShort y en Status del modulo
-    db.reference('info/short/S-' + str(infoLarge['sessionNumber']) + '/status').set(0)
+    db.reference('info/short/S-' + str(infoShort['sessionNumber']) + '/status').set(0)
     db.reference('system/status/' + module).set({'value': 0, 'sessionNumber': -1})
-    # Enviar informacion large
-    db.reference('info/large/S-' + str(infoLarge['sessionNumber'])).set(infoLarge)
 
 
 # =================    4     ===================

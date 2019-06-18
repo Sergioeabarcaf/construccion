@@ -63,11 +63,13 @@ while(True):
         # Consultar si se ha enviado una nueva sesion desde la web app
         init = firebase.start(module)
         if init != 0:
+            print('hay algo en init')
             # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
             interval = int(init['timeInterval']) - 2
 
-            # Crear infoLarge
+            # Crear infoLarge y almacenar en info/large de firebase
             infoLarge = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': str(converter.getTimestamp()), 'module': int(init['module']), 'timeInterval': int(init['timeInterval']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable'], 'endType': int(init['endType'])}
+            firebase.sendInfoLarge(infoLarge)
 
             # Crear infoShort y actualizar en info/short de firebase
             infoShort = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': infoLarge['startTimestamp'], 'sessionNumber': int(init['sessionNumber']), 'status': 1}
@@ -78,6 +80,7 @@ while(True):
 
             # Funcionamiento en modo manual
             if int(init['endType']) == 0:
+                print('manual')
                 # Esperar a que el usuario termine desde la WebApp
                 while (firebase.endManualFromWebApp(module)):
                     getData(dirFile, module, init['sessionNumber'])
@@ -89,18 +92,18 @@ while(True):
                 # Subir archivo CSV a storage
                 # 
                 url = 'algo'
-                # Actualizar la infoLarge con endTimestamp y url
-                infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
+                # Actualizar la infoLarge con endTimestamp y url, almacenar en firebase
+                firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url})
                 # Almacenar la informacion y detener la medicion
-                firebase.execManualEnd(module, infoLarge)
+                firebase.execManualEnd(module, infoShort)
                 # Limpiar infoLarge
                 infoLarge.clear()
 
             # Funcionamiento en modo automatico
             elif int(init['endType']) == 1:
+                print('automatico')
                 # Obtener fecha y hora de finalizacion en tipo Date.
                 finishedDate = converter.finishDate(init['endDate'], init['endTime'] )
-                print finishedDate
                 # Mientras hora actual sea menor o igual a finishedDate y el usuario no
                 # haya terminado desde la aplicacion, realizar mediciones en los intervalos
                 while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(module) ):
@@ -113,13 +116,13 @@ while(True):
                 # Subir archivo CSV a storage
                 # 
                 url = 'algo'
-                # Actualizar la infoLarge con endTimestamp y url
-                infoLarge.update({'endTimestamp': converter.getTimestamp(), 'url': url})
-                # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
-                if (finishedDate < converter.nowDateTime() ):
-                    firebase.execManualEnd(module,infoLarge)
-                    # Limpiar infoLarge
-                    infoLarge.clear()
+                # Actualizar la infoLarge con endTimestamp y url en firebase
+                firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url})
+                # # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
+                # if (finishedDate < converter.nowDateTime() ):
+                firebase.execManualEnd(module, infoShort)
+                # Limpiar infoLarge
+                infoLarge.clear()
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
     # except:
     #     print sys.exc_info()
