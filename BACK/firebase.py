@@ -45,7 +45,7 @@ def sendInfoLarge(infoLarge):
     db.reference(dir).set(infoLarge)
 
 def updateInfoLarge(sessionNumber, infoUpdate):
-    dir = 'info/large/S-' + sessionNumber
+    dir = 'info/large/S-' + str(sessionNumber)
     db.reference(dir).update(infoUpdate)
 
 # =================    2     ===================
