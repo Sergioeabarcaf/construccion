@@ -13,281 +13,284 @@
     </div>
 </div>
 
-<!-- Gauge para sesion de ambos modulos -->
-<div class="row justify-content-around" *ngIf="_firebase.infoLargeCurrent.module == 2">
-    <!-- Gauge para modulo termico -->
-    <div class="col-10 col-md-5 py-3">
-        <!-- Gauge realtime con datos actualizados en tiempo real -->
-        <div class="card text-center">
-            <div class="card-header">
-                Módulo térmico
-            </div>
-            <div class="card-body">
-                <!-- Gauge con datos en tiempo real -->
-                <div class="row justify-content-center">
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Temperatura Interior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Ti" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Temperatura Exterior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Te" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Humedad Interior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Hi" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Humedad Exterior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.He" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
+<div *ngIf="_firebase.dataSessionCurrentReady">
+    <!-- Gauge para sesion de ambos modulos -->
+    <div class="row justify-content-around" *ngIf="_firebase.infoLargeCurrent.module == 2">
+        <!-- Gauge para modulo termico -->
+        <div class="col-10 col-md-5 py-3">
+            <!-- Gauge realtime con datos actualizados en tiempo real -->
+            <div class="card text-center">
+                <div class="card-header">
+                    Módulo térmico
+                </div>
+                <div class="card-body">
+                    <!-- Gauge con datos en tiempo real -->
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Temperatura Interior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Ti" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Temperatura Exterior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Te" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Humedad Interior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Hi" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Humedad Exterior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.He" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
                     </div>
                 </div>
+                <!-- Hora y fecha del dato obtenido -->
+                <div class="card-footer text-muted">
+                    Dato obtenido: {{ _firebase.current.thermal.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+                </div>
             </div>
-            <!-- Hora y fecha del dato obtenido -->
-            <div class="card-footer text-muted">
-                Dato obtenido: {{ _firebase.current.thermal.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+        </div>
+
+        <!-- Gauge para modulo acustico -->
+        <div class="col-11 col-md-5 py-3">
+            <!-- Gauge realtime con datos actualizados en tiempo real -->
+            <div class="card text-center">
+                <div class="card-header">
+                    Módulo acústico
+                </div>
+                <div class="card-body">
+                    <!-- Gauge con datos en tiempo real -->
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Temperatura Interior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Ti" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Temperatura Exterior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Te" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Humedad Interior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Hi" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Humedad Exterior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.He" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hora y fecha del dato obtenido -->
+                <div class="card-footer text-muted">
+                    Dato obtenido: {{ _firebase.current.sound.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Gauge para modulo acustico -->
-    <div class="col-11 col-md-5 py-3">
-        <!-- Gauge realtime con datos actualizados en tiempo real -->
-        <div class="card text-center">
-            <div class="card-header">
-                Módulo acústico
-            </div>
-            <div class="card-body">
-                <!-- Gauge con datos en tiempo real -->
-                <div class="row justify-content-center">
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Temperatura Interior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Ti" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Temperatura Exterior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Te" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Humedad Interior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Hi" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Humedad Exterior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.He" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
+    <!-- Gauge para sesion de un solo modulo -->
+    <div class="row justify-content-around" *ngIf="_firebase.infoLargeCurrent.module != 2">
+        <!-- Gauge para modulo termico -->
+        <div class="col-10 py-3" *ngIf="_firebase.infoLargeCurrent.moudule == 0">
+            <!-- Gauge realtime con datos actualizados en tiempo real -->
+            <div class="card text-center">
+                <div class="card-header">
+                    Módulo térmico
+                </div>
+                <div class="card-body">
+                    <!-- Gauge con datos en tiempo real -->
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Temperatura Interior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Ti" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Temperatura Exterior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Te" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Humedad Interior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Hi" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Humedad Exterior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.He" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
                     </div>
                 </div>
+                <!-- Hora y fecha del dato obtenido -->
+                <div class="card-footer text-muted">
+                    Dato obtenido: {{ _firebase.current.thermal.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+                </div>
             </div>
-            <!-- Hora y fecha del dato obtenido -->
-            <div class="card-footer text-muted">
-                Dato obtenido: {{ _firebase.current.sound.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+        </div>
+
+        <!-- Gauge para modulo acustico -->
+        <div class="col-10 py-3" *ngIf="_firebase.infoLargeCurrent.moudule == 1">
+            <!-- Gauge realtime con datos actualizados en tiempo real -->
+            <div class="card text-center">
+                <div class="card-header">
+                    Módulo acústico
+                </div>
+                <div class="card-body">
+                    <!-- Gauge con datos en tiempo real -->
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Temperatura Interior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Ti" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Temperatura Exterior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Te" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Humedad Interior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Hi" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                        <div class="col-6 col-md-3 text-center">
+                            <p><small>Humedad Exterior</small></p>
+                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.He" [animated]="true" [animationDuration]="2">
+                            </mwl-gauge>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hora y fecha del dato obtenido -->
+                <div class="card-footer text-muted">
+                    Dato obtenido: {{ _firebase.current.sound.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla con datos historicos de la medicion actual ambos modulos -->
+    <div class="row justify-content-around my-3" *ngIf="_firebase.infoLargeCurrent.module == 2">
+        <!-- Modulo termico -->
+        <div class="col-10 col-md-5 text-center">
+            <p class="h5"> Módulo Térmico</p>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Timestamp</th>
+                            <th scope="col">Temperatura Interior</th>
+                            <th scope="col">Humedad Interior</th>
+                            <th scope="col">Temperatura Exterior</th>
+                            <th scope="col">Humedad Exterior</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of _firebase.dataCurrent.thermal">
+                            <td>{{ data.timestamp }}</td>
+                            <td>{{ data.Ti }}</td>
+                            <td>{{ data.Hi }}</td>
+                            <td>{{ data.Te }}</td>
+                            <td>{{ data.He }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modulo Acustico -->
+        <div class="col-10 col-md-5 text-center">
+            <p class="h5"> Módulo Acústico</p>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Timestamp</th>
+                            <th scope="col">Temperatura Interior</th>
+                            <th scope="col">Humedad Interior</th>
+                            <th scope="col">Temperatura Exterior</th>
+                            <th scope="col">Humedad Exterior</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of _firebase.dataCurrent.sound">
+                            <td>{{ data.timestamp }}</td>
+                            <td>{{ data.Ti }}</td>
+                            <td>{{ data.Hi }}</td>
+                            <td>{{ data.Te }}</td>
+                            <td>{{ data.He }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla con datos historicos de la medicion actual, modulo separado -->
+    <div class="row justify-content-around my-3" *ngIf="_firebase.infoLargeCurrent.module != 2">
+        <!-- Modulo termico -->
+        <div class="col-10" *ngIf="_firebase.infoLargeCurrent.module == 0">
+            <p class="h5"> Módulo Térmico</p>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Timestamp</th>
+                            <th scope="col">Temperatura Interior</th>
+                            <th scope="col">Humedad Interior</th>
+                            <th scope="col">Temperatura Exterior</th>
+                            <th scope="col">Humedad Exterior</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of _firebase.dataCurrent.thermal">
+                            <td>{{ data.timestamp }}</td>
+                            <td>{{ data.Ti }}</td>
+                            <td>{{ data.Hi }}</td>
+                            <td>{{ data.Te }}</td>
+                            <td>{{ data.He }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modulo Acustico -->
+        <div class="col-10" *ngIf="_firebase.infoLargeCurrent.module == 1">
+            <p class="h5"> Módulo Acústico</p>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Timestamp</th>
+                            <th scope="col">Temperatura Interior</th>
+                            <th scope="col">Humedad Interior</th>
+                            <th scope="col">Temperatura Exterior</th>
+                            <th scope="col">Humedad Exterior</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of _firebase.dataCurrent.sound">
+                            <td>{{ data.timestamp }}</td>
+                            <td>{{ data.Ti }}</td>
+                            <td>{{ data.Hi }}</td>
+                            <td>{{ data.Te }}</td>
+                            <td>{{ data.He }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Gauge para sesion de un solo modulo -->
-<div class="row justify-content-around" *ngIf="_firebase.infoLargeCurrent.module != 2">
-    <!-- Gauge para modulo termico -->
-    <div class="col-10 py-3" *ngIf="_firebase.infoLargeCurrent.moudule == 0">
-        <!-- Gauge realtime con datos actualizados en tiempo real -->
-        <div class="card text-center">
-            <div class="card-header">
-                Módulo térmico
-            </div>
-            <div class="card-body">
-                <!-- Gauge con datos en tiempo real -->
-                <div class="row justify-content-center">
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Temperatura Interior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Ti" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Temperatura Exterior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Te" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Humedad Interior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.Hi" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Humedad Exterior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.thermal.He" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                </div>
-            </div>
-            <!-- Hora y fecha del dato obtenido -->
-            <div class="card-footer text-muted">
-                Dato obtenido: {{ _firebase.current.thermal.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
-            </div>
-        </div>
-    </div>
-
-    <!-- Gauge para modulo acustico -->
-    <div class="col-10 py-3" *ngIf="_firebase.infoLargeCurrent.moudule == 1">
-        <!-- Gauge realtime con datos actualizados en tiempo real -->
-        <div class="card text-center">
-            <div class="card-header">
-                Módulo acústico
-            </div>
-            <div class="card-body">
-                <!-- Gauge con datos en tiempo real -->
-                <div class="row justify-content-center">
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Temperatura Interior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Ti" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Temperatura Exterior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Te" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Humedad Interior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.Hi" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                    <div class="col-6 col-md-3 text-center">
-                        <p><small>Humedad Exterior</small></p>
-                        <mwl-gauge class="two" [max]="100" [dialStartAngle]="180" [dialEndAngle]="0" [value]="_firebase.current.sound.He" [animated]="true" [animationDuration]="2">
-                        </mwl-gauge>
-                    </div>
-                </div>
-            </div>
-            <!-- Hora y fecha del dato obtenido -->
-            <div class="card-footer text-muted">
-                Dato obtenido: {{ _firebase.current.sound.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Tabla con datos historicos de la medicion actual ambos modulos -->
-<div class="row justify-content-around my-3" *ngIf="_firebase.infoLargeCurrent.module == 2">
-    <!-- Modulo termico -->
-    <div class="col-10 col-md-5 text-center">
-        <p class="h5"> Módulo Térmico</p>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Timestamp</th>
-                        <th scope="col">Temperatura Interior</th>
-                        <th scope="col">Humedad Interior</th>
-                        <th scope="col">Temperatura Exterior</th>
-                        <th scope="col">Humedad Exterior</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let data of _firebase.dataCurrent.thermal">
-                        <td>{{ data.timestamp }}</td>
-                        <td>{{ data.Ti }}</td>
-                        <td>{{ data.Hi }}</td>
-                        <td>{{ data.Te }}</td>
-                        <td>{{ data.He }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Modulo Acustico -->
-    <div class="col-10 col-md-5 text-center">
-        <p class="h5"> Módulo Acústico</p>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Timestamp</th>
-                        <th scope="col">Temperatura Interior</th>
-                        <th scope="col">Humedad Interior</th>
-                        <th scope="col">Temperatura Exterior</th>
-                        <th scope="col">Humedad Exterior</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let data of _firebase.dataCurrent.sound">
-                        <td>{{ data.timestamp }}</td>
-                        <td>{{ data.Ti }}</td>
-                        <td>{{ data.Hi }}</td>
-                        <td>{{ data.Te }}</td>
-                        <td>{{ data.He }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<!-- Tabla con datos historicos de la medicion actual, modulo separado -->
-<div class="row justify-content-around my-3" *ngIf="_firebase.infoLargeCurrent.module != 2">
-    <!-- Modulo termico -->
-    <div class="col-10" *ngIf="_firebase.infoLargeCurrent.module == 0">
-        <p class="h5"> Módulo Térmico</p>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Timestamp</th>
-                        <th scope="col">Temperatura Interior</th>
-                        <th scope="col">Humedad Interior</th>
-                        <th scope="col">Temperatura Exterior</th>
-                        <th scope="col">Humedad Exterior</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let data of _firebase.dataCurrent.thermal">
-                        <td>{{ data.timestamp }}</td>
-                        <td>{{ data.Ti }}</td>
-                        <td>{{ data.Hi }}</td>
-                        <td>{{ data.Te }}</td>
-                        <td>{{ data.He }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Modulo Acustico -->
-    <div class="col-10" *ngIf="_firebase.infoLargeCurrent.module == 1">
-        <p class="h5"> Módulo Acústico</p>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Timestamp</th>
-                        <th scope="col">Temperatura Interior</th>
-                        <th scope="col">Humedad Interior</th>
-                        <th scope="col">Temperatura Exterior</th>
-                        <th scope="col">Humedad Exterior</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let data of _firebase.dataCurrent.sound">
-                        <td>{{ data.timestamp }}</td>
-                        <td>{{ data.Ti }}</td>
-                        <td>{{ data.Hi }}</td>
-                        <td>{{ data.Te }}</td>
-                        <td>{{ data.He }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 
 <!-- Modal para confirmar la detencion de la medición -->
