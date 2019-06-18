@@ -65,15 +65,14 @@ def updateInfoLarge(sessionNumber, infoUpdate):
 def pushData(module, sessionNumber, data):
     dir = 'data/S-' + str(sessionNumber) + '/' + module
     print data
-    x = db.reference(dir).push(data)
-    print x
+    db.reference(dir).push(data)
 
 
 # =================    3     ===================
 # Detener la ejecucion del programa
 def execManualEnd(ownModule, infoShort, usedModule):
     # Limpiar init/module
-    db.reference('init/' + ownModule).set(None)
+    db.reference('init/' + ownModule).set('null')
     # Cambiar estado en infoShort y en Status del modulo
     db.reference('info/short/S-' + str(infoShort['sessionNumber']) + '/status').set(0)
     # en caso de usar solo el modulo termico
@@ -89,11 +88,11 @@ def execManualEnd(ownModule, infoShort, usedModule):
 # =================    4     ===================
 # Validar si fue detenido desde la web app la medicion
 def endManualFromWebApp(module):
-    print 'finalizado desde web'
     dir = 'system/status/' + module + '/value'
     data = db.reference(dir).get()
     # Si recibe el valor 3 es finalizacion web
     if data == 3:
+        print 'finalizado desde web'
         return False
     else:
         return True
