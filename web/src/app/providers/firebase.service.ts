@@ -53,11 +53,13 @@ export class FirebaseService {
   dataCurrentThermal: any;
   dataCurrentSound: any;
 
-  // Almacenar la informacion completa de la sesion actual.
+  // Almacenar la informacion completa y abreviada de la sesion actual.
   infoLargeCurrent: any;
+  infoShortCurrent: any;
 
-  // Flag para infoLargeSession y dataCurrent se usa en SESSION
+  // Flag para infoLargeSession, infoShortSession y dataCurrent se usa en SESSION
   infoLargeSessionCurrentReady = false;
+  infoShortSessionCurrentReady = false;
   dataSessionCurrentReady = false;
 
   constructor(public _firebase: AngularFireDatabase, public router: Router) {
@@ -118,7 +120,20 @@ export class FirebaseService {
     });
   }
 
-  // Obtener la informacion completa de la sesion, se usa en LIVE
+  // Obtener informacion corta, se usa en LIVE
+  getInfoShortCurrent(session) {
+    // Limpiar infoShortCurrent
+    this.infoShortCurrent = null;
+    // Cada vez que se solicite una informacion, comience en false y cambie cuando los datos ya estan cargados.
+    this.infoShortSessionCurrentReady = false;
+    this._firebase.object(`info/short/S-${session}`).valueChanges().subscribe( (data: any) => {
+      this.infoShortCurrent = data;
+      this.infoShortSessionCurrentReady = true;
+      console.log(this.infoShortCurrent);
+    });
+  }
+
+  // Obtener la informacion completa de la sesion, se usa en SESSION
   getInfoLargeCurrent(session) {
     // Limpiar infoLargeCurrent
     this.infoLargeCurrent = null;
@@ -168,19 +183,19 @@ export class FirebaseService {
 
   // Setear las variables para detener la ejecución del programa en python, se usa en LIVE
   stop(endResponsable, sessionNumber) {
-    console.log(this.infoLargeCurrent.module);
+    console.log(this.infoShortCurrent.module);
     // Almacenar al responsable de la detencion.
     this._firebase.object(`info/large/S-${sessionNumber}/endResponsable`).set(endResponsable);
     // Si se usan ambos modulos, se actualizan los valores en system/status
-    if ( this.infoLargeCurrent.module === 2 ) {
+    if ( this.infoShortCurrent.module === 2 ) {
       this._firebase.object('system/status/both').update({'value': 3 , 'sessionNumber': sessionNumber });
     }
     // Si se usa solo el modulo thermal, se actualizan los valores en system/status
-    if ( this.infoLargeCurrent.module === 0 ) {
+    if ( this.infoShortCurrent.module === 0 ) {
       this._firebase.object('system/status/thermal').update({'value': 3 , 'sessionNumber': sessionNumber });
     }
     // Si se usa solo el modulo sound, se actualizan los valores en system/status
-    if ( this.infoLargeCurrent.module === 1 ) {
+    if ( this.infoShortCurrent.module === 1 ) {
       this._firebase.object('system/status/sound').update({'value': 3 , 'sessionNumber': sessionNumber });
     }
   }

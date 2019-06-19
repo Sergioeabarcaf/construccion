@@ -28,8 +28,8 @@ export class LiveComponent implements OnInit {
       this.sessionNumberCurrent = param.id;
       // Actualizar los valores de current en firebase.service con los de la ultima sesion.
       this._firebase.getDataSessionCurrent(param.id);
-      // Obtener informacion de la sesion
-      this._firebase.getInfoLargeCurrent(param.id);
+      // Obtener informacion corta de la sesion
+      this._firebase.getInfoShortCurrent(param.id);
     });
   }
 
