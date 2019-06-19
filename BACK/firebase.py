@@ -53,6 +53,7 @@ def sendInfoShort(infoShort):
     db.reference(dir).set(infoShort)
 
 def sendInfoLarge(infoLarge):
+    print infoLarge
     dir = 'info/large/S-' + str(infoLarge['sessionNumber'])
     db.reference(dir).set(infoLarge)
 

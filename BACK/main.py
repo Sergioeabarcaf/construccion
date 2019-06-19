@@ -38,6 +38,32 @@ def getData(dirFile, module, sessionNumber):
     firebase.pushData(module, sessionNumber, data)
     csvFile.writeData(dirFile, data)
 
+    return data
+
+# Funcion para actualizar los maximos y minimos
+def maxAndMin(extreme, data):
+    # Comparar maximos
+    if extreme['max']['Ti'] < data['Ti']:
+        extreme['max']['Ti'] = data['Ti']
+    if extreme['max']['Hi'] < data['Hi']:
+        extreme['max']['Hi'] = data['Hi']
+    if extreme['max']['Te'] < data['Te']:
+        extreme['max']['Te'] = data['Te']
+    if extreme['max']['He'] < data['He']:
+        extreme['max']['He'] = data['He']
+    # Comparar minimos
+    if extreme['min']['Ti'] > data['Ti']:
+        extreme['min']['Ti'] = data['Ti']
+    if extreme['min']['Hi'] > data['Hi']:
+        extreme['min']['Hi'] = data['Hi']
+    if extreme['min']['Te'] > data['Te']:
+        extreme['min']['Te'] = data['Te']
+    if extreme['min']['He'] > data['He']:
+        extreme['min']['He'] = data['He']
+    # Retornar nuevo valores de extreme
+    return extreme
+
+
 # Detener la ejecucion de cualquier sesion al iniciar el programa
 firebase.clean(module, converter.getTimestamp(), 'start')
 
@@ -48,7 +74,7 @@ while(True):
         # Consultar si se ha enviado una nueva sesion desde la web app
         init = firebase.start(module)
         if init != 0:
-            print extreme
+            print init
             # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
             interval = int(init['timeInterval']) - 2
 
@@ -68,21 +94,21 @@ while(True):
                 print('manual')
                 # Esperar a que el usuario termine desde la WebApp
                 while (firebase.endManualFromWebApp(module)):
-                    getData(dirFile, module, init['sessionNumber'])
-                    # 
-                    # Comparar valores para almacenar maximos y minimos
-                    # 
+                    data = getData(dirFile, module, init['sessionNumber'])
+                    # Actualizar los valores maximos y minimos de extreme
+                    extreme[module] = maxAndMin(extreme[module], data)
+                    # Pausar ejecucon en el intervalo definido
                     time.sleep(interval)
                 # 
                 # Subir archivo CSV a storage
                 # 
-                url = 'algo'
-                # Actualizar la infoLarge con endTimestamp y url, almacenar en firebase
-                firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url})
-                # Almacenar la informacion y detener la medicion
-                firebase.execManualEnd(module, infoShort, int(init['module']))
-                # Limpiar infoLarge
-                infoLarge.clear()
+                # url = 'algo'
+                # # Actualizar la infoLarge con endTimestamp y url, almacenar en firebase
+                # firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url})
+                # # Almacenar la informacion y detener la medicion
+                # firebase.execManualEnd(module, infoShort, int(init['module']))
+                # # Limpiar infoLarge
+                # infoLarge.clear()
 
             # Funcionamiento en modo automatico
             elif int(init['endType']) == 1:
@@ -92,23 +118,21 @@ while(True):
                 # Mientras hora actual sea menor o igual a finishedDate y el usuario no
                 # haya terminado desde la aplicacion, realizar mediciones en los intervalos
                 while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(module) ):
-                    getData(dirFile, module, init['sessionNumber'])
-                    # 
-                    # Comparar valores para almacenar maximos y minimos
-                    # 
+                    data = getData(dirFile, module, init['sessionNumber'])
+                    # Actualizar los valores maximos y minimos de extreme
+                    extreme[module] = maxAndMin(extreme[module], data)
+                    # Pausar ejecucion en el intervalo definido
                     time.sleep(interval)
-                    # 
                 print 'Finalizado por tiempo'
                 # Subir archivo CSV a storage
                 # 
-                url = 'algo'
-                # Actualizar la infoLarge con endTimestamp y url en firebase
-                firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url})
-                # # Si el sistema se detuvo por comparacion de fecha, cerrar el registro de ejecucion en firebase
-                # if (finishedDate < converter.nowDateTime() ):
-                firebase.execManualEnd(module, infoShort, int(init['module']))
-                # Limpiar infoLarge
-                infoLarge.clear()
+            url = 'algo'
+            # Actualizar la infoLarge con endTimestamp y url en firebase
+            firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url, 'extreme': extreme})
+            # Almacenar la infomacion en firebase y finalizar medicion
+            firebase.execManualEnd(module, infoShort, int(init['module']))
+            # Limpiar infoLarge
+            infoLarge.clear()
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
     # except:
     #     print sys.exc_info()
