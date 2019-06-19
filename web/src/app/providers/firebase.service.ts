@@ -26,7 +26,7 @@ export class FirebaseService {
 
   // Ultimos valores recibidos de la ultima sesion.
   soundData = {
-    timestamp: '',
+    timestamp: '0',
     He: 0,
     Te: 0,
     Hi: 0,
@@ -34,7 +34,7 @@ export class FirebaseService {
   };
 
   thermalData = {
-    timestamp: '',
+    timestamp: '0',
     He: 0,
     Te: 0,
     Hi: 0,
@@ -108,6 +108,8 @@ export class FirebaseService {
 
   // Obtener la información corta de todas las mediciones realizadas, se usa en INIT, SESSIONS
   getInfoSessionsShort() {
+    // Limpiar infoSessionShort
+    this.infoSessionsShort = null;
     // Obtener el listado se sesiones
     this._firebase.list('info/short', ref => ref.orderByChild('timeStart')).valueChanges().subscribe( (data: any[]) => {
       // invertir orden del array
@@ -118,11 +120,14 @@ export class FirebaseService {
 
   // Obtener la informacion completa de la sesion, se usa en LIVE
   getInfoLargeCurrent(session) {
+    // Limpiar infoLargeCurrent
+    this.infoLargeCurrent = null;
     // Cada vez que se solicite una informacion, comience en false y cambie cuando los datos ya estan cargados.
     this.infoLargeSessionCurrentReady = false;
     this._firebase.object(`info/large/S-${session}`).valueChanges().subscribe( (data: any) => {
       this.infoLargeCurrent = data;
       this.infoLargeSessionCurrentReady = true;
+      console.log(this.infoLargeCurrent);
     });
   }
 
@@ -134,8 +139,6 @@ export class FirebaseService {
     // Colocar flag en false cada vez que se obtienen datos.
     this.dataSessionCurrentReady = false;
     this._firebase.list(`data/S-${session}/thermal`).valueChanges().subscribe( (data: any[]) => {
-      console.log(data);
-      console.log(typeof(data));
       // Almacenar todos los datos recibidos para mostrarlos en tablas
       this.dataCurrentThermal = data;
       // Extraer el ultimo dato para mostrarlo en gauge
@@ -145,11 +148,10 @@ export class FirebaseService {
       this.current.thermal.Hi = dataLastThermal.Hi;
       this.current.thermal.Te = dataLastThermal.Te;
       this.current.thermal.Ti = dataLastThermal.Ti;
+      console.log(this.current);
     });
 
     this._firebase.list(`data/S-${session}/sound`).valueChanges().subscribe( (data: any[]) => {
-      console.log(data);
-      console.log(typeof(data));
       // Almacenar todos los datos recibidos para mostrarlos en tablas
       this.dataCurrentSound = data;
       // Extraer el ultimo dato para mostrarlo en gauge
@@ -159,8 +161,8 @@ export class FirebaseService {
       this.current.sound.Hi = dataLastSound.Hi;
       this.current.sound.Te = dataLastSound.Te;
       this.current.sound.Ti = dataLastSound.Ti;
+      console.log(this.current);
     });
-    console.log(this.current);
     this.dataSessionCurrentReady = true;
   }
 

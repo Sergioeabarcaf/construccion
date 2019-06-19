@@ -23,16 +23,16 @@
                         <table class="table table-borderless table-sm">
                             <tbody>
                                 <tr>
-                                    <td class="border-right">Fecha inicio: {{ _firebase.infoLargeCurrent.startTimestamp * 1000 | date:'dd MMMM yyyy' }}</td>
+                                    <td class="border-right">Fecha inicio: {{ _firebase.infoLargeCurrent.startTimestamp * 1000 | date:'dd/MM/yyyy' }}</td>
                                     <td class="border-right">Material: {{ _firebase.infoLargeCurrent.material }}</td>
-                                    <td class="border-right">Fecha termino: {{ _firebase.infoLargeCurrent.endTimestamp * 1000 | date:'dd MMMM yyyy' }}</td>
-                                    <td class="border-right">Responsable: {{ _firebase.infoLargeCurrent.responsable }}</td>
+                                    <td class="border-right">Fecha termino: {{ _firebase.infoLargeCurrent.endTimestamp * 1000 | date:'dd/MM/yyyy' }}</td>
+                                    <td class="border-right">Iniciado por: {{ _firebase.infoLargeCurrent.startResponsable }}</td>
                                 </tr>
                                 <tr>
                                     <td>Hora inicio: {{ _firebase.infoLargeCurrent.startTimestamp * 1000 | date:'HH:mm' }}</td>
-                                    <td>Intervalo de medición: {{ _firebase.infoLargeCurrent.intervalTime }} segundos</td>
-                                    <td>Hora termino: {{ _firebase.infoLargeCurrent.endTimestamp }}</td>
-                                    <td>Responsable finalizacion: {{ _firebase.infoLargeCurrent.endResponsable }}</td>
+                                    <td>Intervalo de medición: {{ _firebase.infoLargeCurrent.timeInterval }} segundos</td>
+                                    <td>Hora termino: {{ _firebase.infoLargeCurrent.endTimestamp * 1000 | date:'HH:mm' }}</td>
+                                    <td>Finalizado por: {{ _firebase.infoLargeCurrent.endResponsable }}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" *ngIf="_firebase.infoLargeCurrent.module == 2">Modulos usados: ambos</td>
@@ -51,7 +51,7 @@
 
         <!-- tarjeta con información sobre maximos y minimos-->
         <!-- Modulo termico -->
-        <div class="col-10 my-4" *ngIf="_firebase.infoLargeCurrent.module == 2 || _firebase.infoLargeCurrent.module == 0">
+        <!-- <div class="col-10 my-4" *ngIf="_firebase.infoLargeCurrent.module == 2 || _firebase.infoLargeCurrent.module == 0">
             <div class="card">
                 <div class="card-header">
                     Máximos y Minimos módulo térmico.
@@ -77,10 +77,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Modulo acustico -->
-        <div class="col-10 my-4" *ngIf="_firebase.dataCurrent.module == 2 || _firebase.dataCurrent.module == 1">
+        <!-- <div class="col-10 my-4" *ngIf="_firebase.infoLargeCurrent.module == 2 || _firebase.infoLargeCurrent.module == 1">
             <div class="card">
                 <div class="card-header">
                     Máximos y Minimos módulo acústico.
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- AGREGAR GRAFICO CON LOS DATOS OBTENIDOS. -->
@@ -131,7 +131,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let data of _firebase.dataCurrent.thermal">
+                            <tr *ngFor="let data of _firebase.dataCurrentThermal">
                                 <th>{{ data.timestamp * 1000 | date:'dd/MMM - HH:mm:ss' }}</th>
                                 <td>{{ data.Ti }}</td>
                                 <td>{{ data.Hi }}</td>
@@ -162,7 +162,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let data of _firebase.dataCurrent.sound">
+                            <tr *ngFor="let data of _firebase.dataCurrentSound">
                                 <th>{{ data.timestamp * 1000 | date:'dd/MMM - HH:mm:ss' }}</th>
                                 <td>{{ data.Ti }}</td>
                                 <td>{{ data.Hi }}</td>
@@ -196,7 +196,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let data of _firebase.dataCurrent.thermal">
+                            <tr *ngFor="let data of _firebase.dataCurrentThermal">
                                 <th>{{ data.timestamp * 1000 | date:'dd/MMM - HH:mm:ss' }}</th>
                                 <td>{{ data.Ti }}</td>
                                 <td>{{ data.Hi }}</td>
@@ -227,7 +227,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let data of _firebase.dataCurrent.sound">
+                            <tr *ngFor="let data of _firebase.dataCurrentSound">
                                 <th>{{ data.timestamp * 1000 | date:'dd/MMM - HH:mm:ss' }}</th>
                                 <td>{{ data.Ti }}</td>
                                 <td>{{ data.Hi }}</td>
