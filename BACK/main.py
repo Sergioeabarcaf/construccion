@@ -10,35 +10,20 @@ import conection
 module = 'thermal'
 
 # Generar estructura para almacenar la informacion larga de la sesion
-infoLarge = {
-    'extreme': {
-        'thermal': {
-            'max':{
-                'Ti': -1,
-                'Hi': -1,
-                'Te': -1,
-                'He': -1
-            },
-            'min':{
-                'Ti': -1,
-                'Hi': -1,
-                'Te': -1,
-                'He': -1
-            }
+
+extreme = {
+    module: {
+        'max':{
+            'Ti': -1000,
+            'Hi': -1000,
+            'Te': -1000,
+            'He': -1000
         },
-        'sound': {
-            'max':{
-                'Ti': -1,
-                'Hi': -1,
-                'Te': -1,
-                'He': -1
-            },
-            'min':{
-                'Ti': -1,
-                'Hi': -1,
-                'Te': -1,
-                'He': -1
-            }
+        'min':{
+            'Ti': 1000,
+            'Hi': 1000,
+            'Te': 1000,
+            'He': 1000
         }
     }
 }
@@ -63,7 +48,7 @@ while(True):
         # Consultar si se ha enviado una nueva sesion desde la web app
         init = firebase.start(module)
         if init != 0:
-            print init
+            print extreme
             # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
             interval = int(init['timeInterval']) - 2
 
