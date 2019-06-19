@@ -60,13 +60,13 @@
                 </div>
                 <!-- Hora y fecha del dato obtenido -->
                 <div class="card-footer text-muted">
-                    Dato obtenido: {{ _firebase.current.thermal.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+                    Dato obtenido: {{ _firebase.current.thermal.timestamp * 1000 | date:'HH:mm:ss - dd/MM/yyyy' }}
                 </div>
             </div>
         </div>
 
         <!-- Gauge para modulo acustico -->
-        <div class="col-11 col-md-5 py-3">
+        <div class="col-10 col-md-5 py-3">
             <!-- Gauge realtime con datos actualizados en tiempo real -->
             <div class="card text-center">
                 <div class="card-header">
@@ -99,7 +99,7 @@
                 </div>
                 <!-- Hora y fecha del dato obtenido -->
                 <div class="card-footer text-muted">
-                    Dato obtenido: {{ _firebase.current.sound.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+                    Dato obtenido: {{ _firebase.current.sound.timestamp * 1000 | date:'HH:mm:ss - dd/MM/yyyy' }}
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
     <!-- Gauge para sesion de un solo modulo -->
     <div class="row justify-content-around" *ngIf="_firebase.infoLargeCurrent.module != 2">
         <!-- Gauge para modulo termico -->
-        <div class="col-10 py-3" *ngIf="_firebase.infoLargeCurrent.moudule == 0">
+        <div class="col-10 col-md-8 py-3" *ngIf="_firebase.infoLargeCurrent.module == 0">
             <!-- Gauge realtime con datos actualizados en tiempo real -->
             <div class="card text-center">
                 <div class="card-header">
@@ -141,13 +141,13 @@
                 </div>
                 <!-- Hora y fecha del dato obtenido -->
                 <div class="card-footer text-muted">
-                    Dato obtenido: {{ _firebase.current.thermal.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+                    Dato obtenido: {{ _firebase.current.thermal.timestamp * 1000 | date:'HH:mm:ss - dd/MM/yyyy' }}
                 </div>
             </div>
         </div>
 
         <!-- Gauge para modulo acustico -->
-        <div class="col-10 py-3" *ngIf="_firebase.infoLargeCurrent.moudule == 1">
+        <div class="col-10 col-md-8 py-3" *ngIf="_firebase.infoLargeCurrent.module == 1">
             <!-- Gauge realtime con datos actualizados en tiempo real -->
             <div class="card text-center">
                 <div class="card-header">
@@ -180,7 +180,7 @@
                 </div>
                 <!-- Hora y fecha del dato obtenido -->
                 <div class="card-footer text-muted">
-                    Dato obtenido: {{ _firebase.current.sound.timestamp | date:'HH:mm dd - MMMM - YYYY' }}
+                    Dato obtenido: {{ _firebase.current.sound.timestamp * 1000 | date:'HH:mm:ss - dd/MM/yyyy' }}
                 </div>
             </div>
         </div>

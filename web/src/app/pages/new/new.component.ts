@@ -52,12 +52,12 @@ export class NewComponent implements OnInit {
 
   // Enviar datos de formulario a firebase y inicializar el contenido de current en firebase
   sendForm() {
-    this._firebase.current.thermal.timestamp = '0';
+    this._firebase.current.thermal.timestamp = 0;
     this._firebase.current.thermal.He = 0;
     this._firebase.current.thermal.Hi = 0;
     this._firebase.current.thermal.Te = 0;
     this._firebase.current.thermal.Ti = 0;
-    this._firebase.current.sound.timestamp = '0';
+    this._firebase.current.sound.timestamp = 0;
     this._firebase.current.sound.He = 0;
     this._firebase.current.sound.Hi = 0;
     this._firebase.current.sound.Te = 0;

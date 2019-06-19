@@ -26,7 +26,7 @@ export class FirebaseService {
 
   // Ultimos valores recibidos de la ultima sesion.
   soundData = {
-    timestamp: '0',
+    timestamp: 0,
     He: 0,
     Te: 0,
     Hi: 0,
@@ -34,7 +34,7 @@ export class FirebaseService {
   };
 
   thermalData = {
-    timestamp: '0',
+    timestamp: 0,
     He: 0,
     Te: 0,
     Hi: 0,
