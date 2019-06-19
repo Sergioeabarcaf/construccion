@@ -9,26 +9,6 @@ import conection
 # Cambiar segun el modulo donde se esta utilizando, pudiendo ser thermal o sound
 module = 'thermal'
 
-# Generar estructura para almacenar la informacion larga de la sesion
-
-extreme = {
-    module: {
-        'max':{
-            'Ti': -1000,
-            'Hi': -1000,
-            'Te': -1000,
-            'He': -1000
-        },
-        'min':{
-            'Ti': 1000,
-            'Hi': 1000,
-            'Te': 1000,
-            'He': 1000
-        }
-    }
-}
-
-
 # Funcion para obtener datos de medicion.
 def getData(dirFile, module, sessionNumber):
     data = {'timestamp': converter.getTimestamp()}
@@ -63,6 +43,26 @@ def maxAndMin(extreme, data):
     # Retornar nuevo valores de extreme
     return extreme
 
+# Funcion para colocar valores por defecto para extreme
+def cleanExtreme(module):
+    extreme = {
+        module: {
+            'max':{
+                'Ti': -1000,
+                'Hi': -1000,
+                'Te': -1000,
+                'He': -1000
+            },
+            'min':{
+                'Ti': 1000,
+                'Hi': 1000,
+                'Te': 1000,
+                'He': 1000
+            }
+        }
+    }
+
+    return extreme
 
 # Detener la ejecucion de cualquier sesion al iniciar el programa
 firebase.clean(module, converter.getTimestamp(), 'start')
@@ -75,6 +75,10 @@ while(True):
         init = firebase.start(module)
         if init != 0:
             print init
+            
+            # Colocar valores de extreme por defecto
+            extreme = cleanExtreme(module)
+
             # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
             interval = int(init['timeInterval']) - 2
 
