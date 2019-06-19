@@ -72,7 +72,7 @@ while(True):
             firebase.sendInfoLarge(infoLarge)
 
             # Crear infoShort y actualizar en info/short de firebase
-            infoShort = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': infoLarge['startTimestamp'], 'sessionNumber': int(init['sessionNumber']), 'status': 1}
+            infoShort = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': infoLarge['startTimestamp'], 'sessionNumber': int(init['sessionNumber']), 'status': 1, 'module': int(init['module'])}
             firebase.sendInfoShort(infoShort)
 
             # Crear archivo CSV con tiempo actual y cabeceras de informacion
