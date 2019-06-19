@@ -113,7 +113,7 @@ export class FirebaseService {
     // Limpiar infoSessionShort
     this.infoSessionsShort = null;
     // Obtener el listado se sesiones
-    this._firebase.list('info/short', ref => ref.orderByChild('timeStart')).valueChanges().subscribe( (data: any[]) => {
+    this._firebase.list('info/short', ref => ref.orderByChild('startTimestamp')).valueChanges().subscribe( (data: any[]) => {
       // invertir orden del array
       this.infoSessionsShort = data.reverse();
       console.log(this.infoSessionsShort);
