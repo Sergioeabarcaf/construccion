@@ -13,7 +13,17 @@
     </div>
 </div>
 
-<div *ngIf="_firebase.dataSessionCurrentReady">
+<!-- Alerta en caso de que los datos aun no se hayan obtenidos -->
+<div class="row justify-content-center" *ngIf="_firebase.infoLargeCurrent == null">
+    <div class="col-10 col-md-6">
+        <div class="alert alert-warning" role="alert">
+            Esperando a obtener datos de la medición.
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="_firebase.dataSessionCurrentReady && _firebase.infoLargeCurrent != null">
     <!-- Gauge para sesion de ambos modulos -->
     <div class="row justify-content-around" *ngIf="_firebase.infoLargeCurrent.module == 2">
         <!-- Gauge para modulo termico -->
@@ -179,22 +189,22 @@
     <!-- Tabla con datos historicos de la medicion actual ambos modulos -->
     <div class="row justify-content-around my-3" *ngIf="_firebase.infoLargeCurrent.module == 2">
         <!-- Modulo termico -->
-        <div class="col-10 col-md-5 text-center">
-            <p class="h5"> Módulo Térmico</p>
-            <div class="table-responsive">
+        <div class="col-10 col-md-5 text-center" *ngIf="_firebase.dataCurrentThermal.length > 0">
+            <p class="h3 text-center py-3"> Módulo Térmico</p>
+            <div class="table-responsive text-center">
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Timestamp</th>
-                            <th scope="col">Temperatura Interior</th>
-                            <th scope="col">Humedad Interior</th>
-                            <th scope="col">Temperatura Exterior</th>
-                            <th scope="col">Humedad Exterior</th>
+                            <th scope="col">Temperatura Interior (°C)</th>
+                            <th scope="col">Humedad Interior (%hr)</th>
+                            <th scope="col">Temperatura Exterior (°C)</th>
+                            <th scope="col">Humedad Exterior (%hr)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of _firebase.dataCurrent.thermal">
-                            <td>{{ data.timestamp }}</td>
+                        <tr *ngFor="let data of _firebase.dataCurrentThermal">
+                            <td>{{ data.timestamp * 1000 | date:'dd/MM - HH:mm:ss' }}</td>
                             <td>{{ data.Ti }}</td>
                             <td>{{ data.Hi }}</td>
                             <td>{{ data.Te }}</td>
@@ -206,22 +216,22 @@
         </div>
 
         <!-- Modulo Acustico -->
-        <div class="col-10 col-md-5 text-center">
-            <p class="h5"> Módulo Acústico</p>
-            <div class="table-responsive">
+        <div class="col-10 col-md-5 text-center" *ngIf="_firebase.dataCurrentSound.length > 0">
+            <p class="h3 text-center py-3"> Módulo Acústico</p>
+            <div class="table-responsive text-center">
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Timestamp</th>
-                            <th scope="col">Temperatura Interior</th>
-                            <th scope="col">Humedad Interior</th>
-                            <th scope="col">Temperatura Exterior</th>
-                            <th scope="col">Humedad Exterior</th>
+                            <th scope="col">Temperatura Interior (°C)</th>
+                            <th scope="col">Humedad Interior (%hr)</th>
+                            <th scope="col">Temperatura Exterior (°C)</th>
+                            <th scope="col">Humedad Exterior (%hr)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of _firebase.dataCurrent.sound">
-                            <td>{{ data.timestamp }}</td>
+                        <tr *ngFor="let data of _firebase.dataCurrentSound">
+                            <td>{{ data.timestamp * 1000 | date:'dd/MM - HH:mm:ss' }}</td>
                             <td>{{ data.Ti }}</td>
                             <td>{{ data.Hi }}</td>
                             <td>{{ data.Te }}</td>
@@ -236,22 +246,22 @@
     <!-- Tabla con datos historicos de la medicion actual, modulo separado -->
     <div class="row justify-content-around my-3" *ngIf="_firebase.infoLargeCurrent.module != 2">
         <!-- Modulo termico -->
-        <div class="col-10" *ngIf="_firebase.infoLargeCurrent.module == 0">
-            <p class="h5"> Módulo Térmico</p>
-            <div class="table-responsive">
+        <div class="col-8" *ngIf="_firebase.infoLargeCurrent.module == 0 && _firebase.dataCurrentThermal.length > 0">
+            <p class="h3 text-center py-3"> Módulo Térmico</p>
+            <div class="table-responsive text-center">
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Timestamp</th>
-                            <th scope="col">Temperatura Interior</th>
-                            <th scope="col">Humedad Interior</th>
-                            <th scope="col">Temperatura Exterior</th>
-                            <th scope="col">Humedad Exterior</th>
+                            <th scope="col">Temperatura Interior (°C)</th>
+                            <th scope="col">Humedad Interior (%hr)</th>
+                            <th scope="col">Temperatura Exterior (°C)</th>
+                            <th scope="col">Humedad Exterior (%hr)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of _firebase.dataCurrent.thermal">
-                            <td>{{ data.timestamp }}</td>
+                        <tr *ngFor="let data of _firebase.dataCurrentThermal">
+                            <td>{{ data.timestamp * 1000 | date:'dd/MM - HH:mm:ss' }}</td>
                             <td>{{ data.Ti }}</td>
                             <td>{{ data.Hi }}</td>
                             <td>{{ data.Te }}</td>
@@ -263,22 +273,22 @@
         </div>
 
         <!-- Modulo Acustico -->
-        <div class="col-10" *ngIf="_firebase.infoLargeCurrent.module == 1">
-            <p class="h5"> Módulo Acústico</p>
-            <div class="table-responsive">
+        <div class="col-8" *ngIf="_firebase.infoLargeCurrent.module == 1 && _firebase.dataCurrentSound.length > 0">
+            <p class="h3 text-center py-3"> Módulo Acústico</p>
+            <div class="table-responsive text-center">
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Timestamp</th>
-                            <th scope="col">Temperatura Interior</th>
-                            <th scope="col">Humedad Interior</th>
-                            <th scope="col">Temperatura Exterior</th>
-                            <th scope="col">Humedad Exterior</th>
+                            <th scope="col">Temperatura Interior (°C)</th>
+                            <th scope="col">Humedad Interior (%hr)</th>
+                            <th scope="col">Temperatura Exterior (°C)</th>
+                            <th scope="col">Humedad Exterior (%hr)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of _firebase.dataCurrent.sound">
-                            <td>{{ data.timestamp }}</td>
+                        <tr *ngFor="let data of _firebase.dataCurrentSound">
+                            <td>{{ data.timestamp * 1000 | date:'dd/MM - HH:mm:ss' }}</td>
                             <td>{{ data.Ti }}</td>
                             <td>{{ data.Hi }}</td>
                             <td>{{ data.Te }}</td>
