@@ -74,7 +74,7 @@ while(True):
         # Consultar si se ha enviado una nueva sesion desde la web app
         init = firebase.start(module)
         if init != 0:
-            print init
+            print(init)
             
             # Colocar valores de extreme por defecto
             extreme = cleanExtreme(module)
@@ -127,7 +127,7 @@ while(True):
                     extreme[module] = maxAndMin(extreme[module], data)
                     # Pausar ejecucion en el intervalo definido
                     time.sleep(interval)
-                print 'Finalizado por tiempo'
+                print('Finalizado por tiempo')
                 # Subir archivo CSV a storage
                 # 
             url = 'algo'
