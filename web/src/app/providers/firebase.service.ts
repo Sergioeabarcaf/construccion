@@ -188,7 +188,9 @@ export class FirebaseService {
     this._firebase.object(`info/large/S-${sessionNumber}/endResponsable`).set(endResponsable);
     // Si se usan ambos modulos, se actualizan los valores en system/status
     if ( this.infoShortCurrent.module === 2 ) {
-      this._firebase.object('system/status/both').update({'value': 3 , 'sessionNumber': sessionNumber });
+      this._firebase.object('system/status').update({'both': {'value': 3 , 'sessionNumber': sessionNumber },
+                                                    'sound': {'value': 3 , 'sessionNumber': sessionNumber },
+                                                    'thermal': {'value': 3 , 'sessionNumber': sessionNumber }});
     }
     // Si se usa solo el modulo thermal, se actualizan los valores en system/status
     if ( this.infoShortCurrent.module === 0 ) {
