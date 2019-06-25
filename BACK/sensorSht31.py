@@ -26,13 +26,13 @@ def getTempHum(dir):
 
     if (dir == 0x44):
         # Output data to screen
-        print "Temperatura interior: " + cTemp
-        print "Humedad interior: " + humidity
+        print "Temperatura interior: " + str(cTemp)
+        print "Humedad interior: " + str(humidity)
 
         return {'Ti': cTemp, 'Hi': humidity}
     elif (dir == 0x45):
         # Output data to screen
-        print "Temperatura exterior: " + cTemp
-        print "Humedad exterior: " + humidity
+        print "Temperatura exterior: " + str(cTemp)
+        print "Humedad exterior: " + str(humidity)
 
         return {'Te': cTemp, 'He': humidity}
