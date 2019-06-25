@@ -5,6 +5,7 @@ import sensor
 import time
 import csvFile
 import conection
+import sensorSht31
 
 # Cambiar segun el modulo donde se esta utilizando, pudiendo ser thermal o sound
 module = 'thermal'
@@ -12,8 +13,8 @@ module = 'thermal'
 # Funcion para obtener datos de medicion.
 def getData(dirFile, module, sessionNumber):
     data = {'timestamp': converter.getTimestamp()}
-    data.update(sensor.getExterior())
-    data.update(sensor.getInterior())
+    data.update(sensorSht31.getTempHum(0x44))
+    data.update(sensorSht31.getTempHum(0x45))
 
     firebase.pushData(module, sessionNumber, data)
     csvFile.writeData(dirFile, data)
