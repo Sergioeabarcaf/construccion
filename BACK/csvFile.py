@@ -1,6 +1,6 @@
 import csv
 
-fieldNames = ['timestamp', 'Te', 'Ti', 'Hi', 'He']
+fieldNames = ['timestamp', 'Te', 'Ti', 'Hi', 'He', 'TObj']
 keys = []
 
 
