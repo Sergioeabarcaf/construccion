@@ -1,11 +1,11 @@
 import sys
 import firebase
 import converter
-import sensor
 import time
 import csvFile
 import conection
 import sensorSht31
+import sensorMlx90614
 
 # Cambiar segun el modulo donde se esta utilizando, pudiendo ser thermal o sound
 module = 'thermal'
@@ -15,6 +15,7 @@ def getData(dirFile, module, sessionNumber):
     data = {'timestamp': converter.getTimestamp()}
     data.update(sensorSht31.getTempHum(0x44))
     data.update(sensorSht31.getTempHum(0x45))
+    data.update(sensorMlx90614.getTempObj())
 
     firebase.pushData(module, sessionNumber, data)
     csvFile.writeData(dirFile, data)

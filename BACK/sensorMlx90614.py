@@ -64,7 +64,13 @@ class MLX90614():
         return self.data_to_temp(data)
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
+#     sensor = MLX90614()
+#     print(sensor.get_amb_temp())
+#     print(sensor.get_obj_temp())
+
+def getTempObj():
     sensor = MLX90614()
     print(sensor.get_amb_temp())
-    print(sensor.get_obj_temp())
+    print(sensor.get_obj_temp()) 
+    return ({'TObj': round(sensor.get_obj_temp, 2)}) 
