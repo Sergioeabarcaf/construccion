@@ -73,4 +73,4 @@ def getTempObj():
     sensor = MLX90614()
     print(sensor.get_amb_temp())
     print(sensor.get_obj_temp()) 
-    return ({'TObj': sensor.get_obj_temp}) 
+    return ({'TObj': sensor.get_obj_temp()}) 
