@@ -53,7 +53,7 @@ class MLX90614():
 
     def data_to_temp(self, data):
         temp = (data*0.02) - 273.15
-        return temp
+        return round(temp,2)
 
     def get_amb_temp(self):
         data = self.read_reg(self.MLX90614_TA)
@@ -73,4 +73,4 @@ def getTempObj():
     sensor = MLX90614()
     print(sensor.get_amb_temp())
     print(sensor.get_obj_temp()) 
-    return ({'TObj': round(sensor.get_obj_temp, 2)}) 
+    return ({'TObj': sensor.get_obj_temp}) 
