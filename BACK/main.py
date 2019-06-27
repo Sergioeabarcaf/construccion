@@ -1,5 +1,5 @@
 import sys
-import firebase
+import firebaseOwn as firebase
 import converter
 import time
 import csvFile
@@ -33,6 +33,8 @@ def maxAndMin(extreme, data):
         extreme['max']['Te'] = data['Te']
     if extreme['max']['He'] < data['He']:
         extreme['max']['He'] = data['He']
+    if extreme['max']['TObj'] < data['TObj']:
+        extreme['max']['TObj'] = data['TObj']
     # Comparar minimos
     if extreme['min']['Ti'] > data['Ti']:
         extreme['min']['Ti'] = data['Ti']
@@ -42,6 +44,8 @@ def maxAndMin(extreme, data):
         extreme['min']['Te'] = data['Te']
     if extreme['min']['He'] > data['He']:
         extreme['min']['He'] = data['He']
+    if extreme['min']['TObj'] > data['TObj']:
+        extreme['min']['TObj'] = data['TObj']
     # Retornar nuevo valores de extreme
     return extreme
 
@@ -53,13 +57,15 @@ def cleanExtreme(module):
                 'Ti': -1000,
                 'Hi': -1000,
                 'Te': -1000,
-                'He': -1000
+                'He': -1000,
+                'TObj': -1000
             },
             'min':{
                 'Ti': 1000,
                 'Hi': 1000,
                 'Te': 1000,
-                'He': 1000
+                'He': 1000,
+                'TObj': 1000
             }
         }
     }
@@ -99,8 +105,8 @@ while(True):
             if int(init['endType']) == 0:
                 print('manual')
                 # Esperar a que el usuario termine desde la WebApp
-                while (firebase.endManualFromWebApp(module)):
-                    data = getData(dirFile, module, init['sessionNumber'])
+                while (firebase.endManualFromWebApp(infoShort['sessionNumber'])):
+                    data = getData(dirFile, module, infoShort['sessionNumber'])
                     # Actualizar los valores maximos y minimos de extreme
                     extreme[module] = maxAndMin(extreme[module], data)
                     # Pausar ejecucon en el intervalo definido
@@ -108,14 +114,6 @@ while(True):
                 # 
                 # Subir archivo CSV a storage
                 # 
-                # url = 'algo'
-                # # Actualizar la infoLarge con endTimestamp y url, almacenar en firebase
-                # firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url})
-                # # Almacenar la informacion y detener la medicion
-                # firebase.execManualEnd(module, infoShort, int(init['module']))
-                # # Limpiar infoLarge
-                # infoLarge.clear()
-
             # Funcionamiento en modo automatico
             elif int(init['endType']) == 1:
                 print('automatico')
@@ -123,8 +121,8 @@ while(True):
                 finishedDate = converter.finishDate(init['endDate'], init['endTime'] )
                 # Mientras hora actual sea menor o igual a finishedDate y el usuario no
                 # haya terminado desde la aplicacion, realizar mediciones en los intervalos
-                while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(module) ):
-                    data = getData(dirFile, module, init['sessionNumber'])
+                while( finishedDate >= converter.nowDateTime() and firebase.endManualFromWebApp(infoShort['sessionNumber']) ):
+                    data = getData(dirFile, module, infoShort['sessionNumber'])
                     # Actualizar los valores maximos y minimos de extreme
                     extreme[module] = maxAndMin(extreme[module], data)
                     # Pausar ejecucion en el intervalo definido
@@ -134,9 +132,9 @@ while(True):
                 # 
             url = 'algo'
             # Actualizar la infoLarge con endTimestamp y url en firebase
-            firebase.updateInfoLarge(int(init['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url, 'extreme': extreme})
+            firebase.updateInfoLarge(int(infoLarge['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url, 'extreme': extreme})
             # Almacenar la infomacion en firebase y finalizar medicion
-            firebase.execManualEnd(module, infoShort, int(init['module']))
+            firebase.execManualEnd(module, infoShort['sessionNumber'], int(infoShort['module']))
             # Limpiar infoLarge
             infoLarge.clear()
 # Si existe un error, enviar el timestamp del error a firebase y el tipo de error
