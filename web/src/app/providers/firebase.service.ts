@@ -17,10 +17,6 @@ export class FirebaseService {
     sessionNumber: -1,
     value: -1
   };
-  both = {
-    sessionNumber: -1,
-    value: -1
-  };
   // Almacenar el numero de la sesion a realizar.
   currentSessionNumber = -1;
 
@@ -70,7 +66,6 @@ export class FirebaseService {
     this._firebase.object('system').valueChanges().subscribe( (data: any) => {
       this.thermal = data.status.thermal;
       this.sound = data.status.sound;
-      this.both = data.status.both;
       this.currentSessionNumber = data.lastSession + 1;
     });
   }
@@ -86,23 +81,20 @@ export class FirebaseService {
       this._firebase.object('init/sound').set(formulario);
       // Se actualizan los estados en system/Status
       this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sessionNumber': formulario.sessionNumber },
-                                                      'sound': {'value': 1 , 'sessionNumber': formulario.sessionNumber },
-                                                      'both': {'value': 1 , 'sessionNumber': formulario.sessionNumber }
+                                                      'sound': {'value': 1 , 'sessionNumber': formulario.sessionNumber }
                                                     });
     }
     // Si se usa solo el modulo thermal, se actualizan los valores en system/status
     if ( formulario.module === 0 ) {
       // Se agregan los parametros de iniciacion en init para modulo thermal.
       this._firebase.object('init/thermal').set(formulario);
-      this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sessionNumber': formulario.sessionNumber},
-                                                      'both': {'value': -1 , 'sessionNumber': 0 }});
+      this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sessionNumber': formulario.sessionNumber}});
     }
     // Si se usa solo el modulo sound, se actualizan los valores en system/status
     if ( formulario.module === 1 ) {
       // Se agregan los parametros de iniciacion en init para modulo sound.
       this._firebase.object('init/sound').set(formulario);
-      this._firebase.object('system/status').update({'sound': {'value': 1 , 'sessionNumber': formulario.sessionNumber},
-                                                      'both': {'value': -1 , 'sessionNumber': 0 }});
+      this._firebase.object('system/status').update({'sound': {'value': 1 , 'sessionNumber': formulario.sessionNumber}});
     }
     // Enviar la navegacion a live con el numero de sesion
     this.router.navigate(['/live', formulario.sessionNumber]);
@@ -186,20 +178,7 @@ export class FirebaseService {
     console.log(this.infoShortCurrent.module);
     // Almacenar al responsable de la detencion.
     this._firebase.object(`info/large/S-${sessionNumber}/endResponsable`).set(endResponsable);
-    // Si se usan ambos modulos, se actualizan los valores en system/status
-    if ( this.infoShortCurrent.module === 2 ) {
-      this._firebase.object('system/status').update({'both': {'value': 3 , 'sessionNumber': sessionNumber },
-                                                    'sound': {'value': 3 , 'sessionNumber': sessionNumber },
-                                                    'thermal': {'value': 3 , 'sessionNumber': sessionNumber }});
-    }
-    // Si se usa solo el modulo thermal, se actualizan los valores en system/status
-    if ( this.infoShortCurrent.module === 0 ) {
-      this._firebase.object('system/status/thermal').update({'value': 3 , 'sessionNumber': sessionNumber });
-    }
-    // Si se usa solo el modulo sound, se actualizan los valores en system/status
-    if ( this.infoShortCurrent.module === 1 ) {
-      this._firebase.object('system/status/sound').update({'value': 3 , 'sessionNumber': sessionNumber });
-    }
+    // Detener medicion por medio de info/short
+    this._firebase.object(`info/short/S-${sessionNumber}/status`).set(2);
   }
-
 }
