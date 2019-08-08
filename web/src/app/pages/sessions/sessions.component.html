@@ -27,7 +27,7 @@
                         <th scope="col">Fecha y hora</th>
                         <th scope="col">Material</th>
                         <th scope="col">Encargado</th>
-                        <th scope="col">Ver</th>
+                        <th scope="col">Estado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,8 +36,10 @@
                         <td>{{ sesion.material }}</td>
                         <td>{{ sesion.startResponsable }}</td>
                         <td>
-                            <button class="btn btn-success" (click)=goToSession(0,sesion.sessionNumber) *ngIf="sesion.status == 0"> Ver sesion </button>
-                            <button class="btn btn-warning" (click)=goToSession(1,sesion.sessionNumber) *ngIf="sesion.status == 1"> Ver sesion </button>
+                            <button class="btn btn-success" (click)=goToSession(0,sesion.sessionNumber) *ngIf="sesion.status == 0"> Finalizado </button>
+                            <button class="btn btn-warning" (click)=goToSession(1,sesion.sessionNumber) *ngIf="sesion.status == 1"> Midiendo </button>
+                            <button class="btn btn-info disabled" (click)=goToSession(1,sesion.sessionNumber) *ngIf="sesion.status == 2"> Deteniendo </button>
+                            <button class="btn btn-danger" (click)=goToSession(0,sesion.sessionNumber) *ngIf="sesion.status == 4"> Error </button>
                         </td>
                     </tr>
                 </tbody>
