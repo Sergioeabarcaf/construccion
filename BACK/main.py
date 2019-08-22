@@ -6,6 +6,7 @@ import csvFile
 import conection
 import sensorSht31
 import sensorMlx90614
+import os
 
 # Cambiar segun el modulo donde se esta utilizando, pudiendo ser thermal o sound
 module = 'thermal'
@@ -113,7 +114,9 @@ while(True):
                     time.sleep(interval)
                 # 
                 # Subir archivo CSV a storage
-                # 
+                name = "python3 /home/pi/construccion/BACK/upload.py 'mediciones' " + str(dirFile) + " " + str(dirFile)
+                print name
+                os.system(name)
             # Funcionamiento en modo automatico
             elif int(init['endType']) == 1:
                 print('automatico')
@@ -129,7 +132,9 @@ while(True):
                     time.sleep(interval)
                 print('Finalizado por tiempo')
                 # Subir archivo CSV a storage
-                # 
+                name = "python3 /home/pi/construccion/BACK/upload.py 'mediciones' " + str(dirFile) + " " + str(dirFile)
+                print name
+                os.system(name)
             url = 'algo'
             # Actualizar la infoLarge con endTimestamp y url en firebase
             firebase.updateInfoLarge(int(infoLarge['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url, 'extreme': extreme})
