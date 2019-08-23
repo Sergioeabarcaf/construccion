@@ -135,7 +135,7 @@ while(True):
                 name = "python3 /home/pi/construccion/BACK/upload.py 'mediciones' " + str(dirFile) + " " + str(dirFile)
                 print name
                 os.system(name)
-            url = 'algo'
+            url = 'https://storage.googleapis.com/mediciones/' + str(dirFile)
             # Actualizar la infoLarge con endTimestamp y url en firebase
             firebase.updateInfoLarge(int(infoLarge['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url, 'extreme': extreme})
             # Almacenar la infomacion en firebase y finalizar medicion
