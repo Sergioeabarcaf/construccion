@@ -112,11 +112,6 @@ while(True):
                     extreme[module] = maxAndMin(extreme[module], data)
                     # Pausar ejecucon en el intervalo definido
                     time.sleep(interval)
-                # 
-                # Subir archivo CSV a storage
-                name = "python3 /home/pi/construccion/BACK/upload.py 'mediciones' " + str(dirFile) + " " + str(dirFile)
-                print name
-                os.system(name)
             # Funcionamiento en modo automatico
             elif int(init['endType']) == 1:
                 print('automatico')
@@ -131,10 +126,10 @@ while(True):
                     # Pausar ejecucion en el intervalo definido
                     time.sleep(interval)
                 print('Finalizado por tiempo')
-                # Subir archivo CSV a storage
-                name = "python3 /home/pi/construccion/BACK/upload.py 'mediciones' " + str(dirFile) + " " + str(dirFile)
-                print name
-                os.system(name)
+            # Subir archivo CSV a storage
+            name = "python3 /home/pi/construccion/BACK/upload.py 'mediciones' " + str(dirFile) + " " + str(dirFile)
+            print name
+            os.system(name)
             url = 'https://storage.googleapis.com/mediciones/' + str(dirFile)
             # Actualizar la infoLarge con endTimestamp y url en firebase
             firebase.updateInfoLarge(int(infoLarge['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url, 'extreme': extreme})
