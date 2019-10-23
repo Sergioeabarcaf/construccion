@@ -3,36 +3,37 @@ import time
 
 # Se aceptan los valores 0x44 y 0x45
 
-def getTempHum(dir):
+def getTempHum(addr):
     # Get I2C bus
     bus = smbus.SMBus(1)
 
     # SHT31 address, 0x44(68)
     # Send measurement command, 0x2C(44)
     #               0x06(06)        High repeatability measurement
-    bus.write_i2c_block_data(dir, 0x2C, [0x06])
+    bus.write_i2c_block_data(addr, 0x2C, [0x06])
 
     time.sleep(0.5)
 
     # SHT31 address, 0x44(68)
     # Read data back from 0x00(00), 6 bytes
     # Temp MSB, Temp LSB, Temp CRC, Humididty MSB, Humidity LSB, Humidity CRC
-    data = bus.read_i2c_block_data(dir, 0x00, 6)
+    data = bus.read_i2c_block_data(addr, 0x00, 6)
 
     # Convert the data
     temp = data[0] * 256 + data[1]
     cTemp = round(-45 + (175 * temp / 65535.0), 2)
     humidity = round(100 * (data[3] * 256 + data[4]) / 65535.0, 2)
 
-    if (dir == 0x44):
-        # Output data to screen
-        print "Temperatura interior: " + str(cTemp)
-        print "Humedad interior: " + str(humidity)
+    return cTemp, humidity
 
-        return {'Ti': cTemp, 'Hi': humidity}
-    elif (dir == 0x45):
-        # Output data to screen
-        print "Temperatura exterior: " + str(cTemp)
-        print "Humedad exterior: " + str(humidity)
+def getTempHumInt(addr):
+    temp, hum = getTempHum(addr)
+    print "Temperatura interior: " + str(temp)
+    print "Humedad interior: " + str(hum)
+    return {'Ti': temp, 'Hi': hum}
 
-        return {'Te': cTemp, 'He': humidity}
+def getTempHumExt(addr):
+    temp, hum = getTempHum(addr)
+    print "Temperatura interior: " + str(temp)
+    print "Humedad interior: " + str(hum)
+    return {'Te': temp, 'He': hum}
