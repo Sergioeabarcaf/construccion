@@ -10,13 +10,19 @@ import os
 
 # Cambiar segun el modulo donde se esta utilizando, pudiendo ser thermal o sound
 module = 'thermal'
+addrEnvInt = 0x44
+addrEnvExt = 0x45
+addrTempObjInt = 0x5a
+addrTempObjExt = 0x5b
 
-# Funcion para obtener datos de medicion.
+# Funcion para obtener datos de medicion y enviarlos a firebase y CSV.
+# Enviar las direcciones donde se ubican los sensores
 def getData(dirFile, module, sessionNumber):
     data = {'timestamp': converter.getTimestamp()}
-    data.update(sensorSht31.getTempHum(0x44))
-    data.update(sensorSht31.getTempHum(0x45))
-    data.update(sensorMlx90614.getTempObj())
+    data.update(sensorSht31.getTempHumInt(addrEnvInt))
+    data.update(sensorSht31.getTempHumExt(addrEnvExt))
+    data.update(sensorMlx90614.getTempObjInt(addrTempObjInt))
+    data.update(sensorMlx90614.getTempObjExt(addrTempObjExt))
 
     firebase.pushData(module, sessionNumber, data)
     csvFile.writeData(dirFile, data)
@@ -34,8 +40,10 @@ def maxAndMin(extreme, data):
         extreme['max']['Te'] = data['Te']
     if extreme['max']['He'] < data['He']:
         extreme['max']['He'] = data['He']
-    if extreme['max']['TObj'] < data['TObj']:
-        extreme['max']['TObj'] = data['TObj']
+    if extreme['max']['TObjInt'] < data['TObjInt']:
+        extreme['max']['TObjInt'] = data['TObjInt']
+    if extreme['max']['TObjExt'] < data['TObjExt']:
+        extreme['max']['TObjExt'] = data['TObjExt']
     # Comparar minimos
     if extreme['min']['Ti'] > data['Ti']:
         extreme['min']['Ti'] = data['Ti']
@@ -45,8 +53,10 @@ def maxAndMin(extreme, data):
         extreme['min']['Te'] = data['Te']
     if extreme['min']['He'] > data['He']:
         extreme['min']['He'] = data['He']
-    if extreme['min']['TObj'] > data['TObj']:
-        extreme['min']['TObj'] = data['TObj']
+    if extreme['min']['TObjInt'] < data['TObjInt']:
+        extreme['min']['TObjInt'] = data['TObjInt']
+    if extreme['min']['TObjExt'] < data['TObjExt']:
+        extreme['min']['TObjExt'] = data['TObjExt']
     # Retornar nuevo valores de extreme
     return extreme
 

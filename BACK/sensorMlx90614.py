@@ -31,9 +31,9 @@ class MLX90614():
     comm_retries = 5
     comm_sleep_amount = 0.1
 
-    def __init__(self, address=0x5a, bus_num=1):
+    def __init__(self, address, bus_num=1):
         self.bus_num = bus_num
-        self.address = address
+        self.address = hex(address)
         self.bus = smbus.SMBus(bus=bus_num)
 
     def read_reg(self, reg_addr):
@@ -69,8 +69,10 @@ class MLX90614():
 #     print(sensor.get_amb_temp())
 #     print(sensor.get_obj_temp())
 
-def getTempObj():
-    sensor = MLX90614()
-    print(sensor.get_amb_temp())
-    print(sensor.get_obj_temp()) 
-    return ({'TObj': sensor.get_obj_temp()}) 
+def getTempObjInt(addr):
+    sensor = MLX90614(addr)
+    return ({'TObjInt': sensor.get_obj_temp()}) 
+
+def getTempObjExt(addr):
+    sensor = MLX90614(addr)
+    return ({'TObjExt': sensor.get_obj_temp()}) 
