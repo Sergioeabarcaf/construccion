@@ -7,13 +7,19 @@ import conection
 import sensorSht31
 import sensorMlx90614
 import os
+import RPi.GPIO as GPIO
 
-# Cambiar segun el modulo donde se esta utilizando, pudiendo ser thermal o sound
+# Variables
 module = 'thermal'
 addrEnvInt = 0x44
 addrEnvExt = 0x45
 addrTempObjInt = 0x5a
 addrTempObjExt = 0x5b
+pinRelay = 7
+
+# Configurar GPIO con relay
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(pinRelay, GPIO.OUT)
 
 # Funcion para obtener datos de medicion y enviarlos a firebase y CSV.
 # Enviar las direcciones donde se ubican los sensores
@@ -80,11 +86,12 @@ def cleanExtreme(module):
             }
         }
     }
-
     return extreme
 
 # Detener la ejecucion de cualquier sesion al iniciar el programa
 firebase.clean(module, converter.getTimestamp(), 'start')
+# Entregar energia al relay
+GPIO.output(pinRelay, True)
 
 while(True):
     # try:
@@ -100,6 +107,10 @@ while(True):
 
             # Obtener intervalo de tiempo entre mediciones, se restan 2 debido al procesamiento y envio de datos
             interval = int(init['timeInterval']) - 2
+
+            #Obtener temperatura maxima de exposicion del material
+            tempMax = float(init['tempMax'])
+            tempMaxTimestamp = 0
 
             # Crear infoLarge y almacenar en info/large de firebase
             infoLarge = {'material': init['material'], 'startResponsable': init['startResponsable'], 'startTimestamp': str(converter.getTimestamp()), 'module': int(init['module']), 'timeInterval': int(init['timeInterval']), 'sessionNumber': int(init['sessionNumber']), 'endResponsable': init['startResponsable'], 'endType': int(init['endType'])}
@@ -120,6 +131,12 @@ while(True):
                     data = getData(dirFile, module, infoShort['sessionNumber'])
                     # Actualizar los valores maximos y minimos de extreme
                     extreme[module] = maxAndMin(extreme[module], data)
+                    # Validar la temperatura maxima del material
+                    if data['TObjExt'] > tempMax:
+                        # Dejar de energizar el calefactor
+                        GPIO.output(pinRelay, False)
+                        # Almacenar el momento en el cual se deja de energizar el calefactor.
+                        tempMaxTimestamp = converter.getTimestamp()
                     # Pausar ejecucon en el intervalo definido
                     time.sleep(interval)
             # Funcionamiento en modo automatico
@@ -133,16 +150,21 @@ while(True):
                     data = getData(dirFile, module, infoShort['sessionNumber'])
                     # Actualizar los valores maximos y minimos de extreme
                     extreme[module] = maxAndMin(extreme[module], data)
+                    # Validar la temperatura maxima del material
+                    if data['TObjExt'] > tempMax:
+                        # Dejar de energizar el calefactor
+                        GPIO.output(pinRelay, False)
+                        # Almacenar el momento en el cual se deja de energizar el calefactor.
+                        tempMaxTimestamp = converter.getTimestamp()
                     # Pausar ejecucion en el intervalo definido
                     time.sleep(interval)
                 print('Finalizado por tiempo')
             # Subir archivo CSV a storage
             name = "python3 /home/pi/construccion/BACK/upload.py 'mediciones' " + str(dirFile) + " " + str(dirFile)
-            print name
             os.system(name)
             url = 'https://storage.googleapis.com/mediciones/' + str(dirFile)
             # Actualizar la infoLarge con endTimestamp y url en firebase
-            firebase.updateInfoLarge(int(infoLarge['sessionNumber']), {'endTimestamp': converter.getTimestamp(), 'url': url, 'extreme': extreme})
+            firebase.updateInfoLarge(int(infoLarge['sessionNumber']), {'tempMaxTimestamp': tempMaxTimestamp, 'endTimestamp': converter.getTimestamp(), 'url': url, 'extreme': extreme})
             # Almacenar la infomacion en firebase y finalizar medicion
             firebase.execManualEnd(module, infoShort['sessionNumber'], int(infoShort['module']))
             # Limpiar infoLarge
