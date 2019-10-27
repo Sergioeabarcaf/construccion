@@ -43,6 +43,7 @@ export class NewComponent implements OnInit {
       'sessionNumber': new FormControl(this.sessionNumber),
       'material': new FormControl('', Validators.required),
       'module': new FormControl(this.moduleAvailable, Validators.required),
+      'tempMax': new FormControl(-1),
       'timeInterval': new FormControl(30, [Validators.required, Validators.min(30)]),
       'endType': new FormControl( 0, Validators.required),
       'endDate': new FormControl( this.nowDate ),
