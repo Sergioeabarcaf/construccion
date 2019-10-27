@@ -49,6 +49,16 @@
                     </small>
                 </div>
             </div>
+            <!-- temperatura maxima (solo dispoible si se usa el modulo termico) -->
+            <div class="form-group row justify-content-center align-item-center my-4" *ngIf="moduleAvailable == 0">
+                <label class="col-3 col-form-label">Temperatura máxima de exposicion.</label>
+                <div class="col-7">
+                    <input class="form-control" type="number" formControlName="tempMax">
+                    <small class="form-text text-muted">
+                        Ingrese la temperatura máxima de exposición del material. 
+                    </small>
+                </div>
+            </div>
             <!-- Intervalo -->
             <div class="form-group row justify-content-center align-item-center my-4">
                 <label class="col-3 col-form-label">Intervalo de medición en segundos</label>
