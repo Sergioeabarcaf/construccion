@@ -75,7 +75,7 @@ export class FirebaseService {
     // Actualizar el numero de la ultima sesion utilizada
     this._firebase.object('system/lastSession').set(formulario.sessionNumber);
     console.log(formulario);
-    if ( formulario.module === 2 ) {
+    if ( parseInt(formulario.module) === 2 ) {
       // Se agregan los parametros de iniciacion en init para ambos modulos.
       this._firebase.object('init/thermal').set(formulario);
       this._firebase.object('init/sound').set(formulario);
@@ -85,13 +85,13 @@ export class FirebaseService {
                                                     });
     }
     // Si se usa solo el modulo thermal, se actualizan los valores en system/status
-    if ( formulario.module === 0 ) {
+    if ( parseInt(formulario.module) === 0 ) {
       // Se agregan los parametros de iniciacion en init para modulo thermal.
       this._firebase.object('init/thermal').set(formulario);
       this._firebase.object('system/status').update({'thermal': {'value': 1 , 'sessionNumber': formulario.sessionNumber}});
     }
     // Si se usa solo el modulo sound, se actualizan los valores en system/status
-    if ( formulario.module === 1 ) {
+    if ( parseInt(formulario.module) === 1 ) {
       // Se agregan los parametros de iniciacion en init para modulo sound.
       this._firebase.object('init/sound').set(formulario);
       this._firebase.object('system/status').update({'sound': {'value': 1 , 'sessionNumber': formulario.sessionNumber}});

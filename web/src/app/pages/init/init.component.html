@@ -17,7 +17,7 @@
             </div>
 
             <!-- En caso de que ambos modulos realicen la misma sesion de medicion -->
-            <div *ngIf="_firebase.thermal.sessionNumber == _firebase.sound.sessionNumber">
+            <div *ngIf="_firebase.thermal.sessionNumber != -1 && _firebase.thermal.sessionNumber == _firebase.sound.sessionNumber">
                 <p class="mb-1 my-4 h2">Ver la session actual</p>
                 <a [routerLink]="['/live', _firebase.thermal.sessionNumber]"><button class="btn btn-success btn-lg">Ver</button></a>
             </div>
@@ -25,13 +25,13 @@
             <!-- Uso individual de los modulos -->
 
             <!-- En caso de que thermal este realizando mediciones -->
-            <div *ngIf="_firebase.thermal.value == 1">
+            <div *ngIf="_firebase.thermal.value == 1 && _firebase.thermal.sessionNumber != _firebase.sound.sessionNumber">
                 <p class="mb-1 my-4 h5">Ver la session actual del modulo termico</p>
                 <a [routerLink]="['/live', _firebase.thermal.sessionNumber]"><button class="btn btn-success btn-lg">Ver</button></a>
             </div>
 
             <!-- En caso de que sound este realizando mediciones -->
-            <div *ngIf="_firebase.sound.value == 1">
+            <div *ngIf="_firebase.sound.value == 1 && _firebase.thermal.sessionNumber != _firebase.sound.sessionNumber">
                 <p class="mb-1 my-4 h5">Ver la session actual del modulo de sonido</p>
                 <a [routerLink]="['/live',_firebase.sound.sessionNumber]"><button class="btn btn-success btn-lg">Ver</button></a>
             </div>

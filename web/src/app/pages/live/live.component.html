@@ -8,8 +8,28 @@
 <!-- Boton para detener ejecucion -->
 <div class="row justify-content-center my-3">
     <div class="col-11 col-md-4">
-        <button type="button" class="btn btn-block btn-lg btn-info disabled" *ngIf="profile == '' ">Obteniendo información usuario.</button>
-        <button type="button" class="btn btn-block btn-lg btn-danger" data-toggle="modal" data-target="#confirmationStopModal" *ngIf="profile != '' ">Detener</button>
+        <!-- Obteniendo informacion de usuario -->
+        <div class="alert alert-primary" role="alert" *ngIf="profile == '' ">
+            Obteniendo información usuario.
+        </div>
+
+        <!-- Finalizacion de la medicion -->
+        <button type="button" class="btn btn-block btn-lg btn-danger" data-toggle="modal" data-target="#confirmationStopModal" *ngIf="profile != '' && _firebase.infoShortCurrent.status == 1">Detener</button>
+
+        <!-- Esperando que finalice sesion -->
+        <div class="alert alert-secondary" role="alert" *ngIf="_firebase.infoShortCurrent.status == 2">
+            Espere un momento, estamos finalizando sus mediciones.
+        </div>
+
+        <!-- Finalizado con exito -->
+        <div class="alert alert-success" role="alert" *ngIf="_firebase.infoShortCurrent.status == 0">
+            Sesión de medición finalizada con exito.
+        </div>
+
+        <!-- Finalizado con exito -->
+        <div class="alert alert-danger" role="alert" *ngIf="_firebase.infoShortCurrent.status == 4">
+            Sesión de medición finalizada con errores.
+        </div>
     </div>
 </div>
 
@@ -25,7 +45,7 @@
 
 <div *ngIf="_firebase.dataSessionCurrentReady && _firebase.infoShortCurrent != null">
     <!-- Gauge para sesion de ambos modulos -->
-    <div class="row justify-content-around" *ngIf="_firebase.infoShortCurrent.module == 2">
+    <div class="row justify-content-around" *ngIf="_firebase.infoShortCurrent.module == 2 && _firebase.dataCurrentSound.length > 0 && _firebase.dataCurrentThermal.length > 0">
         <!-- Gauge para modulo termico -->
         <div class="col-10 col-md-5 py-3">
             <!-- Gauge realtime con datos actualizados en tiempo real -->
@@ -108,7 +128,7 @@
     <!-- Gauge para sesion de un solo modulo -->
     <div class="row justify-content-around" *ngIf="_firebase.infoShortCurrent.module != 2">
         <!-- Gauge para modulo termico -->
-        <div class="col-10 col-md-8 py-3" *ngIf="_firebase.infoShortCurrent.module == 0">
+        <div class="col-10 col-md-8 py-3" *ngIf="_firebase.infoShortCurrent.module == 0 && _firebase.dataCurrentThermal.length > 0">
             <!-- Gauge realtime con datos actualizados en tiempo real -->
             <div class="card text-center">
                 <div class="card-header">
@@ -147,7 +167,7 @@
         </div>
 
         <!-- Gauge para modulo acustico -->
-        <div class="col-10 col-md-8 py-3" *ngIf="_firebase.infoShortCurrent.module == 1">
+        <div class="col-10 col-md-8 py-3" *ngIf="_firebase.infoShortCurrent.module == 1 && _firebase.dataCurrentSound.length > 0">
             <!-- Gauge realtime con datos actualizados en tiempo real -->
             <div class="card text-center">
                 <div class="card-header">
