@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { GraphComponent } from './pages/graph/graph.component';
+// graficos
+import { NgxGaugeModule } from 'ngx-gauge';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { GraphComponent } from './pages/graph/graph.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgxGaugeModule,
     // AngularFireModule.initializeApp(environment.firebase),
     // AngularFireDatabaseModule
   ],
