@@ -1,1 +1,80 @@
-<p>home works!</p>
+<!-- Mensaje en caso que no hayan sesiones midiendo en el modulo -->
+<section *ngIf="!show">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-10 text-center">
+            <h1>Módulo disponible para realizar mediciones, ingrese por medio de una computadora, tablet o celular, para comenzar.</h1>
+        </div>
+    </div>
+</section>
+
+
+<!-- Mostrar gauges cuando se estan realizando mediciones -->
+<section *ngIf="show">
+    <div class="row align-items-center justify-content-center">
+        <!-- Tabla con gauges -->
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col"><a href="graph/sesion/T" class="btn btn-dark" role="button" aria-pressed="true">Temperatura Ambiental</a></th>
+                <th scope="col"><a href="graph/sesion/H" class="btn btn-dark" role="button" aria-pressed="true">Humedad Ambiental</a></th>
+                <th scope="col"><a href="graph/sesion/TObj" class="btn btn-dark" role="button" aria-pressed="true">Temperatura Material</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="card">
+                            <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Interior</h6>
+                            <!-- Agregar gauge -->
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Interior</h6>
+                                <!-- Agregar gauge -->
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Interior</h6>
+                                <!-- Agregar gauge -->
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Exterior</h6>
+                                <!-- Agregar gauge -->
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Exterior</h6>
+                                <!-- Agregar gauge -->
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Exterior</h6>
+                                <!-- Agregar gauge -->
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
