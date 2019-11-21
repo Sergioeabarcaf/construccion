@@ -26,27 +26,24 @@
                         <td>
                             <h6 class="text-muted">Interior</h6>
                             <ngx-gauge [type]="gaugeType" 
-                                    [value]="gaugeValue" 
-                                    [label]="gaugeLabel"  
-                                    [append]="gaugeAppendText"
+                                    [value]="_firebase.lastData.Ti" 
+                                    [append]="'°C'"
                                     [size]=size>
                             </ngx-gauge>
                         </td>
                         <td>
                             <h6 class="text-muted">Interior</h6>
                             <ngx-gauge [type]="gaugeType" 
-                                    [value]="gaugeValue" 
-                                    [label]="gaugeLabel"  
-                                    [append]="gaugeAppendText"
+                                    [value]="_firebase.lastData.Hi" 
+                                    [append]="'%HR'"
                                     [size]=size>
                             </ngx-gauge>
                         </td>
                         <td>
                             <h6 class="text-muted">Interior</h6>
                             <ngx-gauge [type]="gaugeType" 
-                                    [value]="gaugeValue" 
-                                    [label]="gaugeLabel"  
-                                    [append]="gaugeAppendText"
+                                    [value]="_firebase.lastData.TObj" 
+                                    [append]="'°C'"
                                     [size]=size>
                             </ngx-gauge>
                         </td>
@@ -55,27 +52,24 @@
                         <td>
                             <h6 class="text-muted">Exterior</h6>
                             <ngx-gauge [type]="gaugeType" 
-                                    [value]="gaugeValue" 
-                                    [label]="gaugeLabel"  
-                                    [append]="gaugeAppendText"
+                                    [value]="_firebase.lastData.Te" 
+                                    [append]="'°C'"
                                     [size]=size>
                             </ngx-gauge>
                         </td>
                         <td>
                             <h6 class="text-muted">Exterior</h6>
                             <ngx-gauge [type]="gaugeType" 
-                                    [value]="gaugeValue" 
-                                    [label]="gaugeLabel"  
-                                    [append]="gaugeAppendText"
+                                    [value]="_firebase.lastData.He" 
+                                    [append]="'%HR'"
                                     [size]=size>
                             </ngx-gauge>
                         </td>
                         <td>
                             <h6 class="text-muted">Exterior</h6>
                             <ngx-gauge [type]="gaugeType" 
-                                    [value]="gaugeValue" 
-                                    [label]="gaugeLabel"  
-                                    [append]="gaugeAppendText"
+                                    [value]="_firebase.lastData.TObj" 
+                                    [append]="'°C'"
                                     [size]=size>
                             </ngx-gauge>
                         </td>

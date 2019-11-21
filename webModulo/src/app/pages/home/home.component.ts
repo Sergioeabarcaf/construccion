@@ -16,7 +16,8 @@ export class HomeComponent implements OnInit {
   size = 150;
 
   constructor(public _firebase: FirebaseService) {
-    this._firebase.getInfoSessionsShort();
+    this._firebase.getActiveSession();
+    this._firebase.getDataSessionActive(89);
   }
 
   ngOnInit() {
