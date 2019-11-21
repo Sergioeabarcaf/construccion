@@ -11,6 +11,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { GraphComponent } from './pages/graph/graph.component';
 // graficos
 import { NgxGaugeModule } from 'ngx-gauge';
+import { NgxEchartsModule } from 'ngx-echarts'
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { NgxGaugeModule } from 'ngx-gauge';
     BrowserModule,
     AppRoutingModule,
     NgxGaugeModule,
+    NgxEchartsModule,
     // AngularFireModule.initializeApp(environment.firebase),
     // AngularFireDatabaseModule
   ],
