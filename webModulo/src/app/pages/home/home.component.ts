@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebaseService } from '../../providers/firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,9 @@ export class HomeComponent implements OnInit {
   gaugeAppendText = "km/hr";
   size = 150;
 
-  constructor() { }
+  constructor(public _firebase: FirebaseService) {
+    this._firebase.getInfoSessionsShort();
+  }
 
   ngOnInit() {
   }
