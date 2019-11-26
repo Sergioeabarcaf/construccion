@@ -9,23 +9,35 @@ export class FirebaseService {
 
   module = 'thermal';
   show = true;
-  data: any;
+  numberSession:number = 89;
+  data = [];
   lastData: any;
+  infoSession = [];
 
   constructor(public _firebase: AngularFireDatabase) { }
 
   getActiveSession() {
     this._firebase.object(`init/${this.module}`).valueChanges().subscribe( (data:any) => {
-      console.log(data);
+      // if ( data != null ) { 
+      //   this.show = true;
+      //   this.numberSession = data.sessionNumber;
+      // } else {
+      //   this.show = false;
+      // }
       this.show = true;
     });
   }
 
-  getDataSessionActive(numberSession) {
-    this._firebase.list(`data/S-${numberSession}/${this.module}`).valueChanges().subscribe ( (data:any) => {
-      this.data = data.reverse();
+  getDataSessionActive() {
+    this._firebase.list(`data/S-${this.numberSession}/${this.module}`).valueChanges().subscribe ( (info:any[]) => {
+      this.data = info.reverse();
       this.lastData = this.data[0];
-      console.log(this.lastData);
     });
   }
+
+  getDataSessionActivePromise = new Promise( (resolve, reject) =>{
+    this._firebase.list(`data/S-${this.numberSession}/${this.module}`).valueChanges().subscribe ( (info:any[]) => {
+      resolve(this.data);
+    });
+  });
 }

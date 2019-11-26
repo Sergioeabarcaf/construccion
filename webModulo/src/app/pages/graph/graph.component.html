@@ -1,5 +1,5 @@
 <!-- Graficos  -->
-<section class="pt-3">
+<section class="pt-3" *ngIf="dataReady">
     <div class="row justify-content-center align-items-center">
         <div class="col-10">
             <div echarts [options]="chartOption" class="demo-chart"></div>

@@ -10,14 +10,11 @@ export class HomeComponent implements OnInit {
 
   show = true;
   gaugeType = "semi";
-  gaugeValue = 28.3;
-  gaugeLabel = "Speed";
-  gaugeAppendText = "km/hr";
   size = 150;
 
   constructor(public _firebase: FirebaseService) {
     this._firebase.getActiveSession();
-    this._firebase.getDataSessionActive(89);
+    this._firebase.getDataSessionActive();
   }
 
   ngOnInit() {
