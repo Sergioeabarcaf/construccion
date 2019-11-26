@@ -9,7 +9,7 @@
 
 
 <!-- Mostrar gauges cuando se estan realizando mediciones -->
-<section *ngIf="show">
+<section *ngIf="show && _firebase.data.length > 0 ">
     <div class="row align-items-center justify-content-center">
         <!-- Tabla con gauges -->
         <div class="col-10">

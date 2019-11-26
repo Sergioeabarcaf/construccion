@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EChartOption } from 'echarts';
+import { FirebaseService } from '../../providers/firebase.service';
 
 @Component({
   selector: 'app-graph',
@@ -9,6 +10,8 @@ import { EChartOption } from 'echarts';
 })
 export class GraphComponent implements OnInit {
 
+  dataReady = false;
+
   chartOption: EChartOption = {
     title: {
       text: '',
@@ -16,7 +19,7 @@ export class GraphComponent implements OnInit {
     },
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: []
     },
     yAxis: {
       type: 'value'
@@ -27,28 +30,55 @@ export class GraphComponent implements OnInit {
     },
     series: [{
       name: "Interior",
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      data: [],
       type: 'line'
     }, {
       name: "Exterior",
-      data: [300, 350, 400, 450, 500, 600, 1000],
+      data: [],
       type: 'line'
     }]
   }
 
   title = "";
 
-  constructor(public activatedRoute: ActivatedRoute, public router: Router) {
+  data:any;
+
+  constructor(public activatedRoute: ActivatedRoute, public router: Router, public _firebase: FirebaseService) {
+    this._firebase.getDataSessionActive();
     this.activatedRoute.params.subscribe( param => {
       console.log(param.id);
       if(param.param == 'T') {
         this.chartOption.title['text'] = 'Temperatura Ambiental';
+        this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
+          res.forEach( data => {
+            this.chartOption.xAxis['data'].push(data.timestamp);
+            this.chartOption.series[0]['data'].push(data.Ti);
+            this.chartOption.series[1]['data'].push(data.Te);
+            this.dataReady = true;
+          });
+        });
       }
       if(param.param == 'H') {
         this.chartOption.title['text'] = 'Humedad Ambiental';
+        this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
+          res.forEach( data => {
+            this.chartOption.xAxis['data'].push(data.timestamp);
+            this.chartOption.series[0]['data'].push(data.Hi);
+            this.chartOption.series[1]['data'].push(data.He);
+            this.dataReady = true;
+          });
+        });
       }
       if(param.param == 'TObj') {
         this.chartOption.title['text'] = 'Temperatura Material';
+        this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
+          res.forEach( data => {
+            this.chartOption.xAxis['data'].push(data.timestamp);
+            this.chartOption.series[0]['data'].push(data.TObj);
+            this.chartOption.series[1]['data'].push(data.TObj);
+            this.dataReady = true;
+          });
+        });
       }
       
     });
