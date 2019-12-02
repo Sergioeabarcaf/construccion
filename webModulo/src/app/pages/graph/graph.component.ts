@@ -42,6 +42,8 @@ export class GraphComponent implements OnInit {
   title = "";
 
   data:any;
+  dataTime = [];
+  aux: Date;
 
   constructor(public activatedRoute: ActivatedRoute, public router: Router, public _firebase: FirebaseService) {
     this._firebase.getDataSessionActive();
@@ -50,8 +52,10 @@ export class GraphComponent implements OnInit {
       if(param.param == 'T') {
         this.chartOption.title['text'] = 'Temperatura Ambiental';
         this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
+          res.reverse();
           res.forEach( data => {
-            this.chartOption.xAxis['data'].push(data.timestamp);
+            this.aux = new Date(parseInt(data.timestamp)*1000);
+            this.chartOption.xAxis['data'].push(`${this.aux.getHours()}:${this.aux.getMinutes()}`);
             this.chartOption.series[0]['data'].push(data.Ti);
             this.chartOption.series[1]['data'].push(data.Te);
             this.dataReady = true;
@@ -61,8 +65,10 @@ export class GraphComponent implements OnInit {
       if(param.param == 'H') {
         this.chartOption.title['text'] = 'Humedad Ambiental';
         this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
+          res.reverse();
           res.forEach( data => {
-            this.chartOption.xAxis['data'].push(data.timestamp);
+            this.aux = new Date(parseInt(data.timestamp)*1000);
+            this.chartOption.xAxis['data'].push(`${this.aux.getHours()}:${this.aux.getMinutes()}`);
             this.chartOption.series[0]['data'].push(data.Hi);
             this.chartOption.series[1]['data'].push(data.He);
             this.dataReady = true;
@@ -72,8 +78,10 @@ export class GraphComponent implements OnInit {
       if(param.param == 'TObj') {
         this.chartOption.title['text'] = 'Temperatura Material';
         this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
+          res.reverse();
           res.forEach( data => {
-            this.chartOption.xAxis['data'].push(data.timestamp);
+            this.aux = new Date(parseInt(data.timestamp)*1000);
+            this.chartOption.xAxis['data'].push(`${this.aux.getHours()}:${this.aux.getMinutes()}`);
             this.chartOption.series[0]['data'].push(data.TObj);
             this.chartOption.series[1]['data'].push(data.TObj);
             this.dataReady = true;
