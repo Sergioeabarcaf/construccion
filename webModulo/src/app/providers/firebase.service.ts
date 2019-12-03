@@ -20,9 +20,22 @@ export class FirebaseService {
   constructor(public _firebase: AngularFireDatabase) { }
 
   getStatus() {
-    this._firebase.object(`system/status/${this.module}`).valueChanges().subscribe( (data:any) => {
+    this._firebase.object(`system/status/${this.module}/sessionNumber`).valueChanges().subscribe( (data:any) => {
+      if(data != -1) {
+        this.sessionNumber = data;
+        this.getInfoSession(data);
+      } else {
+        this.show = false;
+      }
+    });
+  }
+
+  getInfoSession(sessionNumber) {
+    this._firebase.object(`info/short/S-${sessionNumber}`).valueChanges().subscribe( (data:any) => {
       console.log(data);
-      switch(data.value) {
+      this.material = data.material;
+      this.responsable = data.startResponsable;
+      switch(data.status) {
         case 0:
           // this.show = false;
           this.show = true;
@@ -30,51 +43,34 @@ export class FirebaseService {
         case 1:
           this.status = 'Inicio Web';
           this.show = true;
-          this.sessionNumber = data.sessionNumber;
           break;
         case 2:
           this.status = 'Midiendo';
           this.show = true;
-          this.sessionNumber = data.sessionNumber;
           break;
         case 3:
           this.status = 'Fin Web';
           this.show = true;
-          this.sessionNumber = data.sessionNumber;
           break;
         default:
           this.show = true;
-          this.status = String(data.value);
+          this.status = `error: ${data.value}`;
           break;
       }
-    });
+    });    
   }
-
-  getActiveSession() {
-    this._firebase.object(`init/${this.module}`).valueChanges().subscribe( (data:any) => {
-      // if ( data != null ) { 
-      //   this.show = true;
-      //   this.numberSession = data.sessionNumber;
-      //   this.material = data.material;
-      //   this.responsable = data.startResponsable;
-      // } else {
-      //   this.show = false;
-      // }
-      this.show = true;
-    });
-  }
-
-
 
   getDataSessionActive() {
-    this._firebase.list(`data/S-${this.numberSession}/${this.module}`).valueChanges().subscribe ( (info:any[]) => {
-      this.data = info.reverse();
+    console.log(`data/S-${this.sessionNumber}/${this.module}`);
+    this._firebase.list(`data/S-${this.sessionNumber}/${this.module}`).valueChanges().subscribe( (data:any[]) => {
+      console.log(data);
+      this.data = data.reverse();
       this.lastData = this.data[0];
     });
   }
 
   getDataSessionActivePromise = new Promise( (resolve, reject) =>{
-    this._firebase.list(`data/S-${this.numberSession}/${this.module}`).valueChanges().subscribe ( (info:any[]) => {
+    this._firebase.list(`data/S-${this.sessionNumber}/${this.module}`).valueChanges().subscribe( (info:any[]) => {
       resolve(this.data);
     });
   });
