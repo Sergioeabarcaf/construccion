@@ -71,7 +71,8 @@ export class FirebaseService {
 
   getDataSessionActivePromise = new Promise( (resolve, reject) =>{
     this._firebase.list(`data/S-${this.sessionNumber}/${this.module}`).valueChanges().subscribe( (info:any[]) => {
-      resolve(this.data);
+      console.log(this.data);
+      resolve(info);
     });
   });
 }

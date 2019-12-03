@@ -41,14 +41,11 @@ export class GraphComponent implements OnInit {
 
   title = "";
 
-  data:any;
   dataTime = [];
   aux: Date;
 
   constructor(public activatedRoute: ActivatedRoute, public router: Router, public _firebase: FirebaseService) {
-    this._firebase.getDataSessionActive();
     this.activatedRoute.params.subscribe( param => {
-      console.log(param.id);
       if(param.param == 'T') {
         this.chartOption.title['text'] = 'Temperatura Ambiental';
         this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
@@ -58,8 +55,8 @@ export class GraphComponent implements OnInit {
             this.chartOption.xAxis['data'].push(`${this.aux.getHours()}:${this.aux.getMinutes()}`);
             this.chartOption.series[0]['data'].push(data.Ti);
             this.chartOption.series[1]['data'].push(data.Te);
-            this.dataReady = true;
           });
+          this.dataReady = true;
         });
       }
       if(param.param == 'H') {
@@ -71,8 +68,8 @@ export class GraphComponent implements OnInit {
             this.chartOption.xAxis['data'].push(`${this.aux.getHours()}:${this.aux.getMinutes()}`);
             this.chartOption.series[0]['data'].push(data.Hi);
             this.chartOption.series[1]['data'].push(data.He);
-            this.dataReady = true;
           });
+          this.dataReady = true;
         });
       }
       if(param.param == 'TObj') {
@@ -84,8 +81,8 @@ export class GraphComponent implements OnInit {
             this.chartOption.xAxis['data'].push(`${this.aux.getHours()}:${this.aux.getMinutes()}`);
             this.chartOption.series[0]['data'].push(data.TObj);
             this.chartOption.series[1]['data'].push(data.TObj);
-            this.dataReady = true;
           });
+          this.dataReady = true;
         });
       }
       
