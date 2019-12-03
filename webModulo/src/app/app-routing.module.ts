@@ -6,7 +6,7 @@ import { GraphComponent } from './pages/graph/graph.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'graph/:id/:param', component: GraphComponent},
+  { path: 'graph/:param', component: GraphComponent},
   { path: '**', component: HomeComponent }
 ];
 
