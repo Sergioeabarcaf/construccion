@@ -33,7 +33,7 @@ class MLX90614():
 
     def __init__(self, address, bus_num=1):
         self.bus_num = bus_num
-        self.address = hex(address)
+        self.address = address
         self.bus = smbus.SMBus(bus=bus_num)
 
     def read_reg(self, reg_addr):
@@ -70,9 +70,9 @@ class MLX90614():
 #     print(sensor.get_obj_temp())
 
 def getTempObjInt(addr):
-    sensor = MLX90614(addr)
+    sensor = MLX90614(0x5a)
     return ({'TObjInt': sensor.get_obj_temp()}) 
 
 def getTempObjExt(addr):
-    sensor = MLX90614(addr)
+    sensor = MLX90614(0x5b)
     return ({'TObjExt': sensor.get_obj_temp()}) 
