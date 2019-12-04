@@ -37,8 +37,7 @@ export class FirebaseService {
       this.responsable = data.startResponsable;
       switch(data.status) {
         case 0:
-          // this.show = false;
-          this.show = true;
+          this.show = false;
           break;
         case 1:
           this.status = 'Inicio Web';
