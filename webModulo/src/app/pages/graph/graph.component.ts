@@ -48,7 +48,8 @@ export class GraphComponent implements OnInit {
     this.activatedRoute.params.subscribe( param => {
       if(param.param == 'T') {
         this.chartOption.title['text'] = 'Temperatura Ambiental';
-        this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
+        this._firebase.getDataSessionActivePromise().then( (res:any[]) => {
+          console.log(res);
           res.reverse();
           res.forEach( data => {
             this.aux = new Date(parseInt(data.timestamp)*1000);
@@ -61,7 +62,7 @@ export class GraphComponent implements OnInit {
       }
       if(param.param == 'H') {
         this.chartOption.title['text'] = 'Humedad Ambiental';
-        this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
+        this._firebase.getDataSessionActivePromise().then( (res:any[]) => {
           res.reverse();
           res.forEach( data => {
             this.aux = new Date(parseInt(data.timestamp)*1000);
@@ -74,7 +75,7 @@ export class GraphComponent implements OnInit {
       }
       if(param.param == 'TObj') {
         this.chartOption.title['text'] = 'Temperatura Material';
-        this._firebase.getDataSessionActivePromise.then( (res:any[]) => {
+        this._firebase.getDataSessionActivePromise().then( (res:any[]) => {
           res.reverse();
           res.forEach( data => {
             this.aux = new Date(parseInt(data.timestamp)*1000);
