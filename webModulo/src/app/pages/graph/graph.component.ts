@@ -80,8 +80,8 @@ export class GraphComponent implements OnInit {
           res.forEach( data => {
             this.aux = new Date(parseInt(data.timestamp)*1000);
             this.chartOption.xAxis['data'].push(`${this.aux.getHours()}:${this.aux.getMinutes()}`);
-            this.chartOption.series[0]['data'].push(data.TObj);
-            this.chartOption.series[1]['data'].push(data.TObj);
+            this.chartOption.series[0]['data'].push(data.TObjInt);
+            this.chartOption.series[1]['data'].push(data.TObjExt);
           });
           this.dataReady = true;
         });

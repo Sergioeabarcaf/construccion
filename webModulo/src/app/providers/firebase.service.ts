@@ -22,6 +22,7 @@ export class FirebaseService {
   getStatus() {
     this._firebase.object(`system/status/${this.module}`).valueChanges().subscribe( (data:any) => {
       if(data != -1) {
+        this.getInfoSession();
         this.sessionNumber = data.sessionNumber;
         switch(data.value) {
           case 0:
@@ -44,15 +45,14 @@ export class FirebaseService {
             this.show = true;
             break;
         }
-        this.getInfoSession(data.sessionNumber);
       } else {
         this.show = false;
       }
     });
   }
 
-  getInfoSession(sessionNumber) {
-    this._firebase.object(`info/short/S-${sessionNumber}`).valueChanges().subscribe( (data:any) => {
+  getInfoSession() {
+    this._firebase.object(`init/${this.module}`).valueChanges().subscribe( (data:any) => {
       console.log(data);
       this.material = data.material;
       this.responsable = data.startResponsable;
