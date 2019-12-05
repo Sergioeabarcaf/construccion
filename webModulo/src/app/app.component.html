@@ -33,9 +33,13 @@
 <!-- Mensaje en caso que aun no se cargan los datos de firebase -->
 <div *ngIf="_firebase.show == null">
     <section *ngIf="!show">
-        <div class="row align-items-center justify-content-center">
+        <div class="row align-items-center justify-content-center mt-5 py-5">
             <div class="col-10 text-center">
-                <h1>Obteniendo datos... por favor espere</h1>
+                <h2>Obteniendo datos de servidor</h2>
+                <div class="spinner-grow" role="status" style="width: 6rem; height: 6rem;">
+                    <br>
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
         </div>
     </section>
