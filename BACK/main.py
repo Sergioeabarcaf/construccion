@@ -75,14 +75,16 @@ def cleanExtreme(module):
                 'Hi': -1000,
                 'Te': -1000,
                 'He': -1000,
-                'TObj': -1000
+                'TObjInt': -1000,
+                'TObjExt': -1000
             },
             'min':{
                 'Ti': 1000,
                 'Hi': 1000,
                 'Te': 1000,
                 'He': 1000,
-                'TObj': 1000
+                'TObjInt': 1000,
+                'TObjExt': 1000
             }
         }
     }
