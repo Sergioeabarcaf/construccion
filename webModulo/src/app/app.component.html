@@ -1,15 +1,15 @@
 <!-- Barra de estadp -->
 <div *ngIf="_firebase.show">
     <section class="bg-info">
-        <div class="row justify-content-around align-items-center">
-            <div class="col-3 text-center">
-                <p class="mb-0 mt-1">{{_firebase.responsable}}</p>
+        <div class="row justify-content-around align-items-center text-white text-center">
+            <div class="col-3">
+                <p class="mb-0 mt-1">Responsable: <strong>{{_firebase.responsable}}</strong></p>
             </div>
-            <div class="col-3 text-center">
-                <p class="mb-0 mt-1">{{_firebase.material}}</p>
+            <div class="col-4">
+                <p class="mb-0 mt-1">Material: <strong>{{_firebase.material}}</strong></p>
             </div>
-            <div class="col-3 text-center">
-                <p class="mb-0 mt-1">{{_firebase.status}}</p>
+            <div class="col-2">
+                <p class="mb-0 mt-1">Estado: <strong>{{_firebase.status}}</strong></p>
             </div>
         </div>
     </section>
@@ -18,9 +18,14 @@
 <!-- Mensaje en caso que no hayan sesiones midiendo en el modulo -->
 <div *ngIf="_firebase.show == false">
     <section *ngIf="!show">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-10 text-center">
-                <h1>Módulo disponible para realizar mediciones, ingrese por medio de una computadora, tablet o celular, para comenzar.</h1>
+        <div class="row align-items-center justify-content-center mt-5 py-5 bg-dark">
+            <div class="col-5">
+                <img src="assets/qr.png" class="rounded" alt="Codigo QR Portal Construccion">
+            </div>
+            <div class="col-5 text-center text-white">
+                <h3>Módulo disponible para realizar mediciones</h3>
+                <p>Ingrese por medio de una computadora, tablet o celular.</p>
+                <p class="text-warning"><strong>https://construccion-30739.firebaseapp.com</strong></p>
             </div>
         </div>
     </section>
