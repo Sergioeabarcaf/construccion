@@ -60,17 +60,23 @@ export class FirebaseService {
   }
 
   getDataSessionActive() {
-    if ( this.data.length > 0) {
-      console.log('hay datos.');
-      console.log(this.data);
-    } else {
-      console.log('No hay datos');
-      this._firebase.list(`data/S-${this.sessionNumber}/${this.module}`).valueChanges().subscribe( (data:any[]) => {
-        console.log(data);
-        this.data = data.reverse();
-        this.lastData = this.data[0];
-      });
-    }
+    // if ( this.data.length > 0) {
+    //   console.log('hay datos.');
+    //   console.log(this.data);
+    // } else {
+    //   console.log('No hay datos');
+    //   this._firebase.list(`data/S-${this.sessionNumber}/${this.module}`).valueChanges().subscribe( (data:any[]) => {
+    //     console.log(data);
+    //     this.data = data.reverse();
+    //     this.lastData = this.data[0];
+    //   });
+    // }
+    this._firebase.list(`data/S-${this.sessionNumber}/${this.module}`).valueChanges().subscribe( (data:any[]) => {
+      console.log(data);
+      this.data = data.reverse();
+      this.lastData = this.data[0];
+    });
+    
   }
 
   getDataSessionActivePromise() {
