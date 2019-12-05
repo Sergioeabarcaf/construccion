@@ -92,6 +92,8 @@ def cleanExtreme(module):
 firebase.clean(module, converter.getTimestamp(), 'start')
 # Entregar energia al relay
 GPIO.output(pinRelay, True)
+# Lanzar aplicacion web
+os.system("export DISPLAY=:0 && chromium-browser http://localhost --start-fullscreen &")
 
 while(True):
     # try:
