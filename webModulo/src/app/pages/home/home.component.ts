@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FirebaseService } from '../../providers/firebase.service';
 
 @Component({
@@ -12,11 +13,15 @@ export class HomeComponent implements OnInit {
   gaugeType = "semi";
   size = 150;
 
-  constructor(public _firebase: FirebaseService) {
+  constructor(public _firebase: FirebaseService, public router:Router) {
     this._firebase.getDataSessionActive()
   }
 
   ngOnInit() {
+  }
+
+  goToGraph(param){
+    this.router.navigate(['/graph', param]);
   }
 
 }
