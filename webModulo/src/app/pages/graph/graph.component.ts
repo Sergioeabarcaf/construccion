@@ -93,4 +93,8 @@ export class GraphComponent implements OnInit {
   ngOnInit() {
   }
 
+  goToHome(){
+    this.router.navigate(['/home']);
+  }
+
 }
