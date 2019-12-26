@@ -1,10 +1,9 @@
 import sys
 import os
+import time
 import RPi.GPIO as GPIO
 import firebaseOwn as firebase
-import time
 import csvFile
-import conection
 import sensorSht31
 import sensorMlx90614
 import utils
