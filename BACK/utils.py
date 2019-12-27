@@ -49,7 +49,7 @@ def cleanExtreme(module, moduleSession):
     if (moduleSession == 0):
         extreme[module]['max'].update({'TObjInt': -1000, 'TObjExt': -1000})
         extreme[module]['min'].update({'TObjInt': 1000, 'TObjExt': 1000})
-    elif (moduleSession == 2):
+    elif (moduleSession == 1):
         extreme[module]['max'].update({'TObjInt': -1000})
         extreme[module]['min'].update({'TObjInt': 1000})
     return extreme
@@ -82,16 +82,16 @@ def maxAndMin(extreme, data, moduleSession):
         if extreme['max']['TObjExt'] < data['TObjExt']:
             extreme['max']['TObjExt'] = data['TObjExt']
         # Minimos
-         if extreme['min']['TObjInt'] < data['TObjInt']:
+        if extreme['min']['TObjInt'] < data['TObjInt']:
             extreme['min']['TObjInt'] = data['TObjInt']
         if extreme['min']['TObjExt'] < data['TObjExt']:
             extreme['min']['TObjExt'] = data['TObjExt']
-    elif (moduleSession == 2):
+    elif (moduleSession == 1):
         # maximos
         if extreme['max']['TObjInt'] < data['TObjInt']:
             extreme['max']['TObjInt'] = data['TObjInt']
         # Minimos
-         if extreme['min']['TObjInt'] < data['TObjInt']:
+        if extreme['min']['TObjInt'] < data['TObjInt']:
             extreme['min']['TObjInt'] = data['TObjInt']
 
     return extreme

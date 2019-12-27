@@ -12,8 +12,8 @@ import utils
 module = 'thermal'
 addrEnvInt = 0x44
 addrEnvExt = 0x45
-addrTempObjInt = 0x5a
-addrTempObjExt = 0x5b
+addrTempObjInt = 0x5b
+addrTempObjExt = 0x5a
 pinRelay = 7
 
 # Configurar GPIO con relay
@@ -25,20 +25,24 @@ GPIO.setup(pinRelay, GPIO.OUT)
 def getData(dirFile, module, sessionNumber, moduleSession):
     data = {'timestamp': utils.getTimestamp()}
     # Solo modulo termico
-    if (opt == 0):
-        data.update(sensorSht31.getTempHumInt(addrEnvInt))
-        data.update(sensorSht31.getTempHumExt(addrEnvExt))
-        data.update(sensorMlx90614.getTempObjInt(addrTempObjInt))
-        data.update(sensorMlx90614.getTempObjExt(addrTempObjExt))
-    # solo modulo acustico
-    elif (opt == 1):
-        data.update(sensorSht31.getTempHumInt(addrEnvInt))
-        data.update(sensorSht31.getTempHumExt(addrEnvExt))
-        data.update(sensorMlx90614.getTempObjInt(addrTempObjInt))
-    # Ambos modulos
-    elif (opt == 2):
-        data.update(sensorSht31.getTempHumInt(addrEnvInt))
-        data.update(sensorSht31.getTempHumExt(addrEnvExt))
+    # if (opt == 0):
+    #     data.update(sensorSht31.getTempHumInt(addrEnvInt))
+    #     data.update(sensorSht31.getTempHumExt(addrEnvExt))
+    #     data.update(sensorMlx90614.getTempObjInt(addrTempObjInt))
+    #     data.update(sensorMlx90614.getTempObjExt(addrTempObjExt))
+    # # solo modulo acustico
+    # elif (opt == 1):
+    #     data.update(sensorSht31.getTempHumInt(addrEnvInt))
+    #     data.update(sensorSht31.getTempHumExt(addrEnvExt))
+    #     data.update(sensorMlx90614.getTempObjInt(addrTempObjInt))
+    # # Ambos modulos
+    # elif (opt == 2):
+    #     data.update(sensorSht31.getTempHumInt(addrEnvInt))
+    #     data.update(sensorSht31.getTempHumExt(addrEnvExt))
+
+    data.update(sensorSht31.getTempHumInt(addrEnvInt))
+    data.update(sensorSht31.getTempHumExt(addrEnvExt))
+    data.update(sensorMlx90614.getTempObjInt(addrTempObjInt))
 
     firebase.pushData(module, sessionNumber, data)
     csvFile.writeData(dirFile, data, moduleSession)
